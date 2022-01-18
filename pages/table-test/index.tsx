@@ -5,7 +5,7 @@ import mockedTableData from '../../data/rows';
 
 const rowStyle = {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 2fr',
+    gridTemplateColumns: '2fr 2fr 1fr 6fr',
   };
 
   const cellStyle = {
@@ -16,20 +16,25 @@ const rowStyle = {
   };
 
 function TableTest() {
-    
+
     return (
       <div>
           <h1>Data Table Page</h1>
          <DataTable
             config={{}}
             //  
-            renderRows={ (rows:Array<Object>)=>{
+            renderRows={ (rows:Array<Object>,page:number,pageSize:number)=>{
+                let size:number = rows.length
+                let pageStart:number = page * pageSize
+                let pageEnd = pageStart + pageSize <= size ? pageStart + pageSize : size;
+                const pageOfRows = rows.slice(pageStart,pageEnd);
+
                 return (
                     <>
                     {
-                        rows.map( (row: any, rowIndex: number)=>{
+                        pageOfRows.map( (row: any, rowIndex: number)=>{
                             return (
-                                <div className="rowStyle" id="row" key={`row-${rowIndex}`}>
+                                <div style = {rowStyle} id="row" key={`row-${rowIndex}`}>
                                     {
                                         Object.keys(row).map((cell: any, cellIndex: number)=>{
                                             return (

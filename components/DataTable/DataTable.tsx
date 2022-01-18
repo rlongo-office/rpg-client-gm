@@ -1,5 +1,6 @@
 import * as React from 'react'
 import SearchInput from './TableBody/SearchInput';
+import PageNavBar from './TableBody/PageNavBar'
 
 interface AnyObject {
   [key: string]: any
@@ -26,18 +27,21 @@ function DataTable({
 
     const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>([]);
 
+    const [pageSize, setPageSize] = React.useState(10)
+
+    const [curPage, setCurPage] = React.useState(0)
+    const [pageNums, setPageNums] = React.useState(6)
+
     const setTableFilterFromInput = (value:string) => {
       console.log(`"filter value from child is " ${value}`)
       setFilter(value);
 
         const tempRows = rows.filter(row =>
           Object.values(row).some(val =>
-              String(val).includes(filter)
+              String(val).toLowerCase().includes(filter.toLowerCase())
             )
         )
-
         setFilteredRows(tempRows)
-
     }
 
     /*
@@ -61,8 +65,9 @@ function DataTable({
       <>
         <SearchInput setParentFilter = {setTableFilterFromInput}/>
         <div className={isStriped ? "striped" : ""}>
-            {rows.length > 0 ? renderRows(filteredRows) : <span>No Data</span>}
-        </div> 
+            {rows.length > 0 ? renderRows(filteredRows,0,20) : <span>No Data</span>}
+        </div>
+        <PageNavBar pageNums={pageNums}/>
       </> 
     );
   }

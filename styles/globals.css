@@ -30,3 +30,17 @@ a {
 .striped div:nth-child(even){
     background-color: lightblue;
 }
+
+.pageBox {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 2px;
+  text-align: center;
+}
+
+.PageNavBar{
+  display:grid;
+  padding: 1px;
+  grid-template-columns: repeat(12,40px);
+}
