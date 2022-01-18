@@ -30,9 +30,16 @@ function DataTable({
       console.log(`"filter value from child is " ${value}`)
       setFilter(value);
 
-        const tempRows = rows.filter(row => {
+        var tempRows = rows.filter(row => {
           return row[Object.keys(row)[1]].includes(filter)
         })
+
+        tempRows = rows.filter(row =>
+          Object.values(row).some(val =>
+              String(val).includes(filter)
+            )
+        )
+
         setFilteredRows(tempRows)
 
     }
