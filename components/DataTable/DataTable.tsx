@@ -44,6 +44,10 @@ function DataTable({
         setFilteredRows(tempRows)
     }
 
+    const setCurrentPage = (page:number) => {
+      setCurPage(page)
+    }
+
     /*
     let recCount = 0
     let tempArray: AnyObjArray
@@ -65,9 +69,9 @@ function DataTable({
       <>
         <SearchInput setParentFilter = {setTableFilterFromInput}/>
         <div className={isStriped ? "striped" : ""}>
-            {rows.length > 0 ? renderRows(filteredRows,0,20) : <span>No Data</span>}
+            {rows.length > 0 ? renderRows(filteredRows,curPage,20) : <span>No Data</span>}
         </div>
-        <PageNavBar pageNums={pageNums}/>
+        <PageNavBar pageNums={pageNums} setCurrentPage={setCurrentPage}/>
       </> 
     );
   }
