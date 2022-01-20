@@ -29,8 +29,9 @@ function PageNavBar(
         } else{
           console.log("page symbol picked")  
           switch(event.target.id){
-              case "start": setCurrentPage(0); break;
-              case "down": setCurrent(current == 0 ? 0 : current -1);
+              case "start": setCurrentPage(1); break;
+              case "down": setCurrent(current == 1 ? 1 : current -1);
+                           console.log ("down arrow page:" + current)
                            setCurrentPage(current); 
                            break;
               case "up": setCurrent(current == numPages ? numPages : current + 1);
@@ -48,6 +49,8 @@ function PageNavBar(
         let up = "˃"
         let end ="˃˃"
         let ellipsis = "…"
+        let upperBound
+        let lowerBound
         const num = numPages
         const cur = current
         const span = tableSpan
@@ -55,18 +58,18 @@ function PageNavBar(
         content.push(<button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>);
         content.push(<button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>);
         if (num <= span || cur <= Math.round(span/2)){
-            let upperBound = num <= span ? num : span
-            for (let i=0;i<upperBound; i++) {
+            upperBound = num <= span ? num : span
+            for (let i=1;i<upperBound; i++) {
                 content.push(<button onClick={pageHandler} className="pageBox" key={i}>{i}</button>);
             }
         } else {
-            let lowerBound = cur - (Math.round(span/2)-1)
-            let upperBound = cur + Math.round(span/2)
-            for (let i=lowerBound;i<upperBound; i++) {
+            lowerBound = cur <= (num-span) ? cur - (Math.round(span/2)-1) : num - span
+            upperBound = cur <= (num-span) ? cur + Math.round(span/2) : num
+            for (let i=lowerBound;i<=upperBound; i++) {
                 content.push(<button onClick={pageHandler} className="pageBox" key={i}>{i}</button>);
             }
         }
-        if (num > span && cur < (num-span)){
+        if (num > span && upperBound < num){
             content.push(<button className="pageBox" key={"ellipsis"}>{ellipsis}</button>);
         }
         content.push(<button id="up" onClick={pageHandler} className="pageBox" key={"up"}>{up}</button>);

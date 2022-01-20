@@ -31,7 +31,7 @@ function DataTable({
 
     const [curPage, setCurPage] = React.useState(0)
     const [numPages, setNumPages] = React.useState(9)
-    const [tableSpan, setTableSpan] = React.useState(7)
+    const [tableSpan, setTableSpan] = React.useState(8)
 
     const setTableFilterFromInput = (value:string) => {
       console.log(`"filter value from child is " ${value}`)
@@ -78,9 +78,12 @@ function DataTable({
       <>
         <SearchInput setParentFilter = {setTableFilterFromInput}/>
         <div className={isStriped ? "striped" : ""}>
-            {rows.length > 0 ? renderRows(filteredRows,curPage,10) : <span>No Data</span>}
+            {rows.length > 0 ? renderRows(filteredRows,curPage,pageSize) : <span>No Data</span>}
         </div>
-        <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage}/>
+        <div>
+          <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage}/>
+        </div>
+        
       </> 
     );
   }

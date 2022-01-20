@@ -42,5 +42,5 @@ a {
 .PageNavBar{
   display:grid;
   padding: 1px;
-  grid-template-columns: repeat(12,40px);
+  grid-template-columns: repeat(13,40px);
 }

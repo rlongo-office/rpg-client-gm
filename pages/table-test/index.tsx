@@ -24,9 +24,9 @@ function TableTest() {
             config={{}}
             //  
             renderRows={ (rows:Array<Object>,page:number,pageSize:number)=>{
-                let size:number = rows.length
-                let pageStart:number = page * pageSize
-                let pageEnd = pageStart + pageSize <= size ? pageStart + pageSize : size;
+                let tableSize:number = rows.length
+                let pageStart:number = page = 1 ? page : (page-1) * pageSize
+                let pageEnd = pageStart + pageSize <= tableSize ? pageStart + pageSize : tableSize;
                 const pageOfRows = rows.slice(pageStart,pageEnd);
 
                 return (
