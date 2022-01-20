@@ -30,7 +30,8 @@ function DataTable({
     const [pageSize, setPageSize] = React.useState(10)
 
     const [curPage, setCurPage] = React.useState(0)
-    const [pageNums, setPageNums] = React.useState(6)
+    const [numPages, setNumPages] = React.useState(9)
+    const [tableSpan, setTableSpan] = React.useState(7)
 
     const setTableFilterFromInput = (value:string) => {
       console.log(`"filter value from child is " ${value}`)
@@ -43,6 +44,8 @@ function DataTable({
         )
         setFilteredRows(tempRows)
     }
+
+    
 
     const setCurrentPage = (page:number) => {
       setCurPage(page)
@@ -65,13 +68,19 @@ function DataTable({
     })
     */
 
+    React.useEffect(() => {
+      setNumPages(filteredRows.length % pageSize == 0 ? filteredRows.length/pageSize : Math.floor(filteredRows.length/pageSize) + 1)
+      console.log(numPages)
+    },[filteredRows,curPage]);
+
+
     return (
       <>
         <SearchInput setParentFilter = {setTableFilterFromInput}/>
         <div className={isStriped ? "striped" : ""}>
             {rows.length > 0 ? renderRows(filteredRows,curPage,20) : <span>No Data</span>}
         </div>
-        <PageNavBar pageNums={pageNums} setCurrentPage={setCurrentPage}/>
+        <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage}/>
       </> 
     );
   }
