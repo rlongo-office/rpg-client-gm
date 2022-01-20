@@ -70,7 +70,7 @@ function DataTable({
 
     React.useEffect(() => {
       setNumPages(filteredRows.length % pageSize == 0 ? filteredRows.length/pageSize : Math.floor(filteredRows.length/pageSize) + 1)
-      console.log(numPages)
+      console.log("DataTable numPages" + numPages)
     },[filteredRows,curPage]);
 
 
@@ -78,7 +78,7 @@ function DataTable({
       <>
         <SearchInput setParentFilter = {setTableFilterFromInput}/>
         <div className={isStriped ? "striped" : ""}>
-            {rows.length > 0 ? renderRows(filteredRows,curPage,20) : <span>No Data</span>}
+            {rows.length > 0 ? renderRows(filteredRows,curPage,10) : <span>No Data</span>}
         </div>
         <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage}/>
       </> 
