@@ -8,7 +8,7 @@ interface AnyObject {
   [key: string]: any
 }
 interface colSortObj {
-  col:number,
+  col:boolean,
   dir:number
 }
 interface AnyObjArray extends Array<AnyObject>{}
@@ -47,6 +47,34 @@ function DataTable({
     const setCurrentPage = (page:number) => {
       setCurPage(page)
     }
+
+    const sortColumn = (columnKey:string, columnID:number)=>{
+      const dir = colSortState[columnID].dir
+      console.log(dir)
+      const tempArray = filteredRows.sort((a,b)=>{
+        if (isNaN(a[columnKey])){
+          let valueA = a[columnKey].toUpperCase() 
+          let valueB = b[columnKey].toUpperCase() 
+          if (valueA < valueB) {
+            return -1*dir;
+          }
+          if (valueA > valueB) {
+            return 1*dir;
+          }
+          return 0;
+        } else {
+          if (dir>0){
+            return (a[columnKey]-b[columnKey])
+          }else return (b[columnKey]-a[columnKey])
+        }
+      })
+      let colSortArray = colSortState
+      colSortArray[columnID].dir *= -1     //reverse the direction of the sort for next click
+      console.log(tempArray)
+      setFilteredRows(tempArray)
+      setColSortState(colSortArray)
+    }
+
     const setParentFilter = (value:string) => {
       setFilter(value);
 
@@ -56,34 +84,29 @@ function DataTable({
             )
         )
         setFilteredRows(tempRows)
-        console.log(tempRows)
         setCurPage(1)
     }
 
     React.useEffect(()=> {
         const tempRows = addIndexColumn(config.data)
-        let sortObject:{col:number,dir:number}[] = []
-        let colIndex = 0
+        let sortObjectArray:{col:boolean,dir:number}[] = []
         Object.keys(tempRows[0]).forEach(key=>{
-                        sortObject.push({col:colIndex,dir:1})
-                        colIndex +=1
+                        sortObjectArray.push({col:true,dir:1})
                       }
                     )
-        setColSortState(sortObject)
+        setColSortState(sortObjectArray)
         setNewRows(tempRows)
         setFilteredRows(tempRows)
     },[])
 
     React.useEffect(() => {
       setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length/config.pageSize : Math.floor(filteredRows.length/config.pageSize) + 1)
-      console.log("DataTable numPages" + numPages)
     },[filteredRows,curPage]);
-
 
     return (
       <>
         <SearchInput setParentFilter = {setParentFilter}/>
-        <HeaderRow row={newRows[0]} colSortState={colSortState}></HeaderRow>
+        <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}></HeaderRow>
         <div className={isStriped ? "striped" : ""}>
             {filteredRows.length > 0 ? config.renderRows(filteredRows,curPage,config.pageSize,config.header) : <span>No Data</span>}
         </div>

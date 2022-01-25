@@ -1,12 +1,18 @@
 import * as React from 'react'
 
+interface colSortObj {
+    col:boolean,
+    dir:number
+  }
 
 interface AnyObject {
     [key: string]: any
   }
+
 interface headerConfig{
     row:AnyObject,
-    colSortState:{col:number,dir:number}[]
+    colSortState:{col:boolean,dir:number}[]
+    sortColumn: Function
 }
 
 interface eProps{
@@ -20,9 +26,15 @@ config: headerConfig
 )
 {
 
-    const sortColumn = (col:boolean,dir:number)=>{
-        console.log(dir)
+    const [colSortArray, setColSortArray] = React.useState<colSortObj[]>([]);
+    
+    const sortTable=(event: any)=>{
+        const columnKey = event.target.innerText.slice(0,-1)
+        const columnID = parseInt(event.target.id)
+        config.sortColumn(columnKey,columnID)
+
     }
+
     const renderHeader = ()=> {
         if (config.row!=null){  //The passed object will be null on the first render 
             let ascChar = "˄"
@@ -32,11 +44,14 @@ config: headerConfig
             let colID = 0
             const columns = Object.keys(config.row);
             columns.forEach((key)=>{
-                        let elProps:AnyObject = {className:"cellStyle",key:`cell-${key}`}
+                        let colText = key
+                        console.log(colID)
+                        let elProps:AnyObject = {className:"cellStyle",key:`cell-${key}`,id:`${colID}`}
                         if (config.colSortState[colID].col) {
-                            elProps["onChange"] = sortColumn 
+                            elProps["onClick"] = sortTable
+                            colText += ascChar
                         }
-                        let spanEL = React.createElement("span",elProps,key)
+                        let spanEL = React.createElement("span",elProps,colText)
                         content.push( 
                             spanEL
                             )
@@ -47,8 +62,11 @@ config: headerConfig
     }
 
     React.useEffect(()=> {
-        console.log(config.colSortState)
     },[])
+
+    React.useEffect(()=> {
+        setColSortArray(config.colSortState)
+    },[config.colSortState])
 
     return (
         <div id="header-row" className="headerRow rowStyle">  
