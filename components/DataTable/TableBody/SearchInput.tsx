@@ -12,8 +12,9 @@ function SearchInput(
 
     const [filter, setFilter] = React.useState("");
 
-    function handleChange(event: any){      //Seems overly complicated for taking the event object
+    function handleInput(event: any){      //Seems overly complicated for taking the event object
         const { name, value } = event.target
+        //setParentFilter(filter)
         setFilter(value)
     }
 
@@ -27,7 +28,7 @@ function SearchInput(
             type="text" 
             name="filter"
             //value=""
-            onChange={handleChange}
+            onInput={handleInput}
             ></input>
       </div>  
     );

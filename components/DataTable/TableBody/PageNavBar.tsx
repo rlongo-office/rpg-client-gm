@@ -21,13 +21,11 @@ function PageNavBar(
     const [current, setCurrent] = React.useState(0);
 
     function pageHandler(event: any){      //Seems overly complicated for taking the event object
-        const { name, value } = event
+       const { name, value } = event
        if (!(isNaN(event.target.innerText))){
-            console.log("page number picked")
             setCurrentPage(Number(event.target.innerText))
             setCurrent(Number(event.target.innerText))
         } else{
-          console.log("page symbol picked")  
           switch(event.target.id){
               case "start": setCurrentPage(1); break;
               case "down": setCurrent(current == 1 ? 1 : current -1);
@@ -54,7 +52,7 @@ function PageNavBar(
         const num = numPages
         const cur = current
         const span = tableSpan
-        console.log(`"numPages: " ${num} "cur: " ${cur} "span: "${span}`)
+        //console.log(`"numPages: " ${num} "cur: " ${cur} "span: "${span}`)
         content.push(<button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>);
         content.push(<button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>);
         if (num <= span || cur <= Math.round(span/2)){

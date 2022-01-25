@@ -1,23 +1,35 @@
 import * as React from 'react'
 import SearchInput from './TableBody/SearchInput';
 import PageNavBar from './TableBody/PageNavBar'
+import {addIndexColumn,sortColumn,renderHeader} from './TableBody/utils'
+import HeaderRow from './TableBody/HeaderRow'
 
 interface AnyObject {
   [key: string]: any
 }
-
+interface colSortObj {
+  col:number,
+  dir:number
+}
 interface AnyObjArray extends Array<AnyObject>{}
 
+interface configObj {
+  sortColumns: Array<number>
+  header: string
+  stripe: boolean
+  border: boolean
+  pageSize: number
+  renderRows: Function
+  data: Array<AnyObject>
+}
+
 interface TableProps {
-    config: any
-    renderRows: Function
-    rows: Array<AnyObject>
+    config: configObj
 }
 
 function DataTable({
-    config,
-    renderRows, 
-    rows}: TableProps
+  config
+}: TableProps
     ) {
     const [isStriped, setIsStriped] = React.useState(true);
 
@@ -27,58 +39,53 @@ function DataTable({
 
     const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>([]);
 
-    const [pageSize, setPageSize] = React.useState(10)
-
     const [curPage, setCurPage] = React.useState(0)
     const [numPages, setNumPages] = React.useState(9)
     const [tableSpan, setTableSpan] = React.useState(8)
-
-    const setTableFilterFromInput = (value:string) => {
-      console.log(`"filter value from child is " ${value}`)
-      setFilter(value);
-
-        const tempRows = rows.filter(row =>
-          Object.values(row).some(val =>
-              String(val).toLowerCase().includes(filter.toLowerCase())
-            )
-        )
-        setFilteredRows(tempRows)
-    }
-
-    
+    const [colSortState, setColSortState] = React.useState<colSortObj[]>([]);
 
     const setCurrentPage = (page:number) => {
       setCurPage(page)
     }
+    const setParentFilter = (value:string) => {
+      setFilter(value);
 
-    /*
-    let recCount = 0
-    let tempArray: AnyObjArray
-    rows.forEach((row)=>{
+        const tempRows = newRows.filter(row =>
+          Object.values(row).some(val =>
+              String(val).toLowerCase().includes(value.toLowerCase())
+            )
+        )
+        setFilteredRows(tempRows)
+        console.log(tempRows)
+        setCurPage(1)
+    }
 
-      if (!(row==null)){
-        var newRow:AnyObject = {}
-        newRow.recID = recCount
-        for (const [key,value] of Object.entries(row)){
-          newRow[key] = value
-        }
-        tempArray.push(newRow)
-        recCount += 1
-      }
-    })
-    */
+    React.useEffect(()=> {
+        const tempRows = addIndexColumn(config.data)
+        let sortObject:{col:number,dir:number}[] = []
+        let colIndex = 0
+        Object.keys(tempRows[0]).forEach(key=>{
+                        sortObject.push({col:colIndex,dir:1})
+                        colIndex +=1
+                      }
+                    )
+        setColSortState(sortObject)
+        setNewRows(tempRows)
+        setFilteredRows(tempRows)
+    },[])
 
     React.useEffect(() => {
-      setNumPages(filteredRows.length % pageSize == 0 ? filteredRows.length/pageSize : Math.floor(filteredRows.length/pageSize) + 1)
+      setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length/config.pageSize : Math.floor(filteredRows.length/config.pageSize) + 1)
       console.log("DataTable numPages" + numPages)
     },[filteredRows,curPage]);
 
 
     return (
       <>
-        <SearchInput setParentFilter = {setTableFilterFromInput}/>
+        <SearchInput setParentFilter = {setParentFilter}/>
+        <HeaderRow row={newRows[0]} colSortState={colSortState}></HeaderRow>
         <div className={isStriped ? "striped" : ""}>
-            {rows.length > 0 ? renderRows(filteredRows,curPage,pageSize) : <span>No Data</span>}
+            {filteredRows.length > 0 ? config.renderRows(filteredRows,curPage,config.pageSize,config.header) : <span>No Data</span>}
         </div>
         <div>
           <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage}/>
