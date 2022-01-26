@@ -45,12 +45,12 @@ config: headerConfig
             const columns = Object.keys(config.row);
             columns.forEach((key)=>{
                         let colText = key
-                        console.log(colID)
                         let elProps:AnyObject = {className:"cellStyle",key:`cell-${key}`,id:`${colID}`}
                         if (config.colSortState[colID].col) {
                             elProps["onClick"] = sortTable
-                            colText += ascChar
+                            //colText += colSortArray[colID].dir > 0 ? ascChar : descChar
                         }
+                        colText += config.colSortState[colID].dir > 0 ? ascChar : descChar
                         let spanEL = React.createElement("span",elProps,colText)
                         content.push( 
                             spanEL

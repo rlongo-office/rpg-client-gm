@@ -43,6 +43,7 @@ function DataTable({
     const [numPages, setNumPages] = React.useState(9)
     const [tableSpan, setTableSpan] = React.useState(8)
     const [colSortState, setColSortState] = React.useState<colSortObj[]>([]);
+    const [sortChange,setSortChange] = React.useState(true)
 
     const setCurrentPage = (page:number) => {
       setCurPage(page)
@@ -51,7 +52,8 @@ function DataTable({
     const sortColumn = (columnKey:string, columnID:number)=>{
       const dir = colSortState[columnID].dir
       console.log(dir)
-      const tempArray = filteredRows.sort((a,b)=>{
+      let tempArray:Array<AnyObject> = []
+      tempArray = filteredRows.sort((a,b)=>{
         if (isNaN(a[columnKey])){
           let valueA = a[columnKey].toUpperCase() 
           let valueB = b[columnKey].toUpperCase() 
@@ -70,9 +72,11 @@ function DataTable({
       })
       let colSortArray = colSortState
       colSortArray[columnID].dir *= -1     //reverse the direction of the sort for next click
-      console.log(tempArray)
+      console.log("DataTable:sortColumn called")
       setFilteredRows(tempArray)
       setColSortState(colSortArray)
+      setCurPage(1)
+      setSortChange(!sortChange)
     }
 
     const setParentFilter = (value:string) => {
@@ -99,8 +103,14 @@ function DataTable({
         setFilteredRows(tempRows)
     },[])
 
+    React.useEffect(()=>{
+      console.log("changed sortChange Value to render")
+    },[sortChange])
+
+
     React.useEffect(() => {
       setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length/config.pageSize : Math.floor(filteredRows.length/config.pageSize) + 1)
+      console.log("useEffect called for Filtered Row change")
     },[filteredRows,curPage]);
 
     return (
