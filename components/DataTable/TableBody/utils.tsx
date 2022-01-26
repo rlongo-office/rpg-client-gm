@@ -37,6 +37,18 @@ const sortColumn = (rows:AnyObjArray,column:number,direct:number)=>{
 
 }
 
+const parseDataForTable = (data:Array<AnyObject>,columnKeys:Array<string>)=>{
+  let newData:Array<AnyObject>=[]
+  newData = data.map(row=>{
+      let rowObj:AnyObject = {}
+      columnKeys.forEach(key=>{
+        rowObj[key] = row[key]
+      })
+      return rowObj
+  })
+  return newData
+}
+
 const renderHeader = (row:Object)=> {
     let content: JSX.Element[] = [];
     const keys = Object.keys(row)
@@ -48,4 +60,4 @@ const renderHeader = (row:Object)=> {
     return content;
 }
 
-export {addIndexColumn,sortColumn,renderHeader}
+export {addIndexColumn,sortColumn,renderHeader,parseDataForTable}

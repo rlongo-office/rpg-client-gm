@@ -1,6 +1,8 @@
 import * as React from 'react'
 import DataTable from '../../components/DataTable/DataTable';
 import mockedTableData from '../../data/rows';
+import creatures from '../../data/collections/creatures.json'
+import {parseDataForTable} from '../../components/DataTable/TableBody/utils'
 
 
 const rowStyle = {
@@ -51,18 +53,19 @@ const rowStyle = {
         
     }
 
-const configObj = {
-    sortColumns:[0,1,2,3,4],
-    header:"keys",
-    stripe:true,
-    border:true,
-    pageSize:10,
-    renderRows:renderFunction,
-    data: mockedTableData
-}
 
 function TableTest() {
-
+    const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
+    const configObj = {
+        sortColumns:[0,1,2,3,4],
+        header:"keys",
+        stripe:true,
+        border:true,
+        pageSize:10,
+        renderRows:renderFunction,
+        data: data
+    }
+    
     return (
       <div>
           <h1>Data Table Page</h1>
