@@ -68,10 +68,20 @@ function TableTest() {
     
     return (
       <div>
-          <h1>Data Table Page</h1>
-         <DataTable
-            config={configObj}          
-         />
+          <div className="dataPage">
+            <div className="itemHeader">Header</div>
+            <div className="itemLeft">
+                <h2>Creature Table</h2>
+                <DataTable config={configObj}          
+                />
+            </div>
+            <div className="itemRight">
+                <h2>Creature Table</h2>
+                <DataTable config={configObj}          
+                />
+            </div>
+            <div className="itemFooter">Footer</div>
+          </div>
       </div>  
     );
 

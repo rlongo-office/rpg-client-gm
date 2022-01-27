@@ -27,6 +27,7 @@ function SearchInput(
           <input 
             type="text" 
             name="filter"
+            className="tableInput"
             //value=""
             onInput={handleInput}
             ></input>

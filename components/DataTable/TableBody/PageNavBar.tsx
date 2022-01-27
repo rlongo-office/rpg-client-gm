@@ -9,19 +9,21 @@ interface NavProps {
     numPages: number
     tableSpan: number
     setCurrentPage: Function
+    page: number
   }
 
 function PageNavBar(
     {
         numPages,
         tableSpan,
-        setCurrentPage
+        setCurrentPage,
+        page
     }:NavProps
 ) {
     const [current, setCurrent] = React.useState(0);
 
-    function pageHandler(event: any){      //Seems overly complicated for taking the event object
-       const { name, value } = event
+    function pageHandler(event: any){      
+
        if (!(isNaN(event.target.innerText))){
             setCurrentPage(Number(event.target.innerText))
             setCurrent(Number(event.target.innerText))
@@ -32,7 +34,7 @@ function PageNavBar(
                            console.log ("down arrow page:" + current)
                            setCurrentPage(current); 
                            break;
-              case "up": setCurrent(current == numPages ? numPages : current + 1);
+              case "up": setCurrent(current === numPages ? numPages : current + 1);
                          setCurrentPage(current); 
                          break;
               case "end": setCurrentPage(numPages); break      
@@ -52,6 +54,7 @@ function PageNavBar(
         const num = numPages
         const cur = current
         const span = tableSpan
+        console.log()
         //console.log(`"numPages: " ${num} "cur: " ${cur} "span: "${span}`)
         content.push(<button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>);
         content.push(<button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>);
@@ -75,6 +78,13 @@ function PageNavBar(
         return content;
       };
 
+      React.useEffect(()=>{
+        setCurrentPage(1)
+      },[])
+
+      React.useEffect(()=>{
+        console.log(current)
+      },[current])
 
     return (
         <div className="PageNavBar">  

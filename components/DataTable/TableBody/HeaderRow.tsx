@@ -29,7 +29,7 @@ config: headerConfig
     const [colSortArray, setColSortArray] = React.useState<colSortObj[]>([]);
     
     const sortTable=(event: any)=>{
-        const columnKey = event.target.innerText.slice(0,-1)
+        const columnKey = event.target.innerText.slice(0,-2)
         const columnID = parseInt(event.target.id)
         config.sortColumn(columnKey,columnID)
 
@@ -37,8 +37,8 @@ config: headerConfig
 
     const renderHeader = ()=> {
         if (config.row!=null){  //The passed object will be null on the first render 
-            let ascChar = "˄"
-            let descChar = "˅"
+            let ascChar = " ˄"
+            let descChar = " ˅"
             let content: JSX.Element[]=[];
 
             let colID = 0
