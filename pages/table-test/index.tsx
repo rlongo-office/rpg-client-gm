@@ -2,8 +2,9 @@ import * as React from 'react'
 import DataTable from '../../components/DataTable/DataTable';
 import mockedTableData from '../../data/rows';
 import creatures from '../../data/collections/creatures.json'
-import {parseDataForTable} from '../../components/DataTable/TableBody/utils'
-
+import {parseDataForTable,iterateObjEntries,getObjValue} from '../../components/DataTable/TableBody/utils'
+import TableInpuForm from '../../components/TableInputForm'
+import TableInputForm from '../../components/TableInputForm';
 
 const rowStyle = {
     display: 'grid',
@@ -66,6 +67,10 @@ function TableTest() {
         data: data
     }
     
+React.useEffect(()=>{
+},[])
+
+
     return (
       <div>
           <div className="dataPage">
@@ -80,9 +85,9 @@ function TableTest() {
                 <DataTable config={configObj}          
                 />
             </div>
-            <div className="itemFooter">Footer</div>
           </div>
-      </div>  
+            <TableInputForm />
+       </div>
     );
 
 

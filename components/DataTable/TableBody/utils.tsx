@@ -60,4 +60,91 @@ const renderHeader = (row:Object)=> {
     return content;
 }
 
-export {addIndexColumn,sortColumn,renderHeader,parseDataForTable}
+function propertiesToArray(obj:object) {
+  const isObject = (val:any) =>
+    val && typeof val === 'object' && !Array.isArray(val);
+
+  const addDelimiter = (a:string, b:string) =>
+    a ? `${a}.${b}` : b;
+
+  const paths:any = (obj:object = {}, head = '') => {
+    return Object.entries(obj)
+      .reduce((product:any, [key, value]) => 
+        {
+          let fullPath:string = addDelimiter(head, key)
+          return isObject(value) ?
+            product.concat(paths(value, fullPath))
+          : product.concat(fullPath)
+        }, []);
+  }
+
+  return paths(obj);
+}
+
+const iterateObjEntries = (parent:string,val:any,objPath:Array<string>)=>{
+  let parentPath = parent==="" ? "" : parent 
+  if (Array.isArray(val)){
+    let index = 0
+    if (val.length === 0){
+      objPath.push(parent)
+    }
+    val.forEach((subVal:any)=>{
+      let arrayIndex = "[" + index + "]."
+      if (typeof subVal === 'object'){
+        Object.entries(subVal).forEach((entry)=>{
+          const [key,value] = entry
+          iterateObjEntries(parentPath + arrayIndex + key,value,objPath)
+        })
+      }
+    })
+  } else {
+    let dotOrNot = parentPath==="" ? "" : "." 
+    if (typeof val === 'object'){
+      Object.entries(val).forEach((entry)=>{
+        const [key,value] = entry
+        iterateObjEntries(parent+dotOrNot+key,value,objPath)
+      })
+    } else {
+      objPath.push(parent)
+    }
+  } 
+}
+
+var getObjValue = function (obj:any, path:string, def:any) {
+	/**
+	 * If the path is a string, convert it to an array
+	 * @param  {String|Array} path The path
+	 * @return {Array}             The path array
+	 */
+	var stringToPath = function (path:any) {
+		// If the path isn't a string, return it
+		if (typeof path !== 'string') return path;
+		// Create new array
+		var output:Array<string> = [];
+		// Split to an array with dot notation
+		path.split('.').forEach(function (item, index) {
+			// Split to an array with bracket notation
+			item.split(/\[([^}]+)\]/g).forEach(function (key) {
+				// Push to the new array
+				if (key.length > 0) {
+					output.push(key);
+				}
+			});
+		});
+		return output;
+	};
+	// Get the path as an array
+	path = stringToPath(path);
+	// Cache the current object
+	var current = obj;
+	// For each item in the path, dig into the object
+	for (var i = 0; i < path.length; i++) {
+		// If the item isn't found, return the default (or null)
+		if (!current[path[i]]) return def;
+		// Otherwise, update the current  value
+		current = current[path[i]];
+	}
+	return current;
+};
+
+export {addIndexColumn,sortColumn,renderHeader,parseDataForTable,propertiesToArray,iterateObjEntries,getObjValue}
