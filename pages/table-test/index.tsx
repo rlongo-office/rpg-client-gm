@@ -3,20 +3,14 @@ import DataTable from '../../components/DataTable/DataTable';
 import mockedTableData from '../../data/rows';
 import creatures from '../../data/collections/creatures.json'
 import {parseDataForTable,iterateObjEntries,getObjValue} from '../../components/DataTable/TableBody/utils'
-import TableInpuForm from '../../components/TableInputForm'
 import TableInputForm from '../../components/TableInputForm';
+import { useAppContext } from '../../state/gameState';
 
-const rowStyle = {
-    display: 'grid',
-    gridTemplateColumns: '1 fr 2fr 2fr 1fr 3fr',
-  };
+interface AnyObject {
+    [key: string]: any
+  }
 
-  const cellStyle = {
-      borderColor: 'black',
-      borderStyle: 'solid',
-      borderWidth: '1px',
-      paddingLeft: '10px'
-  };
+  interface AnyObjArray extends Array<AnyObject>{}
 
   const renderHeader = (row:Object)=> {
         const keys = Object.keys(row)
@@ -56,7 +50,11 @@ const rowStyle = {
 
 
 function TableTest() {
-    const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
+
+    const contextData = useAppContext() //pulled from the GameState: AppContext we created
+    const data = parseDataForTable(contextData,["name","type","hit_dice","challenge_rating"])
+    const index = 3
+
     const configObj = {
         sortColumns:[0,1,2,3,4],
         header:"keys",
@@ -87,7 +85,7 @@ React.useEffect(()=>{
             </div>
           </div>
           <div>
-            <TableInputForm />
+            <TableInputForm index={index} source={contextData} />
             </div>
        </div>
     );

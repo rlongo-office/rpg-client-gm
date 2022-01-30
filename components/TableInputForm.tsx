@@ -2,11 +2,26 @@ import * as React from 'react'
 import creatures from '../data/collections/creatures.json'
 import {iterateObjEntries,getObjValue} from '../components/DataTable/TableBody/utils'
 
+interface AnyObject {
+    [key: string]: any
+  }
+
+interface AnyObjArray extends Array<AnyObject>{}
+
+interface props {
+    index: number
+    source: any
+}
+
 function TableInputForm(
-    {
-    }
+  {
+      index,
+      source
+  }:props    
+
 ) {
 
+    
     const [currentRecord, setCurrentRecord] = React.useState<Object>([]);
 
     const renderKeyInputs = (parent:string,level:number,key:string,value:any)=>{
@@ -16,7 +31,7 @@ function TableInputForm(
 
     const renderInputForm =()=>{
         let content: JSX.Element[] = []
-        const inputObj = creatures[3]
+        const inputObj = source[index]
         let inputLabels:Array<string> = []
         iterateObjEntries("",inputObj,inputLabels)
         //Get array of paths to all entries in Object
@@ -38,8 +53,6 @@ function TableInputForm(
     
     React.useEffect(()=>{
         setCurrentRecord(creatures[3])
-        console.log(String("from[0][33]").split(/\[(.*?)\]/g))
-        
     },[])
 
 
