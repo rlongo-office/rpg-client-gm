@@ -89,19 +89,32 @@ const iterateObjEntries = (parent:string,val:any,objPath:Array<string>)=>{
       objPath.push(parent)
     }
     val.forEach((subVal:any)=>{
-      let arrayIndex = "[" + index + "]."
+      let arrayIndex = "[" + index + "]"
       if (typeof subVal === 'object'){
-        Object.entries(subVal).forEach((entry)=>{
-          const [key,value] = entry
-          iterateObjEntries(parentPath + arrayIndex + key,value,objPath)
-        })
+        if (!(Array.isArray(subVal))){
+          Object.keys(subVal).forEach((key)=>{
+            let value = subVal[key]
+            if (value === null) {
+              value = "null"
+            }
+            iterateObjEntries(parentPath + arrayIndex + "." + key,value,objPath)
+          })
+        } else {
+          iterateObjEntries(parentPath + arrayIndex,subVal,objPath)
+        }
+      } else {
+        objPath.push(parentPath + arrayIndex)
       }
+      index +=1
     })
   } else {
     let dotOrNot = parentPath==="" ? "" : "." 
     if (typeof val === 'object'){
-      Object.entries(val).forEach((entry)=>{
-        const [key,value] = entry
+        Object.keys(val).forEach((key)=>{
+          let value = val[key]
+          if (value === null) {
+            value = "null"
+          }
         iterateObjEntries(parent+dotOrNot+key,value,objPath)
       })
     } else {
@@ -124,7 +137,7 @@ var getObjValue = function (obj:any, path:string, def:any) {
 		// Split to an array with dot notation
 		path.split('.').forEach(function (item, index) {
 			// Split to an array with bracket notation
-			item.split(/\[([^}]+)\]/g).forEach(function (key) {
+			item.split(/\[(.*?)\]/g).forEach(function (key) {
 				// Push to the new array
 				if (key.length > 0) {
 					output.push(key);

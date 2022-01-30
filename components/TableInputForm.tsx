@@ -16,7 +16,7 @@ function TableInputForm(
 
     const renderInputForm =()=>{
         let content: JSX.Element[] = []
-        const inputObj = creatures[0]
+        const inputObj = creatures[3]
         let inputLabels:Array<string> = []
         iterateObjEntries("",inputObj,inputLabels)
         //Get array of paths to all entries in Object
@@ -25,7 +25,7 @@ function TableInputForm(
         inputLabels.forEach((attr:string)=>{
             let labelProps:Object = {key:`label-${attr}-${idCount}`} //id:`${attr}-${idCount}`}
             //let inputProps:Object = {key:`input-${attr}-${idCount}`} //,id:`${attr}`}
-            console.log(attr)
+            //console.log(attr)
             let labelEL = React.createElement("span",labelProps,attr)
             content.push(labelEL)
             //let inputEL = React.createElement("input",inputProps,getObjValue(inputObj,attr,"none"))
@@ -37,12 +37,14 @@ function TableInputForm(
     }
     
     React.useEffect(()=>{
-        setCurrentRecord(creatures[0])
+        setCurrentRecord(creatures[3])
+        console.log(String("from[0][33]").split(/\[(.*?)\]/g))
+        
     },[])
 
 
     return (
-      <div className="InputPage">
+      <div className="InputPage inputStriped">
          {renderInputForm()}
       </div>  
     );

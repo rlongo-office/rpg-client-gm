@@ -55,7 +55,7 @@ a {
 .dataPage{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 6fr 6fr;
+  grid-template-rows: 1fr 16fr 1fr;
   grid-gap: 5px;
   background-color: beige;
   padding: 5px;
@@ -76,6 +76,14 @@ a {
 
 .striped div:nth-child(even){
     background-color: lightblue;
+}
+
+.inputStriped span:nth-child(4n+1){
+  background-color: lightsteelblue;
+}
+
+.inputStriped span:nth-child(4n+3){
+  background-color: linen;
 }
 
 .pageBox {

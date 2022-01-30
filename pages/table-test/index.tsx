@@ -62,7 +62,7 @@ function TableTest() {
         header:"keys",
         stripe:true,
         border:true,
-        pageSize:10,
+        pageSize:15,
         renderRows:renderFunction,
         data: data
     }
@@ -86,7 +86,9 @@ React.useEffect(()=>{
                 />
             </div>
           </div>
+          <div>
             <TableInputForm />
+            </div>
        </div>
     );
 
