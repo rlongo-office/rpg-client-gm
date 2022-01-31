@@ -21,7 +21,13 @@ interface AnyObject {
         })
   }
 
-  const renderFunction = (rows:Array<Object>,page:number,pageSize:number,header:string)=>{
+  const callParent = (event:any)=>{
+      const recID = event.currentTarget
+      console.log(recID)
+  }
+
+  const renderFunction = (rows:Array<Object>,page:number,pageSize:number,header:string,selectRows:Function)=>{
+        const callBack = selectRows
         let tableSize:number = rows.length
         let pageStart:number = page === 1 ? 0 : (page-1) * pageSize
         let pageEnd = pageStart + pageSize <= tableSize ? pageStart + pageSize : tableSize;
@@ -31,11 +37,11 @@ interface AnyObject {
             {
                 pageOfRows.map( (row: any, rowIndex: number)=>{
                     return (
-                        <div className = "rowStyle" id="row" key={`row-${rowIndex}`}>
+                        <div className = "rowStyle" id="row" key={`row-${rowIndex}`} onClick={callBack}>
                             {
                                 Object.keys(row).map((cell: any, cellIndex: number)=>{
                                     return (
-                                            <span className="cellStyle" key={`row-${cellIndex}`} >{row[cell]}</span>
+                                            <span className="cellStyle" key={`cell-${cellIndex}`} >{row[cell]}</span>
                                             )
                                 }) 
                             }
@@ -61,6 +67,7 @@ function TableTest() {
         stripe:true,
         border:true,
         pageSize:15,
+        selectRows: callParent,
         renderRows:renderFunction,
         data: data
     }

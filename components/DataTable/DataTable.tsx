@@ -19,6 +19,7 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
+  selectRows: Function
   renderRows: Function
   data: Array<AnyObject>
 }
@@ -114,7 +115,7 @@ function DataTable({
         <SearchInput setParentFilter = {setParentFilter}/>
         <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}></HeaderRow>
         <div className={isStriped ? "striped" : ""}>
-            {filteredRows.length > 0 ? config.renderRows(filteredRows,curPage,config.pageSize,config.header) : <span>No Data</span>}
+            {filteredRows.length > 0 ? config.renderRows(filteredRows,curPage,config.pageSize,config.header,config.selectRows) : <span>No Data</span>}
         </div>
         <div>
           <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>

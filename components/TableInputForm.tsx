@@ -24,14 +24,10 @@ function TableInputForm(
     
     const [currentRecord, setCurrentRecord] = React.useState<Object>([]);
 
-    const renderKeyInputs = (parent:string,level:number,key:string,value:any)=>{
-        const spacer = "●"
-        let colID:string = ""
-    }
 
     const renderInputForm =()=>{
         let content: JSX.Element[] = []
-        const inputObj = source[index]
+        const inputObj = currentRecord
         let inputLabels:Array<string> = []
         iterateObjEntries("",inputObj,inputLabels)
         //Get array of paths to all entries in Object
@@ -39,12 +35,12 @@ function TableInputForm(
         let idCount = 0
         inputLabels.forEach((attr:string)=>{
             let labelProps:Object = {key:`label-${attr}-${idCount}`} //id:`${attr}-${idCount}`}
-            //let inputProps:Object = {key:`input-${attr}-${idCount}`} //,id:`${attr}`}
+            let inputProps:Object = {key:`input-${attr}-${idCount}`, placeholder: getObjValue(inputObj,attr,"none"), type: 'text', autoFocus: true } //,id:`${attr}`}
             //console.log(attr)
             let labelEL = React.createElement("span",labelProps,attr)
             content.push(labelEL)
             //let inputEL = React.createElement("input",inputProps,getObjValue(inputObj,attr,"none"))
-            let inputEl = React.createElement('input', { placeholder: getObjValue(inputObj,attr,"none"), type: 'text', autoFocus: true }); 
+            let inputEl = React.createElement('input',inputProps); 
             content.push(inputEl)
             //console.log(attr + getObjValue(inputObj,attr,"none"))
         })
@@ -52,7 +48,7 @@ function TableInputForm(
     }
     
     React.useEffect(()=>{
-        setCurrentRecord(creatures[3])
+        setCurrentRecord(source[index])
     },[])
 
 
