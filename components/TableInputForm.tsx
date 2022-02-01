@@ -9,35 +9,30 @@ interface AnyObject {
 interface AnyObjArray extends Array<AnyObject>{}
 
 interface props {
-    index: number
-    source: any
+    source: object
 }
 
 function TableInputForm(
   {
-      index,
-      source
+    source
   }:props    
 
 ) {
 
-    
-    const [currentRecord, setCurrentRecord] = React.useState<Object>([]);
+    const [currentRecord, setCurrentRecord] = React.useState<object>([]);
+    const [recordPaths, setRecordPaths] = React.useState<string[]>([])
 
-
-    const renderInputForm =()=>{
+    const renderInputForm =(record:object)=>{
         let content: JSX.Element[] = []
-        const inputObj = currentRecord
         let inputLabels:Array<string> = []
-        iterateObjEntries("",inputObj,inputLabels)
-        //Get array of paths to all entries in Object
-        //Iterate through each path
+        iterateObjEntries("",record,inputLabels)
         let idCount = 0
         inputLabels.forEach((attr:string)=>{
-            let labelProps:Object = {key:`label-${attr}-${idCount}`} //id:`${attr}-${idCount}`}
-            let inputProps:Object = {key:`input-${attr}-${idCount}`, placeholder: getObjValue(inputObj,attr,"none"), type: 'text', autoFocus: true } //,id:`${attr}`}
+            let labelText = attr.toUpperCase()
+            let labelProps:Object = {className:"InputLabel",key:`label-${attr}-${idCount}`} //id:`${attr}-${idCount}`}
+            let inputProps:Object = {key:`input-${attr}-${idCount}`, placeholder: getObjValue(record,attr,"none"), type: 'text', autoFocus: true } //,id:`${attr}`}
             //console.log(attr)
-            let labelEL = React.createElement("span",labelProps,attr)
+            let labelEL = React.createElement("span",labelProps,labelText)
             content.push(labelEL)
             //let inputEL = React.createElement("input",inputProps,getObjValue(inputObj,attr,"none"))
             let inputEl = React.createElement('input',inputProps); 
@@ -48,13 +43,11 @@ function TableInputForm(
     }
     
     React.useEffect(()=>{
-        setCurrentRecord(source[index])
     },[])
-
 
     return (
       <div className="InputPage inputStriped">
-         {renderInputForm()}
+         {renderInputForm(source)}
       </div>  
     );
 }

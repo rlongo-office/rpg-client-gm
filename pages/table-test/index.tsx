@@ -22,44 +22,26 @@ interface AnyObject {
   }
 
   const callParent = (event:any)=>{
-      const recID = event.currentTarget
+      const recID = event.currentTarget.children[0].innerText
+      
       console.log(recID)
   }
-
-  const renderFunction = (rows:Array<Object>,page:number,pageSize:number,header:string,selectRows:Function)=>{
-        const callBack = selectRows
-        let tableSize:number = rows.length
-        let pageStart:number = page === 1 ? 0 : (page-1) * pageSize
-        let pageEnd = pageStart + pageSize <= tableSize ? pageStart + pageSize : tableSize;
-        const pageOfRows = rows.slice(pageStart,pageEnd);
-        return (
-            <>
-            {
-                pageOfRows.map( (row: any, rowIndex: number)=>{
-                    return (
-                        <div className = "rowStyle" id="row" key={`row-${rowIndex}`} onClick={callBack}>
-                            {
-                                Object.keys(row).map((cell: any, cellIndex: number)=>{
-                                    return (
-                                            <span className="cellStyle" key={`cell-${cellIndex}`} >{row[cell]}</span>
-                                            )
-                                }) 
-                            }
-                        </div>
-                    )
-                })
-            }
-            </>
-        )
-        
-    }
-
 
 function TableTest() {
 
     const contextData = useAppContext() //pulled from the GameState: AppContext we created
     const data = parseDataForTable(contextData,["name","type","hit_dice","challenge_rating"])
     const index = 3
+    const source = creatures
+
+    const [currentRecord, setCurrentRecord] = React.useState<object>({})
+
+    const getRecordID = (event:any)=>{
+        let recID = event.currentTarget.children[0].innerText
+        recID = parseInt(recID)
+        setCurrentRecord(contextData[recID])
+        console.log(recID)
+    }
 
     const configObj = {
         sortColumns:[0,1,2,3,4],
@@ -67,7 +49,7 @@ function TableTest() {
         stripe:true,
         border:true,
         pageSize:15,
-        selectRows: callParent,
+        selectRows: getRecordID,
         renderRows:renderTableRows,
         data: data
     }
@@ -92,7 +74,7 @@ React.useEffect(()=>{
             </div>
           </div>
           <div>
-            <TableInputForm index={index} source={contextData} />
+            <TableInputForm source={currentRecord} />
             </div>
        </div>
     );
