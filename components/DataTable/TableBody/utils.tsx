@@ -1,3 +1,4 @@
+import * as React from 'react'
 
 interface AnyObject {
     [key: string]: any
@@ -160,4 +161,33 @@ var getObjValue = function (obj:any, path:string, def:any) {
 	return current;
 };
 
-export {addIndexColumn,sortColumn,renderHeader,parseDataForTable,propertiesToArray,iterateObjEntries,getObjValue}
+
+const renderTableRows = (rows:Array<Object>,page:number,pageSize:number,header:string,selectRows:Function)=>{
+  let content:JSX.Element[] = []
+  let tableSize:number = rows.length
+  let pageStart:number = page === 1 ? 0 : (page-1) * pageSize
+  let pageEnd = pageStart + pageSize <= tableSize ? pageStart + pageSize : tableSize;
+  const pageOfRows = rows.slice(pageStart,pageEnd);
+
+  pageOfRows.map((row:any, rowIndex: number)=>{
+    let rowChildren:JSX.Element[] = []
+    let rowProps:Object = {className:"rowStyle",
+                            id:`row-id-${rowIndex}`,
+                            key:`row-key-${rowIndex}`,
+                            onClick:selectRows
+                          }
+      Object.keys(row).map((key: any, cellIndex: number)=>{
+        let cellProps:Object = {className:"cellStyle",
+                                id:`cell-id-${rowIndex}.${cellIndex}`,
+                                key:`cell-key-${rowIndex}.${cellIndex}`,
+                                }
+      let cellSpan = React.createElement("span",cellProps,row[key])
+      rowChildren.push(cellSpan)
+    })
+    let rowDiv = React.createElement("div",rowProps,rowChildren)
+    content.push(rowDiv)
+  })
+  return content;
+}
+
+export {addIndexColumn,sortColumn,renderHeader,parseDataForTable,propertiesToArray,iterateObjEntries,getObjValue,renderTableRows}

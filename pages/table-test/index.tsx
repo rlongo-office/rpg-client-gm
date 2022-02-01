@@ -2,7 +2,7 @@ import * as React from 'react'
 import DataTable from '../../components/DataTable/DataTable';
 import mockedTableData from '../../data/rows';
 import creatures from '../../data/collections/creatures.json'
-import {parseDataForTable,iterateObjEntries,getObjValue} from '../../components/DataTable/TableBody/utils'
+import {parseDataForTable,renderTableRows} from '../../components/DataTable/TableBody/utils'
 import TableInputForm from '../../components/TableInputForm';
 import { useAppContext } from '../../state/gameState';
 
@@ -68,7 +68,7 @@ function TableTest() {
         border:true,
         pageSize:15,
         selectRows: callParent,
-        renderRows:renderFunction,
+        renderRows:renderTableRows,
         data: data
     }
     
