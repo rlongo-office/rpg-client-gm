@@ -6,8 +6,6 @@ interface AnyObject {
     [key: string]: any
   }
 
-interface AnyObjArray extends Array<AnyObject>{}
-
 interface props {
     source: object
 }
@@ -43,7 +41,8 @@ function TableInputForm(
     }
     
     React.useEffect(()=>{
-    },[])
+        window.scrollTo(0, 0)
+    },[source])
 
     return (
       <div className="InputPage inputStriped">

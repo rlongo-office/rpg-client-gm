@@ -10,9 +10,9 @@ interface AnyObject {
     [key: string]: any
   }
 
-  interface AnyObjArray extends Array<AnyObject>{}
 
-  const renderHeader = (row:Object)=> {
+
+const renderHeader = (row:Object)=> {
         const keys = Object.keys(row)
         keys.map(key=>{
             return (

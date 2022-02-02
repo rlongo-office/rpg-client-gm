@@ -15,24 +15,16 @@ interface headerConfig{
     sortColumn: Function
 }
 
-interface eProps{
-    className:string,
-    key:string,
-    onchange:Function
-}
-
 function HeaderRow(
 config: headerConfig
 )
 {
-
     const [colSortArray, setColSortArray] = React.useState<colSortObj[]>([]);
     
     const sortTable=(event: any)=>{
-        const columnKey = event.target.innerText.slice(0,-2)
+        const columnKey = event.target.innerText.slice(0,-2)    //slice off the "˄" and "˅" characters
         const columnID = parseInt(event.target.id)
         config.sortColumn(columnKey,columnID)
-
     }
 
     const renderHeader = ()=> {
