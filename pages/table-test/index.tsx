@@ -1,16 +1,13 @@
 import * as React from 'react'
 import DataTable from '../../components/DataTable/DataTable';
-import mockedTableData from '../../data/rows';
-import creatures from '../../data/collections/creatures.json'
+import truncatedArray from '../../data/collections/truncatedArray.json'
 import {parseDataForTable,renderTableRows} from '../../components/DataTable/TableBody/utils'
 import TableInputForm from '../../components/TableInputForm';
-import { useAppContext } from '../../state/gameState';
+import { useAppContext } from '../../context/AppProvider'
 
 interface AnyObject {
     [key: string]: any
   }
-
-
 
 const renderHeader = (row:Object)=> {
         const keys = Object.keys(row)
@@ -21,25 +18,16 @@ const renderHeader = (row:Object)=> {
         })
   }
 
-  const callParent = (event:any)=>{
-      const recID = event.currentTarget.children[0].innerText
-      
-      console.log(recID)
-  }
-
 function TableTest() {
 
-    const contextData = useAppContext() //pulled from the GameState: AppContext we created
-    const data = parseDataForTable(contextData,["name","type","hit_dice","challenge_rating"])
-    const index = 3
-    const source = creatures
-
+    let {state:{creatures,actors,testMessage}, dispatch} = useAppContext()
+    const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
 
     const getRecordID = (event:any)=>{
         let recID = event.currentTarget.children[0].innerText
         recID = parseInt(recID)
-        setCurrentRecord(contextData[recID])
+        setCurrentRecord(creatures[recID])
         console.log(recID)
     }
 
@@ -55,8 +43,12 @@ function TableTest() {
     }
     
 React.useEffect(()=>{
+    dispatch({
+        type: "ADD_ACTOR",
+        payload: {name:"Bubba",hitpoints:30}
+      })
+      console.log(testMessage)
 },[])
-
 
     return (
       <div>
