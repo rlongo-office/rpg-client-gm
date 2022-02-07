@@ -20,17 +20,16 @@ function TableInputForm(
 ) {
     let {state, dispatch} = useAppContext()
 
-    const formRef = React.useRef(null)
     const [currentRecord, setCurrentRecord] = React.useState<object>([]);
     const [recordPaths, setRecordPaths] = React.useState<string[]>([])
     const [inputValues,setInputValues] = React.useState<object>({})
 
     const createActor = ()=>{
       let actor:object = deepCopy(source)
-      let current:object ={}
       Object.entries(inputValues).forEach(([key,value])=>{
         setObjValue(actor,key,value)
       })
+      //dispatch()
     }
 
     const storeInput = (event:any)=>{
@@ -48,7 +47,6 @@ function TableInputForm(
         let content: JSX.Element[] = []
         let inputLabels:Array<string> = []
         iterateObjEntries("",record,inputLabels)
-        let idCount = 0
         inputLabels.forEach((path:string)=>{
             let labelText = path.toUpperCase()
             let labelProps:Object = {className:"InputLabel",key:`label-${path}`} //id:`${attr}-${idCount}`}
@@ -80,7 +78,7 @@ function TableInputForm(
     return (
       <>
       <button onClick={createActor}>Create Actor</button>
-      <div className="InputPage inputStriped" ref={formRef}>
+      <div className="InputPage inputStriped">
          {renderInputForm(source)}
       </div>
       </>  

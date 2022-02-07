@@ -53,6 +53,7 @@ React.useEffect(()=>{
 
     return (
       <div>
+          <button onClick={onClickFunction}>Let us try a Dispatch</button>
           <div className="dataPage">
             <div className="itemHeader">Header</div>
             <div className="itemLeft">
