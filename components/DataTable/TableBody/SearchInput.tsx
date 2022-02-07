@@ -12,7 +12,7 @@ function SearchInput(
 
     const [filter, setFilter] = React.useState("");
 
-    function handleInput(event: any){      //Seems overly complicated for taking the event object
+    function handleInput(event: any){      
         const { name, value } = event.target
         //setParentFilter(filter)
         setFilter(value)

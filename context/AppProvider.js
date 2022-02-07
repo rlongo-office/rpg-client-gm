@@ -11,18 +11,20 @@ export const initialState ={
 }
  export const appReducer = (state = initialState, action) => {
      switch(action.type){
-         case Types.ADD_ACTOR: 
+         case Types.ADD_ACTOR:
+            console.log("Add Actor action type called in Reducer")
+            console.log(state.testMessage)
             return {
                 ...state,
-                testMessage:[...state?.testMessage,"ADD_ACTOR"]
+                actors:[...state?.testMessage,"ADD_ACTOR"]
             }
          case Types.ADD_CREATURE:
+            console.log("Add creature action type called in Reducer")
              return {
                 ...state,
                 testMessage:[...state?.testMessage,"ADD_CREATURE"]
             }
      }
-
  };
 
  export const AppProvider = ({children})=>{

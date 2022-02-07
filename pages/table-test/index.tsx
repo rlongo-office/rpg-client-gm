@@ -20,7 +20,7 @@ const renderHeader = (row:Object)=> {
 
 function TableTest() {
 
-    let {state:{creatures,actors,testMessage}, dispatch} = useAppContext()
+    const {state:{creatures}, dispatch} = useAppContext()
     const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
 
@@ -41,13 +41,14 @@ function TableTest() {
         renderRows:renderTableRows,
         data: data
     }
+    const onClickFunction=(e:any)=>{
+        dispatch({
+            type: "ADD_ACTOR",
+            payload: {name:"Bubba",hitpoints:30}
+          })
+    }
     
 React.useEffect(()=>{
-    dispatch({
-        type: "ADD_ACTOR",
-        payload: {name:"Bubba",hitpoints:30}
-      })
-      console.log(testMessage)
 },[])
 
     return (
@@ -70,8 +71,6 @@ React.useEffect(()=>{
             </div>
        </div>
     );
-
-
 }
 
 export default TableTest;

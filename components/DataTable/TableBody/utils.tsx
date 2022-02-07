@@ -82,6 +82,12 @@ function propertiesToArray(obj:object) {
   return paths(obj);
 }
 
+function deepCopy(obj:any):any {
+  return Object.keys(obj).reduce((v, d) => Object.assign(v, {
+  [d]: (obj[d].constructor === Object) ? deepCopy(obj[d]) : obj[d]
+  }), {});
+}
+
 const iterateObjEntries = (parent:string,val:any,objPath:Array<string>)=>{
   let parentPath = parent==="" ? "" : parent 
   if (Array.isArray(val)){
@@ -124,29 +130,31 @@ const iterateObjEntries = (parent:string,val:any,objPath:Array<string>)=>{
   } 
 }
 
-var getObjValue = function (obj:any, path:string, def:any) {
+const stringToPath = function (path:any) {
+  // If the path isn't a string, return it
+  if (typeof path !== 'string') return path;
+  // Create new array
+  var output:Array<string> = [];
+  // Split to an array with dot notation
+  path.split('.').forEach(function (item, index) {
+    // Split to an array with bracket notation
+    item.split(/\[(.*?)\]/g).forEach(function (key) {
+      // Push to the new array
+      if (key.length > 0) {
+        output.push(key);
+      }
+    });
+  });
+  return output;
+};
+
+
+const getObjValue = function (obj:any, path:string, def:any) {
 	/**
 	 * If the path is a string, convert it to an array
 	 * @param  {String|Array} path The path
 	 * @return {Array}             The path array
 	 */
-	var stringToPath = function (path:any) {
-		// If the path isn't a string, return it
-		if (typeof path !== 'string') return path;
-		// Create new array
-		var output:Array<string> = [];
-		// Split to an array with dot notation
-		path.split('.').forEach(function (item, index) {
-			// Split to an array with bracket notation
-			item.split(/\[(.*?)\]/g).forEach(function (key) {
-				// Push to the new array
-				if (key.length > 0) {
-					output.push(key);
-				}
-			});
-		});
-		return output;
-	};
 	// Get the path as an array
 	path = stringToPath(path);
 	// Cache the current object
@@ -155,11 +163,30 @@ var getObjValue = function (obj:any, path:string, def:any) {
 	for (var i = 0; i < path.length; i++) {
 		// If the item isn't found, return the default (or null)
 		if (!current[path[i]]) return def;
-		// Otherwise, update the current  value
+		// Otherwise, update the current value with added path element
 		current = current[path[i]];
 	}
 	return current;
 };
+
+const setObjValue = function (obj:any, path:string, value:any) {
+	/**
+	 * If the path is a string, convert it to an array
+	 * @param  {String|Array} path The path
+	 * @return {Array}             The path array
+	 */
+	// Get the path as an array
+	path = stringToPath(path);
+	// Cache the current object
+  var current = obj
+  let j = 0
+	// For each item in the path, dig into the object
+  while (j<path.length-1) {
+    current = current[path[j]];
+    j +=1
+  }
+  current[path[j]] = (!current[path[j]]) ? null : value
+}
 
 
 const renderTableRows = (rows:Array<Object>,page:number,pageSize:number,header:string,selectRows:Function)=>{
@@ -190,4 +217,4 @@ const renderTableRows = (rows:Array<Object>,page:number,pageSize:number,header:s
   return content;
 }
 
-export {addIndexColumn,sortColumn,renderHeader,parseDataForTable,propertiesToArray,iterateObjEntries,getObjValue,renderTableRows}
+export {addIndexColumn,sortColumn,renderHeader,parseDataForTable,propertiesToArray,iterateObjEntries,getObjValue,setObjValue,renderTableRows,deepCopy}
