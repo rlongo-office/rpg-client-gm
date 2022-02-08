@@ -5,18 +5,19 @@ import creatures from '../data/collections/creatures.json'
 export const initialState ={
     creatures:creatures,
     actors:[],
-    testMessage:[]
+    testMessage:[],
+    creatureID:0
 }
 export const AppContext = createContext()
 
 export const appReducer = (state=initialState, action) => {
-     switch(action.type){
+    const {type, payload} = action
+    const {creatures,actors,testMessage} = state
+     switch(type){
          case Types.ADD_ACTOR:
-            console.log("Add Actor action type called in Reducer")
-            console.log(state.testMessage)
-            return {
-                state,
-                testMessage:[...state?.testMessage,"ADD_ACTOR"]
+             //let newArray = actors.length<1 ? [payload] : [...actors,payload]
+             return {...state,
+                actors:[...actors,payload]
             }
          case Types.ADD_CREATURE:
             console.log("Add creature action type called in Reducer")
@@ -24,8 +25,13 @@ export const appReducer = (state=initialState, action) => {
                 ...state,
                 testMessage:[...state?.testMessage,"ADD_CREATURE"]
             }
+        case Types.SET_CREATURE_ID:
+            return{
+                ...state,
+                creatureID:payload
+            }
      }
-     console.log(state.creatures)
+     console.log(state.actors)
  };
 
  export const AppProvider = ({children})=>{

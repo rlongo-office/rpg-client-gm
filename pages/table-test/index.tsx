@@ -24,20 +24,12 @@ function TableTest() {
     const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
 
-    const getRecordID = (event:any)=>{
-        let recID = event.currentTarget.children[0].innerText
-        recID = parseInt(recID)
-        setCurrentRecord(creatures[recID])
-        console.log(recID)
-    }
-
     const configObj = {
         sortColumns:[0,1,2,3,4],
         header:"keys",
         stripe:true,
         border:true,
         pageSize:15,
-        selectRows: getRecordID,
         renderRows:renderTableRows,
         data: data
     }

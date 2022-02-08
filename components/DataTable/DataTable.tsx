@@ -3,6 +3,7 @@ import SearchInput from './TableBody/SearchInput';
 import PageNavBar from './TableBody/PageNavBar'
 import {addIndexColumn,sortColumn,renderHeader} from './TableBody/utils'
 import HeaderRow from './TableBody/HeaderRow'
+import Rows from './TableBody/Rows'
 
 interface AnyObject {
   [key: string]: any
@@ -19,7 +20,6 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
-  selectRows: Function
   renderRows: Function
   data: Array<AnyObject>
 }
@@ -115,7 +115,7 @@ function DataTable({
         <SearchInput setParentFilter = {setParentFilter}/>
         <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}></HeaderRow>
         <div className={isStriped ? "striped" : ""}>
-            {filteredRows.length > 0 ? config.renderRows(filteredRows,curPage,config.pageSize,config.header,config.selectRows) : <span>No Data</span>}
+          <Rows rows={filteredRows} page={curPage} pageSize={config.pageSize} header={config.header} />
         </div>
         <div>
           <PageNavBar numPages={numPages} tableSpan = {tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>

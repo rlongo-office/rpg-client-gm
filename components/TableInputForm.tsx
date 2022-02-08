@@ -18,9 +18,9 @@ function TableInputForm(
   }:props    
 
 ) {
-    let {state, dispatch} = useAppContext()
+    let {state:{actors}, dispatch} = useAppContext()
 
-    const [currentRecord, setCurrentRecord] = React.useState<object>([]);
+    const [currentRecord, setCurrentRecord] = React.useState<object>([]);  //create Context Variable for this
     const [recordPaths, setRecordPaths] = React.useState<string[]>([])
     const [inputValues,setInputValues] = React.useState<object>({})
 
@@ -29,7 +29,11 @@ function TableInputForm(
       Object.entries(inputValues).forEach(([key,value])=>{
         setObjValue(actor,key,value)
       })
-      //dispatch()
+      setInputValues({})
+      dispatch({
+        type: "ADD_ACTOR",
+        payload: actor
+      })
     }
 
     const storeInput = (event:any)=>{
