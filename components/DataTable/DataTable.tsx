@@ -106,6 +106,8 @@ function DataTable({config}: TableProps) {
     setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length / config.pageSize : Math.floor(filteredRows.length / config.pageSize) + 1)
   }, [filteredRows, curPage]);
 
+  // TODO: the config.data starts off with the name of the creature when it needs to start off with the recId which is the creature id. Fix this.
+  // Currently looks like the following: {name: 'Aboleth', type: 'aberration', hit_dice: '18d10', challenge_rating: 10}
   return (
     <>
       <SearchInput setParentFilter={setParentFilter}/>
