@@ -20,7 +20,6 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
-  renderRows: Function
   data: Array<AnyObject>
 }
 
@@ -112,7 +111,7 @@ function DataTable({config}: TableProps) {
       <SearchInput setParentFilter={setParentFilter}/>
       <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}/>
       <div className={isStriped ? "striped" : ""}>
-        <Rows rows={filteredRows} page={curPage} pageSize={config.pageSize} header={config.header}/>
+        <Rows rows={config.data} page={curPage} pageSize={config.pageSize} header={config.header}/>
       </div>
       <div>
         <PageNavBar numPages={numPages} tableSpan={tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>

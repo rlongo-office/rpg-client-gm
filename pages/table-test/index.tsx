@@ -1,7 +1,7 @@
 import * as React from 'react'
 import DataTable from '../../components/DataTable/DataTable';
 import truncatedArray from '../../data/collections/truncatedArray.json'
-import {parseDataForTable,renderTableRows} from '../../components/DataTable/TableBody/utils'
+import {parseDataForTable} from '../../components/DataTable/TableBody/utils'
 import TableInputForm from '../../components/TableInputForm';
 import { useAppContext } from '../../context/AppProvider'
 
@@ -30,7 +30,6 @@ function TableTest() {
         stripe:true,
         border:true,
         pageSize:15,
-        renderRows:renderTableRows,
         data: data
     }
     const onClickFunction=(e:any)=>{

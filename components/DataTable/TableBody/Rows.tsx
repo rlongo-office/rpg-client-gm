@@ -9,7 +9,7 @@ interface RowsProps {
   header: string
 }
 
-export default function Rows({rows, page, pageSize, header}: RowsProps) {
+export default function Rows({rows, page, pageSize}: RowsProps) {
   const {dispatch} = useAppContext()
 
   let tableSize: number = rows.length
