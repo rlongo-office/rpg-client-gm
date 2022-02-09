@@ -19,7 +19,6 @@ export default function Rows({rows, page, pageSize}: RowsProps) {
 
   const setRecID = (event: React.MouseEvent<HTMLDivElement>) => {
     // Replaced innerText with innerHTML since the HTMLDivElement doesn't support innerText (this should work)
-    debugger
     const recID: number = parseInt(event.currentTarget.children[0].innerHTML)
     dispatch(Types.SET_CREATURE_ID, recID)
   }
