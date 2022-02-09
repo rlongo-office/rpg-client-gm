@@ -26,25 +26,19 @@ export default function Rows({rows, page, pageSize}: RowsProps) {
   return (
     <>
       {
-        pageOfRows.map((row: any, rowIndex: number) => {
-          let rowProps: Object = {
-            className: 'rowStyle',
-            id: `row-id-${rowIndex}`,
-            onClick: setRecID
-          }
-
-          return (
-            <div {...rowProps} key={`row-key-${rowIndex}`}>
+        pageOfRows.map((row: any, rowIndex: number) => (
+            <div
+              id={`row-id-${rowIndex}`}
+              className={'rowStyle'}
+              key={`row-key-${rowIndex}`}
+              onClick={setRecID}
+            >
               {
                 Object.keys(row).map((key: any, cellIndex: number) => {
-                  let cellProps: Object = {
-                    className: "cellStyle",
-                    id: `cell-id-${rowIndex}.${cellIndex}`,
-                  }
-
                   return (
                     <span
-                      {...cellProps}
+                      className={'cellStyle'}
+                      id={`cell-id-${rowIndex}.${cellIndex}`}
                       key={`cell-key-${rowIndex}.${cellIndex}`}
                     >
                       {row[key]}
@@ -54,7 +48,7 @@ export default function Rows({rows, page, pageSize}: RowsProps) {
               }
             </div>
           )
-        })
+        )
       }
     </>
   )
