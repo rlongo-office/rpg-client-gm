@@ -18,14 +18,14 @@ function TableInputForm(
   }:props    
 
 ) {
-    let {state:{actors}, dispatch} = useAppContext()
+    let {dispatch} = useAppContext()
 
     const [currentRecord, setCurrentRecord] = React.useState<object>([]);  //create Context Variable for this
     const [recordPaths, setRecordPaths] = React.useState<string[]>([])
     const [inputValues,setInputValues] = React.useState<object>({})
 
     const createActor = ()=>{
-      let actor:object = deepCopy(source)
+      let actor:any = deepCopy(source)
       Object.entries(inputValues).forEach(([key,value])=>{
         setObjValue(actor,key,value)
       })
