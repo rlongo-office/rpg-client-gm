@@ -6,7 +6,7 @@ export const initialState ={
     creatures:creatures,
     actors:[],
     testMessage:[],
-    recordID:{creaturePageID:-1}
+    recordID:{creaturePageID:-1} //Decided on an object that holds all the relevant PageIDs
 }
 export const AppContext = createContext()
 
