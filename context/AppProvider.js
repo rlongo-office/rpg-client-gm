@@ -6,16 +6,20 @@ export const initialState ={
     creatures:creatures,
     actors:[],
     testMessage:[],
-    creatureID:0
+    recordID:{creaturePageID:-1} //Decided on an object that holds all the relevant PageIDs
 }
 export const AppContext = createContext()
 
 export const appReducer = (state=initialState, action) => {
     const {type, payload} = action
-    const {creatures,actors,testMessage} = state
+    //const {creatures,actors,testMessage,creatureID} = state
      switch(type){
          case Types.ADD_ACTOR:
-             //let newArray = actors.length<1 ? [payload] : [...actors,payload]
+             //Need to change the objID for this record
+             let index = state.actors.length   //since we are 0 based, length actually gives us current position
+             let newObjID = index + payload.name  //should be unique enough for our purposes
+             payload._id["$oid"] = newObjID
+             console.log(payload)
              return {...state,
                 actors:[...actors,payload]
             }
@@ -26,12 +30,15 @@ export const appReducer = (state=initialState, action) => {
                 testMessage:[...state?.testMessage,"ADD_CREATURE"]
             }
         case Types.SET_CREATURE_ID:
+          console.log(payload)
             return{
                 ...state,
-                creatureID:payload
+                recordID:{
+                  creaturePageID:payload
+                }
             }
+          default: return state;
      }
-     console.log(state.actors)
  };
 
  export const AppProvider = ({children})=>{

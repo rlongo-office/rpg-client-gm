@@ -20,7 +20,7 @@ const renderHeader = (row:Object)=> {
 
 function TableTest() {
 
-    const {state:{creatures}, dispatch} = useAppContext()
+    const {state:{creatures,recordID}, dispatch} = useAppContext()
     const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
 
@@ -40,7 +40,10 @@ function TableTest() {
     }
     
 React.useEffect(()=>{
-},[])
+  if (recordID.creaturePageID != -1){
+    setCurrentRecord(creatures[recordID.creaturePageID])
+  }
+},[recordID])
 
     return (
       <div>
