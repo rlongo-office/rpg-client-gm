@@ -17,11 +17,12 @@ export const appReducer = (state=initialState, action) => {
          case Types.ADD_ACTOR:
              //Need to change the objID for this record
              let index = state.actors.length   //since we are 0 based, length actually gives us current position
-             let newObjID = index + payload.name  //should be unique enough for our purposes
+             let newObjID = `${index+1}${payload.name}`  //should be unique enough for our purposes
              payload._id["$oid"] = newObjID
              console.log(payload)
-             return {...state,
-                actors:[...actors,payload]
+             return {
+               ...state,
+               actors:[...state.actors,payload]
             }
          case Types.ADD_CREATURE:
             console.log("Add creature action type called in Reducer")
@@ -43,6 +44,7 @@ export const appReducer = (state=initialState, action) => {
 
  export const AppProvider = ({children})=>{
     const [state, dispatch] = useReducer(appReducer,initialState)
+    
     const value = {state,dispatch}
     return (
       <AppContext.Provider value={value}>
@@ -60,5 +62,4 @@ export function useAppContext() {
     return store;
   }
 
-  
   export default {initialState,appReducer,AppContext,useAppContext,AppProvider};
