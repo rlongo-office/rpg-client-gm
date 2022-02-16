@@ -20,7 +20,8 @@ const renderHeader = (row:Object)=> {
 
 function TableTest() {
 
-    const {state:{creatures,recordID}, dispatch} = useAppContext()
+    // const {state:{creatures,recordID}, dispatch} = useAppContext()
+    const {creatures,creaturesPageIDS,actors, setActors } = useAppContext()
     const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
 
@@ -33,6 +34,8 @@ function TableTest() {
         data: data
     }
     const onClickFunction=(e:any)=>{
+      const combinedActors = [...actors, newActor]
+      setActors(combinedActors)
         dispatch({
             type: "ADD_ACTOR",
             payload: {name:"Bubba",hitpoints:30}
