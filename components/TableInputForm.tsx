@@ -1,6 +1,6 @@
 import * as React from 'react'
 import creatures from '../data/collections/creatures.json'
-import {iterateObjEntries,getObjValue,setObjValue} from '../components/DataTable/TableBody/utils'
+import {iterateObjEntries,getObjValue,setObjValue,createObjID} from '../components/DataTable/TableBody/utils'
 import { useAppContext } from '../context/AppProvider';
 import {deepCopy} from '../components/DataTable/TableBody/utils'
 
@@ -18,7 +18,7 @@ function TableInputForm(
   }:props    
 
 ) {
-    let {dispatch} = useAppContext()
+    let {actors,setActors} = useAppContext()
 
     const [currentRecord, setCurrentRecord] = React.useState<object>([]);  //create Context Variable for this
     const [recordPaths, setRecordPaths] = React.useState<string[]>([])
@@ -30,10 +30,7 @@ function TableInputForm(
         setObjValue(actor,key,value)
       })
       setInputValues({})
-      dispatch({
-        type: "ADD_ACTOR",
-        payload: actor
-      })
+      setActors([...actors,createObjID(actors, actor)])
     }
 
     const storeInput = (event:any)=>{

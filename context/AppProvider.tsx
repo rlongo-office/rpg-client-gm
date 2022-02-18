@@ -11,14 +11,16 @@ interface AnyObject {
 type AppProviderProps = {
   children: React.ReactNode
 }
+const AppContext = React.createContext<any | undefined>(undefined)
 
+/*
 export const initialState ={
     creatures:creatures,
     actors:[],
     testMessage:[],
     recordID:{creaturePageID:-1} //Decided on an object that holds all the relevant PageIDs
 }
-const AppContext = React.createContext<any | undefined>(undefined)
+
 
 export const appReducer = (state=initialState, action) => {
     const {type, payload} = action
@@ -51,15 +53,16 @@ export const appReducer = (state=initialState, action) => {
           default: return state;
      }
  };
+*/
 
-function AppProvider({children}:AppProviderProps){
+export function AppProvider({children}:AppProviderProps){
     const [creatures,setCreatures] = React.useState(creaturesData)
     const [actors,setActors] = React.useState([])
-    const [creatuePageIDS, setCreaturePageIDS] = React.useState(-1)
+    const [creaturePageIDS, setCreaturePageIDS] = React.useState(-1)
 
     const value = React.useMemo(() => ({
-      creatures,setCreatures,actors,setActors,creatuePageIDS,setCreaturePageIDS
-    }), [creatures,actors,creatuePageIDS])
+      creatures,setCreatures,actors,setActors,creaturePageIDS,setCreaturePageIDS
+    }), [creatures,actors,creaturePageIDS])
 
     return (
       <AppContext.Provider value={value}>
@@ -77,5 +80,4 @@ export function useAppContext() {
     return store;
   }
 
-  
-  export default {initialState,appReducer,useAppContext,AppProvider};
+  export default {AppProvider, useAppContext};

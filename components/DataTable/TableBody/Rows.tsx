@@ -10,7 +10,7 @@ interface RowsProps {
 }
 
 export default function Rows({rows, page, pageSize}: RowsProps) {
-  const {dispatch} = useAppContext()
+  const {setCreaturePageIDS} = useAppContext()
 
   let tableSize: number = rows.length
   let pageStart: number = page === 1 ? 0 : (page - 1) * pageSize
@@ -19,9 +19,7 @@ export default function Rows({rows, page, pageSize}: RowsProps) {
 
   const setRecID = (event: React.MouseEvent<HTMLDivElement>) => {
     // Replaced innerText with innerHTML since the HTMLDivElement doesn't support innerText (this should work)
-    const recID: number = parseInt(event.currentTarget.children[0].innerHTML)
-    console.log(recID)
-    dispatch({type:Types.SET_CREATURE_ID, payload:recID})
+    setCreaturePageIDS(parseInt(event.currentTarget.children[0].innerHTML))
   }
 
   return (
