@@ -3,7 +3,7 @@ import DataTable from '../../components/DataTable/DataTable';
 import truncatedArray from '../../data/collections/truncatedArray.json'
 import {parseDataForTable} from '../../components/DataTable/TableBody/utils'
 import TableInputForm from '../../components/TableInputForm';
-import { useAppContext } from '../../context/AppProvider'
+import {useAppContext} from '../../context/AppProvider'
 
 interface AnyObject {
     [key: string]: any
@@ -21,9 +21,10 @@ const renderHeader = (row:Object)=> {
 function TableTest() {
 
     // const {state:{creatures,recordID}, dispatch} = useAppContext()
-    const {creatures,creaturesPageIDS,actors, setActors } = useAppContext()
+    const {creatures,creaturePageIDS,actors, setActors } = useAppContext()
     const data = parseDataForTable(creatures,["name","type","hit_dice","challenge_rating"])
     const [currentRecord, setCurrentRecord] = React.useState<object>({})
+    const [parsedActors, setParsedActors] = React.useState<AnyObject[] | undefined>()
 
     const configObj = {
         sortColumns:[0,1,2,3,4],
@@ -33,24 +34,31 @@ function TableTest() {
         pageSize:15,
         data: data
     }
-    const onClickFunction=(e:any)=>{
-      const combinedActors = [...actors, newActor]
-      setActors(combinedActors)
-        dispatch({
-            type: "ADD_ACTOR",
-            payload: {name:"Bubba",hitpoints:30}
-          })
+
+    const actorsConfigObj = {
+      sortColumns:[0,1,2,3,4],
+      header:"keys",
+      stripe:true,
+      border:true,
+      pageSize:15,
+      data: parsedActors
     }
     
-React.useEffect(()=>{
-  if (recordID.creaturePageID != -1){
-    setCurrentRecord(creatures[recordID.creaturePageID])
-  }
-},[recordID])
+    React.useEffect(()=>{
+      if (creaturePageIDS != -1){
+        setCurrentRecord(creatures[creaturePageIDS])
+      }
+    },[creaturePageIDS])
+
+    React.useEffect(()=>{
+      debugger
+      if (actors.length > 0){
+        setParsedActors(parseDataForTable(actors,["name","type","hit_dice","challenge_rating"]))
+      }
+    },[actors])
 
     return (
       <div>
-          <button onClick={onClickFunction}>Let us try a Dispatch</button>
           <div className="dataPage">
             <div className="itemHeader">Header</div>
             <div className="itemLeft">
@@ -59,9 +67,9 @@ React.useEffect(()=>{
                 />
             </div>
             <div className="itemRight">
-                <h2>Creature Table</h2>
-                <DataTable config={configObj}          
-                />
+              <h2>Actors Table</h2>
+              <DataTable config={actorsConfigObj}          
+            />
             </div>
           </div>
           <div>

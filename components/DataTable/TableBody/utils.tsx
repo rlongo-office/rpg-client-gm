@@ -11,7 +11,7 @@ interface AnyObjArray extends Array<AnyObject> {
 const addIndexColumn = (rows: AnyObjArray) => {
   let recCount = 0
   let tempArray: AnyObjArray = []
-  rows.forEach((row) => {
+  rows?.forEach((row) => {
     if (!(row == null)) {
       let newRow: AnyObject = {}
       newRow["recID"] = recCount
@@ -189,6 +189,19 @@ const setObjValue = function (obj: any, path: string, value: any) {
   current[path[j]] = (!current[path[j]]) ? null : value
 }
 
+type CreatureType = {
+  _id: {
+          $oid:string
+        },
+  name: string
+}
+
+const createObjID = (creatures:Array<CreatureType>,creature:CreatureType)=>{
+  let index = creatures.length   //since we are 0 based, length actually gives us current position
+  let newObjID = index + creature.name  //should be unique enough for our purposes
+  creature._id["$oid"] = newObjID
+  return creature
+}
 
 export {
   addIndexColumn,
@@ -199,5 +212,6 @@ export {
   iterateObjEntries,
   getObjValue,
   setObjValue,
-  deepCopy
+  deepCopy,
+  createObjID
 }

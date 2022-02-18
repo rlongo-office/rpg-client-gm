@@ -20,7 +20,7 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
-  data: Array<AnyObject>
+  data: Array<AnyObject> | undefined
 }
 
 interface TableProps {
@@ -87,15 +87,18 @@ function DataTable({config}: TableProps) {
   }
 
   React.useEffect(() => {
-    const tempRows = addIndexColumn(config.data)
-    let sortObjectArray: { col: boolean, dir: number }[] = []
-    Object.keys(tempRows[0]).forEach(key => {
-        sortObjectArray.push({col: true, dir: 1})
-      }
-    )
-    setColSortState(sortObjectArray)
-    setNewRows(tempRows)
-    setFilteredRows(tempRows)
+    debugger
+    if (config && config.data && config.data.length > 0){
+      const tempRows = addIndexColumn(config.data)
+      let sortObjectArray: { col: boolean, dir: number }[] = []
+      Object.keys(tempRows[0]).forEach(key => {
+          sortObjectArray.push({col: true, dir: 1})
+        }
+      )
+      setColSortState(sortObjectArray)
+      setNewRows(tempRows)
+      setFilteredRows(tempRows)
+    }
   }, [])
 
   React.useEffect(() => {
@@ -113,7 +116,8 @@ function DataTable({config}: TableProps) {
       <SearchInput setParentFilter={setParentFilter}/>
       <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}/>
       <div className={isStriped ? "striped" : ""}>
-        <Rows rows={filteredRows} page={curPage} pageSize={config.pageSize} header={config.header}/>
+        {config.data &&
+        <Rows rows={filteredRows} page={curPage} pageSize={config.pageSize} header={config.header}/>}
       </div>
       <div>
         <PageNavBar numPages={numPages} tableSpan={tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>
