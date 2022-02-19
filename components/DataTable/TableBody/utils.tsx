@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {useAppContext} from '../../../context/AppProvider'
 
 interface AnyObject {
   [key: string]: any
@@ -191,15 +190,15 @@ const setObjValue = function (obj: any, path: string, value: any) {
 
 type CreatureType = {
   _id: {
-          $oid:string
-        },
+    $oid: string
+  },
   name: string
 }
 
-const createObjID = (creatures:Array<CreatureType>,creature:CreatureType)=>{
+const createObjID = (creatures: Array<CreatureType>, creature: CreatureType) => {
   let index = creatures.length   //since we are 0 based, length actually gives us current position
-  let newObjID = index + creature.name  //should be unique enough for our purposes
-  creature._id["$oid"] = newObjID
+  // should be unique enough for our purposes
+  creature._id["$oid"] = index + creature.name
   return creature
 }
 
