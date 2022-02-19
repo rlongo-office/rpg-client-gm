@@ -34,7 +34,7 @@ function DataTable({config}: TableProps) {
 
   const [newRows, setNewRows] = React.useState<AnyObject[]>([]);
 
-  const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>([]);
+  const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>(config.data || []);
 
   const [curPage, setCurPage] = React.useState(1)
   const [numPages, setNumPages] = React.useState(9)
@@ -57,7 +57,7 @@ function DataTable({config}: TableProps) {
           return -1 * dir;
         }
         if (valueA > valueB) {
-          return 1 * dir;
+          return dir;
         }
         return 0;
       } else {
@@ -87,8 +87,7 @@ function DataTable({config}: TableProps) {
   }
 
   React.useEffect(() => {
-    debugger
-    if (config && config.data && config.data.length > 0){
+    if (config && config.data && config.data.length > 0) {
       const tempRows = addIndexColumn(config.data)
       let sortObjectArray: { col: boolean, dir: number }[] = []
       Object.keys(tempRows[0]).forEach(key => {
@@ -101,23 +100,25 @@ function DataTable({config}: TableProps) {
     }
   }, [])
 
-  React.useEffect(() => {
-  }, [sortChange])
-
 
   React.useEffect(() => {
     setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length / config.pageSize : Math.floor(filteredRows.length / config.pageSize) + 1)
   }, [filteredRows, curPage]);
 
-  // TODO: the config.data starts off with the name of the creature when it needs to start off with the recId which is the creature id. Fix this.
-  // Currently looks like the following: {name: 'Aboleth', type: 'aberration', hit_dice: '18d10', challenge_rating: 10}
   return (
     <>
       <SearchInput setParentFilter={setParentFilter}/>
       <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}/>
       <div className={isStriped ? "striped" : ""}>
-        {config.data &&
-        <Rows rows={filteredRows} page={curPage} pageSize={config.pageSize} header={config.header}/>}
+        {
+          config.data &&
+          <Rows
+            rows={filteredRows.length > 0 ? filteredRows : config.data}
+            page={curPage}
+            pageSize={config.pageSize}
+            header={config.header}
+          />
+        }
       </div>
       <div>
         <PageNavBar numPages={numPages} tableSpan={tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>

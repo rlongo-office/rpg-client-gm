@@ -1,6 +1,5 @@
 import {useAppContext} from '../../../context/AppProvider'
 import * as React from 'react'
-import * as Types from '../../../types/rpg-types'
 
 interface RowsProps {
   rows: Array<object>,
