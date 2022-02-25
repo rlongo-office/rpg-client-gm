@@ -5,6 +5,7 @@ import {parseDataForTable} from '../../components/DataTable/TableBody/utils'
 import TableInputForm from '../../components/TableInputForm'
 import {useAppContext} from '../../context/AppProvider'
 import ActorsTable from "../../components/DataTable/ActorsTable"
+import CreaturesTable from "../../components/DataTable/CreaturesTable"
 
 interface AnyObject {
   [key: string]: any
@@ -26,7 +27,7 @@ function TableTest() {
 
   const configObj = {
     sortColumns: [0, 1, 2, 3, 4],
-    header: "keys",
+    header: ["id","name", "type", "hit_dice", "challenge_rating"],
     stripe: true,
     border: true,
     pageSize: 15,
@@ -51,9 +52,7 @@ function TableTest() {
       <div className="dataPage">
         <div className="itemHeader">Header</div>
         <div className="itemLeft">
-          <h2>Creature Table</h2>
-          <DataTable config={configObj}
-          />
+          <CreaturesTable/>
         </div>
         <div className="itemRight">
           <ActorsTable />

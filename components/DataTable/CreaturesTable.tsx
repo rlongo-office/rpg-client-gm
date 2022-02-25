@@ -21,9 +21,9 @@ interface AnyObject {
  *
  * @constructor
  */
-function ActorsTable() {
+function CreaturesTable() {
 
-  const {actors} = useAppContext()
+  const {creatures} = useAppContext()
   const [config, setConfig] = React.useState<configObj>({
     sortColumns: [0, 1, 2, 3, 4],
     header: ["id","name", "type", "hit_dice", "challenge_rating"],
@@ -34,7 +34,7 @@ function ActorsTable() {
     //headerObject which includes the columns passed for header Component
   });
 
-  const parsedActors = parseDataForTable(actors, ["name", "type", "hit_dice", "challenge_rating"])
+  const parsedActors = parseDataForTable(creatures, ["name", "type", "hit_dice", "challenge_rating"])
 
   React.useEffect(() => {
     let actorsTableConfig = {
@@ -43,18 +43,18 @@ function ActorsTable() {
       stripe: true,
       border: true,
       pageSize: 15,
-      data: addIndexColumn(parseDataForTable(actors, ["name", "type", "hit_dice", "challenge_rating"]))
+      data: addIndexColumn(parseDataForTable(creatures, ["name", "type", "hit_dice", "challenge_rating"]))
       //headerObject which includes the columns passed for header Component
     }
     setConfig(actorsTableConfig)
-  }, [actors])
+  }, [creatures])
 
   return (
     <>
-      <h2>Actors Table</h2>
+      <h2>Creatures Table</h2>
       <DataTable config={config}/>
     </>
   )
 }
 
-export default ActorsTable
+export default CreaturesTable

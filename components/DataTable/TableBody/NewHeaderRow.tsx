@@ -24,17 +24,17 @@ function HeaderRow(
   // React.useEffect(() => {
   //   setColSortArray(config.colSortState)
   // }, [config.colSortState])
+  const ascChar = " ˄"
+  const descChar = " ˅"  
 
   const sortTable = (event: any) => {
     const columnKey = event.target.innerText.slice(0, -2)    //slice off the "˄" and "˅" characters
     const columnID = parseInt(event.target.id)
     config.sortColumn(columnKey, columnID)
   }
-
+  /*
   const renderHeader = () => {
     if (config.row != null && config.colSortState.length > 0 ) {
-      let ascChar = " ˄"
-      let descChar = " ˅"
       let content: JSX.Element[] = [];
 
       let colID = 0
@@ -55,10 +55,24 @@ function HeaderRow(
       return content;
     }
   }
-
+  */
   return (
     <div id="header-row" className="headerRow rowStyle">
-      {renderHeader()}
+      {
+      config.row && 
+      config.row.map((colName, colIndex)=>{
+            return(
+                <span
+                className={'cellStyle'}
+                id={`col-id-${colIndex}`}
+                key={`col-key-${colIndex}`}
+                onClick={sortTable}
+              >
+                {colName += config.colSortState[colIndex].dir > 0 ? ascChar : descChar}
+              </span>
+            )
+      })  
+      }
     </div>
   )
 }
