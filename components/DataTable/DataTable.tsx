@@ -1,8 +1,10 @@
 import * as React from 'react'
 import SearchInput from './TableBody/SearchInput';
 import PageNavBar from './TableBody/PageNavBar'
+import NewPageNavBar from './TableBody/NewPageNavBar'
 import {addIndexColumn, sortColumn, renderHeader} from './TableBody/utils'
 import HeaderRow from './TableBody/HeaderRow'
+import NewHeaderRow from './TableBody/HeaderRow'
 import Rows from './TableBody/Rows'
 
 interface AnyObject {
@@ -16,7 +18,7 @@ interface colSortObj {
 
 interface configObj {
   sortColumns: Array<number>
-  header: string
+  header: Array<string>
   stripe: boolean
   border: boolean
   pageSize: number
@@ -29,19 +31,15 @@ interface TableProps {
 
 function DataTable({config}: TableProps) {
   const [isStriped, setIsStriped] = React.useState(true);
-
   const [filter, setFilter] = React.useState('');
-
   const [newRows, setNewRows] = React.useState<AnyObject[]>([]);
-
   const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>(config.data || []);
-
   const [curPage, setCurPage] = React.useState(1)
   const [numPages, setNumPages] = React.useState(9)
   const [tableSpan, setTableSpan] = React.useState(8)
   const [colSortState, setColSortState] = React.useState<colSortObj[]>([]);
   const [sortChange, setSortChange] = React.useState(true)
-
+  //{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1}
   const setCurrentPage = (page: number) => {
     setCurPage(page)
   }
@@ -87,14 +85,14 @@ function DataTable({config}: TableProps) {
   }
 
   React.useEffect(() => {
+    let sortObjectArray: { col: boolean, dir: number }[] = []
+    config.header.forEach(() => {
+      sortObjectArray.push({col: true, dir: 1})
+      }
+    )
+    setColSortState(sortObjectArray)
     if (config && config.data && config.data.length > 0) {
       const tempRows = addIndexColumn(config.data)
-      let sortObjectArray: { col: boolean, dir: number }[] = []
-      Object.keys(tempRows[0]).forEach(key => {
-          sortObjectArray.push({col: true, dir: 1})
-        }
-      )
-      setColSortState(sortObjectArray)
       setNewRows(tempRows)
       setFilteredRows(tempRows)
     }
@@ -108,7 +106,7 @@ function DataTable({config}: TableProps) {
   return (
     <>
       <SearchInput setParentFilter={setParentFilter}/>
-      <HeaderRow row={newRows[0]} colSortState={colSortState} sortColumn={sortColumn}/>
+      <NewHeaderRow row={config.header} colSortState={colSortState} sortColumn={sortColumn}/>
       <div className={isStriped ? "striped" : ""}>
         {
           config.data &&
@@ -116,7 +114,6 @@ function DataTable({config}: TableProps) {
             rows={filteredRows.length > 0 ? filteredRows : config.data}
             page={curPage}
             pageSize={config.pageSize}
-            header={config.header}
           />
         }
       </div>

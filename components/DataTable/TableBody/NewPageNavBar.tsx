@@ -12,7 +12,7 @@ interface NavProps {
     page: number
   }
 
-function PageNavBar(
+function NewPageNavBar(
     {
         numPages,
         tableSpan,
@@ -21,6 +21,8 @@ function PageNavBar(
     }:NavProps
 ) {
     const [current, setCurrent] = React.useState(0);
+    const [lowerBound, setLowerBound] = React.useState<number>(1)
+    const [upperBound, setUpperBound] = React.useState<number>(1)
     const start = "˂˂"
     const down = "˂"
     const up = "˃"
@@ -50,13 +52,21 @@ function PageNavBar(
         }
     }
 
+    const setBounds = ()=>{
+        if (num <= span || cur <= Math.round(span/2)){
+            setLowerBound(1)
+            setUpperBound(num <= span ? num : span)
+        } else {
+            setLowerBound(cur <= (num-span) ? cur - (Math.round(span/2)-1) : num - span)
+            setUpperBound(cur <= (num-span) ? cur + Math.round(span/2) : num)
+        }
+    }
+
     const generatePageNav = () => {
         let content = [];
         let upperBound
         let lowerBound
         //console.log(`"numPages: " ${num} "cur: " ${cur} "span: "${span}`)
-        content.push(<button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>);
-        content.push(<button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>);
         if (num <= span || cur <= Math.round(span/2)){
             upperBound = num <= span ? num : span
             for (let i=1;i<upperBound; i++) {
@@ -72,13 +82,12 @@ function PageNavBar(
         if (num > span && upperBound < num){
             content.push(<button className="pageBox" key={"ellipsis"}>{ellipsis}</button>);
         }
-        content.push(<button id="up" onClick={pageHandler} className="pageBox" key={"up"}>{up}</button>);
-        content.push(<button id="end" onClick={pageHandler} className="pageBox" key={"end"}>{end}</button>);
         return content;
       };
 
       React.useEffect(()=>{
         setCurrentPage(1)
+
       },[])
 
       React.useEffect(()=>{
@@ -86,10 +95,15 @@ function PageNavBar(
       },[current])
 
     return (
-        <div className="PageNavBar">  
+        <div className="PageNavBar">
+            <button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>
+            <button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>
             {generatePageNav()}
+            <button id="up" onClick={pageHandler} className="pageBox" key={"up"}>{up}</button>
+            <button id="end" onClick={pageHandler} className="pageBox" key={"end"}>{end}</button>
+
         </div> 
     );
 }
 
-export default PageNavBar;
+export default NewPageNavBar;

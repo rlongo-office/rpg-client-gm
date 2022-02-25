@@ -2,10 +2,9 @@ import {useAppContext} from '../../../context/AppProvider'
 import * as React from 'react'
 
 interface RowsProps {
-  rows: Array<object>,
+  rows: Array<object>,  //will now be the entire dataset
   page: number,
   pageSize: number,
-  header: string
 }
 
 export default function Rows({rows, page, pageSize}: RowsProps) {
