@@ -74,7 +74,8 @@ function InnerPageNav(
             ))
         ) : (
           // ELSE
-          range(getLower(), getUpper())
+          //range(getLower(), getUpper())
+          range(lowerBound, upperBound)
             .map((val, idx) => (
               <button onClick={pageHandler} className="pageBox" key={`secondary-${idx}`}>
                 {idx + 1}
