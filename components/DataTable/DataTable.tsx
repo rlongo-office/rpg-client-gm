@@ -22,7 +22,7 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
-  data: Array<AnyObject> | undefined
+  data: Array<AnyObject>
 }
 
 interface TableProps {
@@ -39,6 +39,7 @@ function DataTable({config}: TableProps) {
   const [tableSpan, setTableSpan] = React.useState(8)
   const [colSortState, setColSortState] = React.useState<colSortObj[]>([]);
   const [sortChange, setSortChange] = React.useState(true)
+
   //{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1}
   const setCurrentPage = (page: number) => {
     setCurPage(page)
@@ -95,13 +96,20 @@ function DataTable({config}: TableProps) {
       const tempRows = addIndexColumn(config.data)
       setNewRows(tempRows)
       setFilteredRows(tempRows)
+      setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length / config.pageSize : Math.floor(filteredRows.length / config.pageSize) + 1)
     }
   }, [])
 
+  React.useEffect(() => {
+    const tempRows = addIndexColumn(config.data)
+    setNewRows(tempRows)
+    setFilteredRows(tempRows)
+    setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length / config.pageSize : Math.floor(filteredRows.length / config.pageSize) + 1)
+  }, [config.data]);
 
   React.useEffect(() => {
     setNumPages(filteredRows.length % config.pageSize === 0 ? filteredRows.length / config.pageSize : Math.floor(filteredRows.length / config.pageSize) + 1)
-  }, [filteredRows, curPage]);
+  }, [filteredRows, curPage, numPages]);
 
   return (
     <>
@@ -118,7 +126,7 @@ function DataTable({config}: TableProps) {
         }
       </div>
       <div>
-        <PageNavBar numPages={numPages} tableSpan={tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>
+        <NewPageNavBar numPages={numPages} tableSpan={tableSpan} setCurrentPage={setCurrentPage} page={curPage}/>
       </div>
 
     </>

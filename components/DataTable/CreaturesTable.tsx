@@ -9,7 +9,7 @@ interface configObj {
   stripe: boolean
   border: boolean
   pageSize: number
-  data: Array<AnyObject> | undefined
+  data: AnyObject[]
 }
 
 interface AnyObject {
