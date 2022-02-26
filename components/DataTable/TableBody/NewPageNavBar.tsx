@@ -1,4 +1,5 @@
 import * as React from 'react'
+import InnerPageNav from './InnerPageNav';
 
 interface InputProps {
     pageNums: number
@@ -31,8 +32,9 @@ function NewPageNavBar(
     const num = numPages
     const cur = current
     const span = tableSpan
+    const seq = [1,2,3,4,5,6,7,8]
 
-    function pageHandler(event: any){      
+    const pageHandler =(event: any)=>{      
 
        if (!(isNaN(event.target.innerText))){
             setCurrentPage(Number(event.target.innerText))
@@ -53,12 +55,12 @@ function NewPageNavBar(
     }
 
     const setBounds = ()=>{
-        if (num <= span || cur <= Math.round(span/2)){
+        if (numPages <= tableSpan || current <= Math.round(tableSpan/2)){
             setLowerBound(1)
-            setUpperBound(num <= span ? num : span)
+            setUpperBound(numPages <= tableSpan ? numPages : tableSpan)
         } else {
-            setLowerBound(cur <= (num-span) ? cur - (Math.round(span/2)-1) : num - span)
-            setUpperBound(cur <= (num-span) ? cur + Math.round(span/2) : num)
+            setLowerBound(current <= (numPages-tableSpan) ? cur - (Math.round(tableSpan/2)-1) : numPages - tableSpan)
+            setUpperBound(current <= (numPages-tableSpan) ? cur + Math.round(tableSpan/2) : numPages)
         }
     }
 
@@ -69,7 +71,7 @@ function NewPageNavBar(
         //console.log(`"numPages: " ${num} "cur: " ${cur} "span: "${span}`)
         if (num <= span || cur <= Math.round(span/2)){
             upperBound = num <= span ? num : span
-            for (let i=1;i<upperBound; i++) {
+            for (let i=1;i<=upperBound; i++) {
                 content.push(<button onClick={pageHandler} className="pageBox" key={i}>{i}</button>);
             }
         } else {
@@ -87,18 +89,26 @@ function NewPageNavBar(
 
       React.useEffect(()=>{
         setCurrentPage(1)
-
+        setBounds()
       },[])
 
       React.useEffect(()=>{
         console.log(current)
-      },[current])
+        setBounds()
+      },[current,numPages])
 
     return (
         <div className="PageNavBar">
             <button id="start" onClick={pageHandler} className="pageBox" key={"start"}>{start}</button>
             <button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>
-            {generatePageNav()}
+            <InnerPageNav
+                    lowerBound={lowerBound}
+                    upperBound={upperBound}
+                    num = {numPages}
+                    span ={tableSpan}
+                    cur ={current}
+                    pageHandler={pageHandler}
+            />
             <button id="up" onClick={pageHandler} className="pageBox" key={"up"}>{up}</button>
             <button id="end" onClick={pageHandler} className="pageBox" key={"end"}>{end}</button>
 
@@ -107,3 +117,17 @@ function NewPageNavBar(
 }
 
 export default NewPageNavBar;
+
+/*
+            {
+                seq.map(num=>{
+                    return (<button
+                        onClick={pageHandler}
+                        className="pageBox"
+                        key={num}
+                    >
+                    {num}
+                    </button> )
+                }) 
+            }
+*/

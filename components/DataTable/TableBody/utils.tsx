@@ -7,7 +7,7 @@ interface AnyObject {
 interface AnyObjArray extends Array<AnyObject> {
 }
 
-const addIndexColumn = (rows: AnyObjArray) => {
+const addIndexColumn = (rows: AnyObject[]) => {
   let recCount = 0
   let tempArray: AnyObjArray = []
   rows?.forEach((row) => {

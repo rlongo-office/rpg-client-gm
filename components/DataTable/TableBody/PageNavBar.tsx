@@ -59,7 +59,7 @@ function PageNavBar(
         content.push(<button id="down" onClick={pageHandler} className="pageBox" key={"down"}>{down}</button>);
         if (num <= span || cur <= Math.round(span/2)){
             upperBound = num <= span ? num : span
-            for (let i=1;i<upperBound; i++) {
+            for (let i=1;i<=upperBound; i++) {
                 content.push(<button onClick={pageHandler} className="pageBox" key={i}>{i}</button>);
             }
         } else {
