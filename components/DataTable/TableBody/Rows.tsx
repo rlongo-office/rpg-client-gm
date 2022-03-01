@@ -1,14 +1,14 @@
-import {useAppContext} from '../../../context/AppProvider'
+import { useAppContext } from '../../../context/AppProvider'
 import * as React from 'react'
 
 interface RowsProps {
-  rows: Array<object>,  //will now be the entire dataset
-  page: number,
-  pageSize: number,
+  rows: Array<object> //will now be the entire dataset
+  page: number
+  pageSize: number
 }
 
-export default function Rows({rows, page, pageSize}: RowsProps) {
-  const {setCreaturePageIDS} = useAppContext()
+export default function Rows({ rows, page, pageSize }: RowsProps) {
+  const { setCreaturePageIDS } = useAppContext()
 
   let tableSize: number = rows.length
   let pageStart: number = page === 1 ? 0 : (page - 1) * pageSize
@@ -22,31 +22,26 @@ export default function Rows({rows, page, pageSize}: RowsProps) {
 
   return (
     <>
-      {
-        pageOfRows.map((row: any, rowIndex: number) => (
-            <div
-              id={`row-id-${rowIndex}`}
-              className={'rowStyle'}
-              key={`row-key-${rowIndex}`}
-              onClick={setRecID}
-            >
-              {
-                Object.keys(row).map((key: any, cellIndex: number) => {
-                  return (
-                    <span
-                      className={'cellStyle'}
-                      id={`cell-id-${rowIndex}.${cellIndex}`}
-                      key={`cell-key-${rowIndex}.${cellIndex}`}
-                    >
-                      {row[key]}
-                    </span>
-                  )
-                })
-              }
-            </div>
-          )
-        )
-      }
+      {pageOfRows.map((row: any, rowIndex: number) => (
+        <div
+          id={`row-id-${rowIndex}`}
+          className={'rowStyle'}
+          key={`row-key-${rowIndex}`}
+          onClick={setRecID}
+        >
+          {Object.keys(row).map((key: any, cellIndex: number) => {
+            return (
+              <span
+                className={'cellStyle'}
+                id={`cell-id-${rowIndex}.${cellIndex}`}
+                key={`cell-key-${rowIndex}.${cellIndex}`}
+              >
+                {row[key]}
+              </span>
+            )
+          })}
+        </div>
+      ))}
     </>
   )
 }

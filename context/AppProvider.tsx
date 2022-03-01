@@ -1,8 +1,7 @@
 import * as Types from '../types/rpg-types'
-import { createContext, useContext, useState,useReducer } from 'react';
+import { createContext, useContext, useState, useReducer } from 'react'
 import creaturesData from '../data/collections/creatures.json'
 import * as React from 'react'
-
 
 interface AnyObject {
   [key: string]: any
@@ -11,73 +10,97 @@ interface AnyObject {
 type AppProviderProps = {
   children: React.ReactNode
 }
-const AppContext = React.createContext<any | undefined>(undefined)
 
-/*
-export const initialState ={
-    creatures:creatures,
-    actors:[],
-    testMessage:[],
-    recordID:{creaturePageID:-1} //Decided on an object that holds all the relevant PageIDs
+interface TableConfig {
+  tableID: string
+  sortColumns: Array<number>
+  header: Array<string>
+  stripe: boolean
+  border: boolean
+  pageSize: number
+  current: number
+  tableSpan: number
+  lowerBound: number
+  upperBound: number
+  data: Array<AnyObject>
 }
 
+interface ConfigObject {
+  [key: string]: TableConfig
+}
 
-export const appReducer = (state=initialState, action) => {
-    const {type, payload} = action
-    //const {creatures,actors,testMessage,creatureID} = state
-     switch(type){
-         case Types.ADD_ACTOR:
-             //Need to change the objID for this record
-             let index = state.actors.length   //since we are 0 based, length actually gives us current position
-             let newObjID = `${index+1}${payload.name}`  //should be unique enough for our purposes
-             payload._id["$oid"] = newObjID
-             console.log(payload)
-             return {
-               ...state,
-               actors:[...state.actors,payload]
-            }
-         case Types.ADD_CREATURE:
-            console.log("Add creature action type called in Reducer")
-             return {
-                ...state,
-                testMessage:[...state?.testMessage,"ADD_CREATURE"]
-            }
-        case Types.SET_CREATURE_ID:
-          console.log(payload)
-            return{
-                ...state,
-                recordID:{
-                  creaturePageID:payload
-                }
-            }
-          default: return state;
-     }
- };
-*/
+const AppContext = React.createContext<any | undefined>(undefined)
 
-export function AppProvider({children}:AppProviderProps){
-    const [creatures,setCreatures] = React.useState(creaturesData)
-    const [actors,setActors] = React.useState([])
-    const [creaturePageIDS, setCreaturePageIDS] = React.useState(-1)
+export function AppProvider({ children }: AppProviderProps) {
+  const bounds = { lowerBounds: 1, upperBounds: 10 }
+  const [creatures, setCreatures] = React.useState(creaturesData)
+  const [actors, setActors] = React.useState([])
+  const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
+    creatureConfig: {
+      tableID: 'creature',
+      sortColumns: [0, 1, 2, 3, 4],
+      header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
+      stripe: true,
+      border: true,
+      pageSize: 15,
+      current: 1,
+      tableSpan: 8,
+      lowerBound: 1,
+      upperBound: 8,
+      data: [],
+    },
+    actorConfig: {
+      tableID: 'actor',
+      sortColumns: [0, 1, 2, 3, 4],
+      header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
+      stripe: true,
+      border: true,
+      pageSize: 15,
+      current: 1,
+      tableSpan: 8,
+      lowerBound: 1,
+      upperBound: 8,
+      data: [],
+    },
+  })
+  /**
+   * Do this in your component to adjust these at the context-level:
+   *
+   * const { setTableConfig, tableConfig } = useAppContext()
+   *
+   * // DO SOME COOL REACT STUFF
+   *
+   * // CALL THIS IN A CALLBACK OR useEffect
+   * setTableConfig({
+   *   ...tableConfig,
+   *   creatures: { lowerBounds, upperBounds }
+   * })
+   */
+  const [creaturePageIDS, setCreaturePageIDS] = React.useState(-1)
 
-    const value = React.useMemo(() => ({
-      creatures,setCreatures,actors,setActors,creaturePageIDS,setCreaturePageIDS
-    }), [creatures,actors,creaturePageIDS])
+  const value = React.useMemo(
+    () => ({
+      creatures,
+      setCreatures,
+      actors,
+      setActors,
+      creaturePageIDS,
+      setCreaturePageIDS,
+      tableConfig,
+      setTableConfig,
+    }),
+    [creatures, actors, creaturePageIDS, tableConfig]
+  )
 
-    return (
-      <AppContext.Provider value={value}>
-        {children}
-      </AppContext.Provider>
-    )
-  
-  }
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+}
 
 export function useAppContext() {
-    const store = useContext(AppContext)
-    if (!store) {
-      throw ('Store is not defined')
-    }
-    return store;
+  const store = useContext(AppContext)
+  if (!store) {
+    throw 'Store is not defined'
   }
+  return store
+}
 
-  export default {AppProvider, useAppContext};
+export default { AppProvider, useAppContext }
