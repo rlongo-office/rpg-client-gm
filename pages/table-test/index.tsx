@@ -55,7 +55,7 @@ function TableTest() {
           <CreaturesTable/>
         </div>
         <div className="itemRight">
-          <CreaturesTable />
+          <ActorsTable />
         </div>
       </div>
       <div>

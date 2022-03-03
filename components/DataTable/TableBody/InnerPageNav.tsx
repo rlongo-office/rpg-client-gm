@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useAppContext } from '../../../context/AppProvider'
 
 interface InnerNavProps {
   lowerBound: number
@@ -23,20 +24,16 @@ interface InnerNavProps {
  * @param pageHandler
  * @constructor
  */
-function InnerPageNav(
-  {
-    lowerBound,
-    upperBound,
-    num,
-    span,
-    cur,
-    pageHandler
-  }: InnerNavProps
-) {
+interface NavProps {
+  tableID: string
+  numPages: number
+  pageHandler: React.MouseEventHandler<HTMLButtonElement>
+}
+
+function InnerPageNav({ tableID, numPages, pageHandler }: NavProps) {
   // Utility functions (prior to render):
-  const ellipsis = "…"
-  const getLower = () => cur <= (num - span) ? cur - (Math.round(span / 2) - 1) : num - span
-  const getUpper = () => cur <= (num - span) ? cur + Math.round(span / 2) : num
+  const { tableConfig, setTableConfig } = useAppContext()
+  const ellipsis = '…'
 
   /**
    * This is really just a wrapper (syntatical sugar) for initializing an array and filling it.
@@ -45,8 +42,7 @@ function InnerPageNav(
    * @param fillVal defaults to undefined
    */
   const initArray = (size: number, fillVal: number | string | undefined = undefined) => {
-    return new Array(size)
-      .fill(fillVal)
+    return new Array(size).fill(fillVal)
   }
 
   /**
@@ -57,39 +53,45 @@ function InnerPageNav(
    * @param end of range
    */
   const range = (start: number, end: number): Array<number> => {
-    return initArray(end - start + 1)
-      .map((_, idx) => start + idx)
+    return initArray(end - start + 1).map((_, idx) => start + idx)
   }
+
+  const { tableSpan, upperBound, lowerBound, current } = tableConfig[tableID]
+  const setRange = range(lowerBound, upperBound)
+
+  console.log('InnerPageNav lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
+  console.log('InnerPageNav upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
+
+  console.log("Range is ", setRange)
 
   return (
     <>
       {
         // IF
-        (num <= span || cur <= Math.round(span / 2)) ? (
-          initArray(num <= span ? num : span)
-            .map((val, idx) => (
+        numPages <= tableSpan || current <= Math.round(tableSpan / 2)
+          ? initArray(numPages <= tableSpan ? numPages : tableSpan).map((val, idx) => (
               <button onClick={pageHandler} className="pageBox" key={`main-${idx}`}>
                 {idx + 1}
               </button>
             ))
-        ) : (
-          // ELSE
-          //range(getLower(), getUpper())
-          range(lowerBound, upperBound)
-            .map((val, idx) => (
+          : // ELSE
+            //range(getLower(), getUpper())
+            setRange.map((val, idx) => (
               <button onClick={pageHandler} className="pageBox" key={`secondary-${idx}`}>
-                {idx + 1}
+                {val}
               </button>
             ))
-        )
       }
       {
         // IF
-        (num > span && upperBound < num) &&
-        <button className="pageBox" key={"ellipsis"}>{ellipsis}</button>
+        numPages > tableSpan && upperBound < numPages && (
+          <button className="pageBox" key={'ellipsis'}>
+            {ellipsis}
+          </button>
+        )
       }
     </>
   )
 }
 
-export default InnerPageNav;
+export default InnerPageNav

@@ -1,7 +1,7 @@
 import * as React from 'react'
-import DataTable from "./DataTable"
-import {useAppContext} from "../../context/AppProvider";
-import {parseDataForTable,addIndexColumn} from '../../components/DataTable/TableBody/utils'
+import DataTable from './DataTable'
+import { useAppContext } from '../../context/AppProvider'
+import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
 
 interface configObj {
   sortColumns: Array<number>
@@ -35,21 +35,34 @@ interface AnyObject {
  * @constructor
  */
 function CreaturesTable() {
+  const { creatures, tableConfig, setTableConfig } = useAppContext()
 
-  const {creatures,tableConfig,setTableConfig} = useAppContext()
-
-  const parsedActors = parseDataForTable(creatures, ["name", "type", "hit_dice", "challenge_rating"])
+  const parsedActors = parseDataForTable(creatures, [
+    'name',
+    'type',
+    'hit_dice',
+    'challenge_rating',
+  ])
 
   React.useEffect(() => {
-    let newConfig:TableConfig = tableConfig.creatureConfig
-      newConfig = {...newConfig,data: addIndexColumn(parseDataForTable(creatures, ["name", "type", "hit_dice", "challenge_rating"]))}
-      setTableConfig({...tableConfig,creatureConfig:newConfig})
-    },[creatures])
+    let newConfig: TableConfig = tableConfig.creatureConfig
+    newConfig = {
+      ...newConfig,
+      data: addIndexColumn(
+        parseDataForTable(creatures, ['name', 'type', 'hit_dice', 'challenge_rating'])
+      ),
+    }
+    setTableConfig({ ...tableConfig, creatureConfig: newConfig })
+  }, [creatures])
+
+  React.useEffect(() => {
+
+  }, [tableConfig])
 
   return (
     <>
       <h2>Creatures Table</h2>
-      <DataTable config={tableConfig.creatureConfig}/>
+      <DataTable config={tableConfig.creatureConfig} />
     </>
   )
 }

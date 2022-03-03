@@ -1,85 +1,95 @@
 import * as React from 'react'
 import InnerPageNav from './InnerPageNav'
+import { useAppContext } from '../../../context/AppProvider'
 
 interface InputProps {
   pageNums: number
   setCurrentPage: Function
 }
 
-interface NavProps {
-  numPages: number
-  tableSpan: number
-  setCurrentPage: Function
-  page: number
-  lowerBound: number
-  upperBound: number
+interface AnyObject {
+  [key: string]: any
 }
 
-function NewPageNavBar({
-  numPages,
-  tableSpan,
-  setCurrentPage,
-  page,
-  lowerBound,
-  upperBound,
-}: NavProps) {
-  const [btnText, setBtnText] = React.useState<object>({ text: '1', id: '1' })
+interface TableConfig {
+  tableID: string
+  sortColumns: Array<number>
+  header: Array<string>
+  stripe: boolean
+  border: boolean
+  pageSize: number
+  current: number
+  tableSpan: number
+  lowerBound: number
+  upperBound: number
+  data: Array<AnyObject>
+}
+
+interface NavProps {
+  tableID: string
+  numPages: number
+}
+
+function NewPageNavBar({ tableID, numPages }: NavProps) {
+  const { tableConfig, setTableConfig } = useAppContext()
+  //console.log('lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
+  //console.log('upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
+  const [parentConfig, setParentConfig] = React.useState<TableConfig>(tableConfig[tableID])
   const [current, setCurrent] = React.useState(0)
   const start = '˂˂'
   const down = '˂'
   const up = '˃'
   const end = '˃˃'
   const ellipsis = '…'
-  const num = numPages
-  const cur = current
-  const span = tableSpan
-  const seq = [1, 2, 3, 4, 5, 6, 7, 8]
 
   const pageHandler = (e: any) => {
-    setBtnText({ text: e.target.innerText, id: e.target.id })
+    let current = getPage(e)
+    let { low, upp } = setBounds(current)
+    setTableConfig({
+      ...tableConfig,
+      [tableID]: {
+        ...tableConfig[tableID],
+        current: current,
+        lowerBound: low,
+        upperBound: upp,
+      },
+    })
   }
-  const pageMutator = (e: any) => {
-    if (!isNaN(e.target.innerText)) {
-      setCurrentPage(Number(e.target.innerText))
-      setCurrent(Number(e.target.innerText))
-    } else {
-      switch (e.target.id) {
-        case 'start':
-          setCurrentPage(1)
-          break
-        case 'down':
-          setCurrent(current == 1 ? 1 : current - 1)
-          console.log('down arrow page:' + current)
-          setCurrentPage(current)
-          break
-        case 'up':
-          setCurrent(current === numPages ? numPages : current + 1)
-          setCurrentPage(current)
-          break
-        case 'end':
-          setCurrentPage(numPages)
-          break
-      }
+
+  const getPage = (e: any) => {
+    let current: number = tableConfig[tableID].current
+    const directions: any = {
+      start: 1,
+      down: current == 1 ? 1 : current - 1,
+      up: current === numPages ? numPages : current + 1,
+      end: numPages,
     }
+    return !isNaN(e.target.innerText) ? Number(e.target.innerText) : directions[e.target.id]
+  }
+
+  const setBounds = (current: number) => {
+    let low: number = 0
+    let upp: number = 1
+    let tableSpan = tableConfig[tableID].tableSpan
+    if (numPages <= tableSpan || current <= Math.round(tableSpan / 2)) {
+      low = 1
+      upp = numPages <= tableSpan ? numPages : tableSpan
+    } else {
+      low =
+        current <= numPages - tableSpan
+          ? current - (Math.round(tableSpan / 2) - 1)
+          : numPages - tableSpan
+      upp = current <= numPages - tableSpan ? current + Math.round(tableSpan / 2) : numPages
+    }
+    return { low, upp }
   }
 
   /**
    * @See InnerPageNav
    */
 
-  React.useEffect(() => {
-    setCurrentPage(1)
-  }, [])
-
-  React.useEffect(() => {
-    console.log(current)
-  }, [page, numPages])
-
-  React.useEffect(() => {
-    if (btnText) {
-      setCurrentPage(btnText)
-    }
-  }, [btnText])
+  console.log('NewPageNavBar lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
+  console.log('NewPageNavBar upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
 
   return (
     <div className="PageNavBar">
@@ -90,11 +100,8 @@ function NewPageNavBar({
         {down}
       </button>
       <InnerPageNav
-        lowerBound={lowerBound}
-        upperBound={upperBound}
-        num={numPages}
-        span={tableSpan}
-        cur={page}
+        tableID={tableConfig[tableID].tableID}
+        numPages={numPages}
         pageHandler={pageHandler}
       />
       <button id="up" onClick={pageHandler} className="pageBox" key={'up'}>

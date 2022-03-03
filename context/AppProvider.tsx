@@ -37,7 +37,7 @@ export function AppProvider({ children }: AppProviderProps) {
   const [actors, setActors] = React.useState([])
   const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
     creatureConfig: {
-      tableID: 'creature',
+      tableID: 'creatureConfig',
       sortColumns: [0, 1, 2, 3, 4],
       header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
       stripe: true,
@@ -50,7 +50,7 @@ export function AppProvider({ children }: AppProviderProps) {
       data: [],
     },
     actorConfig: {
-      tableID: 'actor',
+      tableID: 'actorConfig',
       sortColumns: [0, 1, 2, 3, 4],
       header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
       stripe: true,
@@ -78,6 +78,7 @@ export function AppProvider({ children }: AppProviderProps) {
    */
   const [creaturePageIDS, setCreaturePageIDS] = React.useState(-1)
 
+  /*
   const value = React.useMemo(
     () => ({
       creatures,
@@ -91,6 +92,18 @@ export function AppProvider({ children }: AppProviderProps) {
     }),
     [creatures, actors, creaturePageIDS, tableConfig]
   )
+  */
+
+  const value = {
+    creatures,
+    setCreatures,
+    actors,
+    setActors,
+    creaturePageIDS,
+    setCreaturePageIDS,
+    tableConfig,
+    setTableConfig,
+  }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

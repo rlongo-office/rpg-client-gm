@@ -64,7 +64,7 @@ function DataTable({ config }: TableProps) {
       //setCurPage(getPage(e))
       setTableConfig({
         ...tableConfig,
-        creature: { ...tableConfig.creatureConfig, current: getPage(e) },
+        creatures: { ...tableConfig[config.tableID], current: getPage(e) },
       })
     }
   }
@@ -80,17 +80,18 @@ function DataTable({ config }: TableProps) {
   }
 
   const setBounds = () => {
+    debugger
     let low: number = 0
     let upp: number = 1
-    if (numPages <= tableSpan || curPage <= Math.round(tableSpan / 2)) {
+    if (numPages <= config.tableSpan || config.current <= Math.round(config.tableSpan / 2)) {
       low = 1
-      upp = numPages <= tableSpan ? numPages : tableSpan
+      upp = numPages <= config.tableSpan ? numPages : config.tableSpan
     } else {
       low =
-        curPage <= numPages - tableSpan
-          ? curPage - (Math.round(tableSpan / 2) - 1)
-          : numPages - tableSpan
-      upp = curPage <= numPages - tableSpan ? curPage + Math.round(tableSpan / 2) : numPages
+      config.current <= numPages - config.tableSpan
+          ? config.current - (Math.round(config.tableSpan / 2) - 1)
+          : numPages - config.tableSpan
+      upp = config.current <= numPages - config.tableSpan ? config.current + Math.round(config.tableSpan / 2) : numPages
     }
     setTableConfig({
       ...tableConfig,
@@ -171,8 +172,7 @@ function DataTable({ config }: TableProps) {
         ? filteredRows.length / config.pageSize
         : Math.floor(filteredRows.length / config.pageSize) + 1
     )
-    setBounds()
-  }, [config.data])
+  }, [config])
 
   React.useEffect(() => {
     setNumPages(
@@ -180,8 +180,8 @@ function DataTable({ config }: TableProps) {
         ? filteredRows.length / config.pageSize
         : Math.floor(filteredRows.length / config.pageSize) + 1
     )
-    setBounds()
-  }, [filteredRows, tableConfig, numPages])
+    //setBounds()
+  }, [filteredRows, numPages])
 
   return (
     <>
@@ -198,12 +198,8 @@ function DataTable({ config }: TableProps) {
       </div>
       <div>
         <NewPageNavBar
+          tableID={tableConfig[config.tableID].tableID}
           numPages={numPages}
-          tableSpan={config.tableSpan}
-          setCurrentPage={setCurrentPage}
-          page={config.current}
-          lowerBound={config.lowerBound}
-          upperBound={config.upperBound}
         />
       </div>
     </>
