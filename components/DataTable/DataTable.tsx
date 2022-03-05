@@ -52,11 +52,8 @@ function DataTable({ config }: TableProps) {
   const [filteredRows, setFilteredRows] = React.useState<AnyObject[]>(config.data || [])
   const [curPage, setCurPage] = React.useState<number>(1)
   const [numPages, setNumPages] = React.useState(9)
-  const [tableSpan, setTableSpan] = React.useState(8)
   const [colSortState, setColSortState] = React.useState<colSortObj[]>([])
   const [sortChange, setSortChange] = React.useState(true)
-  const [lowerBound, setLowerBound] = React.useState<number>(1)
-  const [upperBound, setUpperBound] = React.useState<number>(8)
 
   //{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1},{col: true, dir: 1}
   const setCurrentPage = (e: any) => {
@@ -64,7 +61,7 @@ function DataTable({ config }: TableProps) {
       //setCurPage(getPage(e))
       setTableConfig({
         ...tableConfig,
-        creatures: { ...tableConfig[config.tableID], current: getPage(e) },
+        [config.tableID]: { ...tableConfig[config.tableID], current: getPage(e) },
       })
     }
   }
@@ -88,14 +85,17 @@ function DataTable({ config }: TableProps) {
       upp = numPages <= config.tableSpan ? numPages : config.tableSpan
     } else {
       low =
-      config.current <= numPages - config.tableSpan
+        config.current <= numPages - config.tableSpan
           ? config.current - (Math.round(config.tableSpan / 2) - 1)
           : numPages - config.tableSpan
-      upp = config.current <= numPages - config.tableSpan ? config.current + Math.round(config.tableSpan / 2) : numPages
+      upp =
+        config.current <= numPages - config.tableSpan
+          ? config.current + Math.round(config.tableSpan / 2)
+          : numPages
     }
     setTableConfig({
       ...tableConfig,
-      creature: { ...tableConfig.creatureConfig, lowerBound: low, upperBound: upp },
+      [config.tableID]: { ...tableConfig[config.tableID], lowerBound: low, upperBound: upp },
     })
   }
 
@@ -125,7 +125,7 @@ function DataTable({ config }: TableProps) {
     setColSortState(colSortArray)
     setTableConfig({
       ...tableConfig,
-      creature: { ...tableConfig.creatureConfig, current: 1 },
+      [config.tableID]: { ...tableConfig[config.tableID], current: 1 },
     })
     //setCurPage(1)
     setSortChange(!sortChange)
@@ -140,7 +140,7 @@ function DataTable({ config }: TableProps) {
     setFilteredRows(tempRows)
     setTableConfig({
       ...tableConfig,
-      creature: { ...tableConfig.creatureConfig, current: 1 },
+      [config.tableID]: { ...tableConfig[config.tableID], current: 1 },
     })
     //setCurPage(1)
   }
@@ -193,14 +193,12 @@ function DataTable({ config }: TableProps) {
             rows={filteredRows.length > 0 ? filteredRows : config.data}
             page={config.current}
             pageSize={config.pageSize}
+            tableID = {config.tableID}
           />
         )}
       </div>
       <div>
-        <NewPageNavBar
-          tableID={tableConfig[config.tableID].tableID}
-          numPages={numPages}
-        />
+        <NewPageNavBar tableID={config.tableID} numPages={numPages} />
       </div>
     </>
   )

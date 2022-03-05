@@ -22,6 +22,7 @@ interface TableConfig {
   tableSpan: number
   lowerBound: number
   upperBound: number
+  selected: Array<number>
   data: Array<AnyObject>
 }
 
@@ -47,6 +48,7 @@ export function AppProvider({ children }: AppProviderProps) {
       tableSpan: 8,
       lowerBound: 1,
       upperBound: 8,
+      selected: [1],
       data: [],
     },
     actorConfig: {
@@ -60,50 +62,30 @@ export function AppProvider({ children }: AppProviderProps) {
       tableSpan: 8,
       lowerBound: 1,
       upperBound: 8,
+      selected: [1],
       data: [],
     },
   })
-  /**
-   * Do this in your component to adjust these at the context-level:
-   *
-   * const { setTableConfig, tableConfig } = useAppContext()
-   *
-   * // DO SOME COOL REACT STUFF
-   *
-   * // CALL THIS IN A CALLBACK OR useEffect
-   * setTableConfig({
-   *   ...tableConfig,
-   *   creatures: { lowerBounds, upperBounds }
-   * })
-   */
-  const [creaturePageIDS, setCreaturePageIDS] = React.useState(-1)
-
-  /*
-  const value = React.useMemo(
+/*   const value = React.useMemo(
     () => ({
       creatures,
       setCreatures,
       actors,
       setActors,
-      creaturePageIDS,
-      setCreaturePageIDS,
       tableConfig,
       setTableConfig,
     }),
-    [creatures, actors, creaturePageIDS, tableConfig]
-  )
-  */
+    [creatures, actors, tableConfig]
+  ) */
 
   const value = {
-    creatures,
-    setCreatures,
-    actors,
-    setActors,
-    creaturePageIDS,
-    setCreaturePageIDS,
-    tableConfig,
-    setTableConfig,
-  }
+      creatures,
+      setCreatures,
+      actors,
+      setActors,
+      tableConfig,
+      setTableConfig,
+    }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

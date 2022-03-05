@@ -3,16 +3,8 @@ import DataTable from './DataTable'
 import { useAppContext } from '../../context/AppProvider'
 import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
 
-interface configObj {
-  sortColumns: Array<number>
-  header: Array<string>
-  stripe: boolean
-  border: boolean
-  pageSize: number
-  data: AnyObject[]
-}
-
 interface TableConfig {
+  tableID: string
   sortColumns: Array<number>
   header: Array<string>
   stripe: boolean
@@ -22,6 +14,7 @@ interface TableConfig {
   tableSpan: number
   lowerBound: number
   upperBound: number
+  selected: Array<number>
   data: Array<AnyObject>
 }
 
@@ -37,14 +30,14 @@ interface AnyObject {
 function CreaturesTable() {
   const { creatures, tableConfig, setTableConfig } = useAppContext()
 
-  const parsedActors = parseDataForTable(creatures, [
+  /*   const parsedActors = parseDataForTable(creatures, [
     'name',
     'type',
     'hit_dice',
     'challenge_rating',
-  ])
+  ]) */
 
-  React.useEffect(() => {
+  const setTableData = () => {
     let newConfig: TableConfig = tableConfig.creatureConfig
     newConfig = {
       ...newConfig,
@@ -53,11 +46,15 @@ function CreaturesTable() {
       ),
     }
     setTableConfig({ ...tableConfig, creatureConfig: newConfig })
-  }, [creatures])
+  }
 
   React.useEffect(() => {
+    setTableData()
+  }, [])
 
-  }, [tableConfig])
+  React.useEffect(() => {
+    setTableData()
+  }, [creatures])
 
   return (
     <>

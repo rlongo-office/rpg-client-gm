@@ -29,7 +29,6 @@ interface NavProps {
   numPages: number
   pageHandler: React.MouseEventHandler<HTMLButtonElement>
 }
-
 function InnerPageNav({ tableID, numPages, pageHandler }: NavProps) {
   // Utility functions (prior to render):
   const { tableConfig, setTableConfig } = useAppContext()
@@ -59,10 +58,10 @@ function InnerPageNav({ tableID, numPages, pageHandler }: NavProps) {
   const { tableSpan, upperBound, lowerBound, current } = tableConfig[tableID]
   const setRange = range(lowerBound, upperBound)
 
-  console.log('InnerPageNav lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
+/*   console.log('InnerPageNav lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
   console.log('InnerPageNav upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
 
-  console.log("Range is ", setRange)
+  console.log("Range is ", setRange) */
 
   return (
     <>

@@ -5,10 +5,12 @@ interface RowsProps {
   rows: Array<object> //will now be the entire dataset
   page: number
   pageSize: number
+  tableID: string
 }
 
-export default function Rows({ rows, page, pageSize }: RowsProps) {
-  const { setCreaturePageIDS } = useAppContext()
+export default function Rows({ rows, page, pageSize,tableID }: RowsProps) {
+  //const { setCreaturePageIDS } = useAppContext()
+  const { tableConfig, setTableConfig } = useAppContext()
 
   let tableSize: number = rows.length
   let pageStart: number = page === 1 ? 0 : (page - 1) * pageSize
@@ -16,8 +18,13 @@ export default function Rows({ rows, page, pageSize }: RowsProps) {
   const pageOfRows = rows.slice(pageStart, pageEnd)
 
   const setRecID = (event: React.MouseEvent<HTMLDivElement>) => {
+    let selected:Array<number> = []
     // Replaced innerText with innerHTML since the HTMLDivElement doesn't support innerText (this should work)
-    setCreaturePageIDS(parseInt(event.currentTarget.children[0].innerHTML))
+    selected = [...selected,parseInt(event.currentTarget.children[0].innerHTML)]
+    setTableConfig({
+      ...tableConfig,
+      [tableID]: { ...tableConfig[tableID], selected:selected },
+    })
   }
 
   return (

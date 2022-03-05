@@ -1,14 +1,19 @@
 import * as React from 'react'
-import DataTable from "./DataTable"
-import {useAppContext} from "../../context/AppProvider";
-import {parseDataForTable,addIndexColumn} from '../../components/DataTable/TableBody/utils'
+import DataTable from './DataTable'
+import { useAppContext } from '../../context/AppProvider'
+import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
 
-interface configObj {
+interface TableConfig {
   sortColumns: Array<number>
   header: Array<string>
   stripe: boolean
   border: boolean
   pageSize: number
+  current: number
+  tableSpan: number
+  lowerBound: number
+  upperBound: number
+  selected: Array<number>
   data: Array<AnyObject>
 }
 
@@ -22,21 +27,29 @@ interface AnyObject {
  * @constructor
  */
 function ActorsTable() {
+  const { actors, tableConfig, setTableConfig } = useAppContext()
 
-  const {actors} = useAppContext()
-  const [config, setConfig] = React.useState<configObj>({
-    sortColumns: [0, 1, 2, 3, 4],
-    header: ["id","name", "type", "hit_dice", "challenge_rating"],
-    stripe: true,
-    border: true,
-    pageSize: 15,
-    data: []
-    //headerObject which includes the columns passed for header Component
-  });
-
-  const parsedActors = parseDataForTable(actors, ["name", "type", "hit_dice", "challenge_rating"])
+  //const parsedActors = parseDataForTable(actors, ["name", "type", "hit_dice", "challenge_rating"])
+  const setTableData = () => {
+    let newConfig: TableConfig = tableConfig.actorConfig
+    newConfig = {
+      ...newConfig,
+      data: addIndexColumn(
+        parseDataForTable(actors, ['name', 'type', 'hit_dice', 'challenge_rating'])
+      ),
+    }
+    setTableConfig({ ...tableConfig, actorConfig: newConfig })
+  }
 
   React.useEffect(() => {
+    setTableData()
+  }, [])
+
+  React.useEffect(() => {
+    setTableData()
+  }, [actors])
+
+  /*   React.useEffect(() => {
     let actorsTableConfig = {
       sortColumns: [0, 1, 2, 3, 4],
       header: ["id","name", "type", "hit_dice", "challenge_rating"],
@@ -47,12 +60,12 @@ function ActorsTable() {
       //headerObject which includes the columns passed for header Component
     }
     setConfig(actorsTableConfig)
-  }, [actors])
+  }, [actors]) */
 
   return (
     <>
       <h2>Actors Table</h2>
-      <DataTable config={config}/>
+      <DataTable config={tableConfig.actorConfig} />
     </>
   )
 }

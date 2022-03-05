@@ -22,6 +22,7 @@ interface TableConfig {
   tableSpan: number
   lowerBound: number
   upperBound: number
+  selected: Array<number>
   data: Array<AnyObject>
 }
 
@@ -34,8 +35,6 @@ function NewPageNavBar({ tableID, numPages }: NavProps) {
   const { tableConfig, setTableConfig } = useAppContext()
   //console.log('lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
   //console.log('upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
-  const [parentConfig, setParentConfig] = React.useState<TableConfig>(tableConfig[tableID])
-  const [current, setCurrent] = React.useState(0)
   const start = '˂˂'
   const down = '˂'
   const up = '˃'
@@ -88,8 +87,8 @@ function NewPageNavBar({ tableID, numPages }: NavProps) {
    * @See InnerPageNav
    */
 
-  console.log('NewPageNavBar lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
-  console.log('NewPageNavBar upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
+  //console.log('NewPageNavBar lowerBound: ', JSON.stringify(tableConfig[tableID].lowerBound))
+  //console.log('NewPageNavBar upperBound: ', JSON.stringify(tableConfig[tableID].upperBound))
 
   return (
     <div className="PageNavBar">
@@ -100,7 +99,7 @@ function NewPageNavBar({ tableID, numPages }: NavProps) {
         {down}
       </button>
       <InnerPageNav
-        tableID={tableConfig[tableID].tableID}
+        tableID={tableID}
         numPages={numPages}
         pageHandler={pageHandler}
       />
@@ -115,17 +114,3 @@ function NewPageNavBar({ tableID, numPages }: NavProps) {
 }
 
 export default NewPageNavBar
-
-/*
-            {
-                seq.map(num=>{
-                    return (<button
-                        onClick={pageHandler}
-                        className="pageBox"
-                        key={num}
-                    >
-                    {num}
-                    </button> )
-                })
-            }
-*/
