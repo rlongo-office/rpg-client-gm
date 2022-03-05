@@ -1,7 +1,7 @@
-import * as Types from '../types/rpg-types'
-import { createContext, useContext, useState, useReducer } from 'react'
+import {useContext} from 'react'
 import creaturesData from '../data/collections/creatures.json'
 import * as React from 'react'
+import {parseDataForTable} from "../components/DataTable/TableBody/utils";
 
 interface AnyObject {
   [key: string]: any
@@ -32,41 +32,37 @@ interface ConfigObject {
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
-export function AppProvider({ children }: AppProviderProps) {
-  const bounds = { lowerBounds: 1, upperBounds: 10 }
+export function AppProvider({children}: AppProviderProps) {
   const [creatures, setCreatures] = React.useState(creaturesData)
   const [actors, setActors] = React.useState([])
+
+  const sharedTableConfig = {
+    sortColumns: [0, 1, 2, 3, 4],
+    header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
+    stripe: true,
+    border: true,
+    pageSize: 15,
+    current: 1,
+    tableSpan: 8,
+    lowerBound: 1,
+    upperBound: 8,
+    selected: [1],
+  }
+
   const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
     creatureConfig: {
+      ...sharedTableConfig,
       tableID: 'creatureConfig',
-      sortColumns: [0, 1, 2, 3, 4],
-      header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
-      stripe: true,
-      border: true,
-      pageSize: 15,
-      current: 1,
-      tableSpan: 8,
-      lowerBound: 1,
-      upperBound: 8,
-      selected: [1],
-      data: [],
+      data: parseDataForTable(creaturesData, ['name', 'type', 'hit_dice', 'challenge_rating']),
     },
     actorConfig: {
+      ...sharedTableConfig,
       tableID: 'actorConfig',
-      sortColumns: [0, 1, 2, 3, 4],
-      header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
-      stripe: true,
-      border: true,
-      pageSize: 15,
-      current: 1,
-      tableSpan: 8,
-      lowerBound: 1,
-      upperBound: 8,
-      selected: [1],
       data: [],
     },
   })
-/*   const value = React.useMemo(
+
+  const value = React.useMemo(
     () => ({
       creatures,
       setCreatures,
@@ -76,16 +72,7 @@ export function AppProvider({ children }: AppProviderProps) {
       setTableConfig,
     }),
     [creatures, actors, tableConfig]
-  ) */
-
-  const value = {
-      creatures,
-      setCreatures,
-      actors,
-      setActors,
-      tableConfig,
-      setTableConfig,
-    }
+  )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

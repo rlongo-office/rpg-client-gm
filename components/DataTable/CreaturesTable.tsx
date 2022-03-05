@@ -48,14 +48,12 @@ function CreaturesTable() {
     setTableConfig({ ...tableConfig, creatureConfig: newConfig })
   }
 
-  React.useEffect(() => {
-    setTableData()
-  }, [])
-
+  // This gets called during initial DOM render no matter what
   React.useEffect(() => {
     setTableData()
   }, [creatures])
 
+  debugger
   return (
     <>
       <h2>Creatures Table</h2>
