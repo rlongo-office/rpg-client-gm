@@ -65,7 +65,7 @@ function ActorsTable() {
   return (
     <>
       <h2>Actors Table</h2>
-      <DataTable config={tableConfig.actorConfig} />
+      <DataTable tableID={'actorConfig'} />
     </>
   )
 }

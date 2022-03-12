@@ -41,11 +41,12 @@ interface configObj {
 }
 
 interface TableProps {
-  config: TableConfig
+  tableID: 'creatureConfig' | 'actorConfig'
 }
 
-function DataTable({ config }: TableProps) {
+function DataTable({tableID }: TableProps ) {
   const { tableConfig, setTableConfig } = useAppContext()
+  const config = tableConfig[tableID]
   const [isStriped, setIsStriped] = React.useState(true)
   const [filter, setFilter] = React.useState('')
   const [newRows, setNewRows] = React.useState<AnyObject[]>([])
@@ -152,9 +153,8 @@ function DataTable({ config }: TableProps) {
     })
     setColSortState(sortObjectArray)
     if (config && config.data && config.data.length > 0) {
-      const tempRows = addIndexColumn(config.data)
-      setNewRows(tempRows)
-      setFilteredRows(tempRows)
+      setNewRows(config.data)
+      setFilteredRows(config.data)
       setNumPages(
         filteredRows.length % config.pageSize === 0
           ? filteredRows.length / config.pageSize
@@ -164,9 +164,9 @@ function DataTable({ config }: TableProps) {
   }, [])
 
   React.useEffect(() => {
-    const tempRows = addIndexColumn(config.data)
-    setNewRows(tempRows)
-    setFilteredRows(tempRows)
+    //const tempRows = addIndexColumn(config.data)
+    setNewRows(config.data)
+    setFilteredRows(config.data)
     setNumPages(
       filteredRows.length % config.pageSize === 0
         ? filteredRows.length / config.pageSize

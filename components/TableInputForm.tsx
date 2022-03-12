@@ -21,16 +21,21 @@ interface props {
 function TableInputForm({ source, target }: props) {
   const { creatures, actors, setActors, tableConfig } = useAppContext()
   const [inputValues, setInputValues] = React.useState<object>({})
+  const inputRefs = React.useRef<JSX.Element[]>([])
 
   const createActor = () => {
-    let actor: any = deepCopy(source)
+    const record = creatures[tableConfig[source].selected[0]]
+    let actor: any = deepCopy(record)
     Object.entries(inputValues).forEach(([key, value]) => {
       setObjValue(actor, key, value)
     })
-
     const newActors = [...actors, createObjID(actors, actor)]
-    setActors(parseDataForTable(newActors, ['name', 'type', 'hit_dice', 'challenge_rating']))
-    setInputValues({})
+    setActors(newActors)
+    //setInputValues({}) Deciding not to autom clear the input values, instead all user choice to revert to original object values
+  }
+
+  const resetValues = () =>{
+    console.log(inputRefs)
   }
 
   const storeInput = (event: any) => {
@@ -59,6 +64,7 @@ function TableInputForm({ source, target }: props) {
           placeholder: getObjValue(record, path, 'none'),
           onKeyPress: storeInput,
           type: 'text',
+          ref: (e:JSX.Element)=>inputRefs.current.push(e),
           autoFocus: true,
         }
 
@@ -71,9 +77,14 @@ function TableInputForm({ source, target }: props) {
     }
   }
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [tableConfig])
+
   return (
     <>
       <button onClick={createActor}>Create Actor</button>
+      <button onClick={resetValues}>Reset values</button>
       <div className="InputPage inputStriped">
         {renderInputForm()}
       </div>

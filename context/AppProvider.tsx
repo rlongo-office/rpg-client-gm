@@ -38,7 +38,8 @@ export function AppProvider({children}: AppProviderProps) {
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
-    header: ['id', 'name', 'type', 'hit_dice', 'challenge_rating'],
+    header: ['Name', 'Type', 'Hit Dice', 'Challenge Rating'],
+    filtered:['_id.$oid','name', 'type', 'hit_dice', 'challenge_rating'],
     stripe: true,
     border: true,
     pageSize: 15,
@@ -53,7 +54,7 @@ export function AppProvider({children}: AppProviderProps) {
     creatureConfig: {
       ...sharedTableConfig,
       tableID: 'creatureConfig',
-      data: parseDataForTable(creaturesData, ['name', 'type', 'hit_dice', 'challenge_rating']),
+      data: parseDataForTable(creaturesData, sharedTableConfig.filtered),
     },
     actorConfig: {
       ...sharedTableConfig,

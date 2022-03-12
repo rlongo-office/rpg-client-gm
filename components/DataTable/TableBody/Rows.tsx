@@ -31,13 +31,13 @@ export default function Rows({ rows, page, pageSize,tableID }: RowsProps) {
     <>
       {pageOfRows.map((row: any, rowIndex: number) => (
         <div
-          id={`row-id-${rowIndex}`}
+          id={`row-id-${row.id}`}
           className={'rowStyle'}
           key={`row-key-${rowIndex}`}
           onClick={setRecID}
         >
           {Object.keys(row).map((key: any, cellIndex: number) => {
-            return (
+            return key !== 'id' && (
               <span
                 className={'cellStyle'}
                 id={`cell-id-${rowIndex}.${cellIndex}`}

@@ -42,7 +42,12 @@ const parseDataForTable = (data: Array<AnyObject>, columnKeys: Array<string>) =>
   newData = data.map(row => {
     let rowObj: AnyObject = {}
     columnKeys.forEach(key => {
-      rowObj[key] = row[key]
+      //a key is path in format of a[1].b.c.d[5].f[4]
+      if (key === '_id.$oid') {
+        rowObj['id'] = getObjValue(row, key, 'none')
+      } else {
+        rowObj[key] = getObjValue(row, key, 'none')
+      }
     })
     return rowObj
   })
@@ -148,6 +153,7 @@ const stringToPath = function (path: any) {
 }
 
 const getObjValue = function (obj: any, path: string, def: any) {
+  //path is string like a[3].b.c[6].d  etc  creatures[a[3].d]
   /**
    * If the path is a string, convert it to an array
    * @param  {String|Array} path The path
