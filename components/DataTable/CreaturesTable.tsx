@@ -47,7 +47,6 @@ function CreaturesTable() {
     setTableConfig({ ...tableConfig, creatureConfig: newConfig })
   } */
 
-  debugger
   return (
     <>
       <h2>Creatures Table</h2>

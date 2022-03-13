@@ -42,11 +42,9 @@ function ActorsTable() {
   }
 
   React.useEffect(() => {
-    setTableData()
   }, [])
 
   React.useEffect(() => {
-    setTableData()
   }, [actors])
 
   /*   React.useEffect(() => {

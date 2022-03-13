@@ -199,11 +199,11 @@ type CreatureType = {
   name: string
 }
 
-const createObjID = (creatures: Array<CreatureType>, creature: CreatureType) => {
-  let index = creatures.length //since we are 0 based, length actually gives us current position
+const createObjID = (data: AnyObject[], record: AnyObject) => {
+  let index = data.length //since we are 0 based, length actually gives us current position
   // should be unique enough for our purposes
-  creature._id['$oid'] = index + creature.name
-  return creature
+  record._id['$oid'] = index + record.name
+  return record
 }
 
 export {

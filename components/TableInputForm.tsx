@@ -19,22 +19,34 @@ interface props {
 }
 
 function TableInputForm({ source, target }: props) {
-  const { creatures, actors, setActors, tableConfig } = useAppContext()
+  const { creatures, actors, setActors, tableConfig,reducer } = useAppContext()
+  const[currentRecord,setCurrentRecord] = React.useState<AnyObject>()
   const [inputValues, setInputValues] = React.useState<object>({})
   const inputRefs = React.useRef<JSX.Element[]>([])
 
+  const getRecord = (data:AnyObject[])=>{
+    const selectedID = tableConfig[source].selected[0]
+    const idPath = tableConfig[source].filtered[0]
+    const filtered = (data.filter((row: AnyObject) => {
+      const iDOfRecord = getObjValue(row, idPath, 0)
+      return(iDOfRecord == selectedID)
+      }))
+    return filtered[0]
+    }
+    
   const createActor = () => {
-    const record = creatures[tableConfig[source].selected[0]]
+    const record = getRecord(creatures)
     let actor: any = deepCopy(record)
     Object.entries(inputValues).forEach(([key, value]) => {
       setObjValue(actor, key, value)
     })
-    const newActors = [...actors, createObjID(actors, actor)]
-    setActors(newActors)
-    //setInputValues({}) Deciding not to autom clear the input values, instead all user choice to revert to original object values
+    reducer('addActor',actor)
+    //const newActors = [...actors, createObjID(actors, actor)]
+    //setActors(newActors)
+    //setInputValues({})
   }
 
-  const resetValues = () =>{
+  const resetValues = () => {
     console.log(inputRefs)
   }
 
@@ -49,8 +61,8 @@ function TableInputForm({ source, target }: props) {
 
   const renderInputForm = () => {
     if (tableConfig[source].selected.length > 0) {
-      const record = creatures[tableConfig[source].selected[0]]
-
+      const record = getRecord(creatures)
+      //setCurrentRecord(record)
       let content: JSX.Element[] = []
       let inputLabels: Array<string> = []
       iterateObjEntries('', record, inputLabels)
@@ -64,7 +76,7 @@ function TableInputForm({ source, target }: props) {
           placeholder: getObjValue(record, path, 'none'),
           onKeyPress: storeInput,
           type: 'text',
-          ref: (e:JSX.Element)=>inputRefs.current.push(e),
+          ref: (e: JSX.Element) => inputRefs.current.push(e),
           autoFocus: true,
         }
 
@@ -85,9 +97,7 @@ function TableInputForm({ source, target }: props) {
     <>
       <button onClick={createActor}>Create Actor</button>
       <button onClick={resetValues}>Reset values</button>
-      <div className="InputPage inputStriped">
-        {renderInputForm()}
-      </div>
+      <div className="InputPage inputStriped">{renderInputForm()}</div>
     </>
   )
 }

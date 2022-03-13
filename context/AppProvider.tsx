@@ -1,7 +1,7 @@
-import {useContext} from 'react'
+import { useContext } from 'react'
 import creaturesData from '../data/collections/creatures.json'
 import * as React from 'react'
-import {parseDataForTable} from "../components/DataTable/TableBody/utils";
+import { parseDataForTable, createObjID } from '../components/DataTable/TableBody/utils'
 
 interface AnyObject {
   [key: string]: any
@@ -32,14 +32,14 @@ interface ConfigObject {
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
-export function AppProvider({children}: AppProviderProps) {
+export function AppProvider({ children }: AppProviderProps) {
   const [creatures, setCreatures] = React.useState(creaturesData)
-  const [actors, setActors] = React.useState([])
+  const [actors, setActors] = React.useState<AnyObject[]>([])
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
     header: ['Name', 'Type', 'Hit Dice', 'Challenge Rating'],
-    filtered:['_id.$oid','name', 'type', 'hit_dice', 'challenge_rating'],
+    filtered: ['_id.$oid', 'name', 'type', 'hit_dice', 'challenge_rating'],
     stripe: true,
     border: true,
     pageSize: 15,
@@ -47,14 +47,14 @@ export function AppProvider({children}: AppProviderProps) {
     tableSpan: 8,
     lowerBound: 1,
     upperBound: 8,
-    selected: [1],
+    selected: [],
   }
 
   const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
     creatureConfig: {
       ...sharedTableConfig,
       tableID: 'creatureConfig',
-      data: parseDataForTable(creaturesData, sharedTableConfig.filtered),
+      data: parseDataForTable(creatures, sharedTableConfig.filtered),
     },
     actorConfig: {
       ...sharedTableConfig,
@@ -62,6 +62,22 @@ export function AppProvider({children}: AppProviderProps) {
       data: [],
     },
   })
+
+  const reducer = (type: string, payload: AnyObject) => {
+    switch (type) {
+      case 'addActor':
+        const newActors: AnyObject[] = [...actors, createObjID(actors, payload)]
+        setActors(newActors)
+        const parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
+        setTableConfig({
+          ...tableConfig,
+          actorConfig: { ...tableConfig.actorConfig, data:parsedData },
+        })
+        break
+      default:
+        break
+    }
+  }
 
   const value = React.useMemo(
     () => ({
@@ -71,6 +87,7 @@ export function AppProvider({children}: AppProviderProps) {
       setActors,
       tableConfig,
       setTableConfig,
+      reducer,
     }),
     [creatures, actors, tableConfig]
   )
