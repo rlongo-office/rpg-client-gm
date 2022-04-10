@@ -1,7 +1,13 @@
 import { useContext } from 'react'
-import creaturesData from '../data/collections/creatures.json'
+import creaturesCollection from '../data/collections/creatures.json'
+import creaturesData from '../data/collections/creature-slice.json'
+import itemsData from '../data/collections/items.json'
+import playersData from '../data/collections/players.json'
+import spellsData from '../data/collections/spells.json'
+import storylinesData from '../data/collections/storylines.json'
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../components/DataTable/TableBody/utils'
+import gameService, { apiUtils } from '../utils/game-service'
 
 interface AnyObject {
   [key: string]: any
@@ -24,6 +30,7 @@ interface TableConfig {
   upperBound: number
   selected: Array<number>
   data: Array<AnyObject>
+  filteredData: Array<AnyObject>
 }
 
 interface ConfigObject {
@@ -33,13 +40,15 @@ interface ConfigObject {
 const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: AppProviderProps) {
-  const [creatures, setCreatures] = React.useState(creaturesData)
+  const [account, setAccount] = React.useState({ user: '', password: '' })
+  const [creatures, setCreatures] = React.useState<AnyObject[]>(creaturesCollection)
   const [actors, setActors] = React.useState<AnyObject[]>([])
+  const [game, setGame] = React.useState<AnyObject[]>([])
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
     header: ['Name', 'Type', 'Hit Dice', 'Challenge Rating'],
-    filtered: ['_id.$oid', 'name', 'type', 'hit_dice', 'challenge_rating'],
+    filtered: ['index', 'name', 'type', 'hit_dice', 'challenge_rating'],
     stripe: true,
     border: true,
     pageSize: 15,
@@ -50,30 +59,86 @@ export function AppProvider({ children }: AppProviderProps) {
     selected: [],
   }
 
+  const parsedCreaturesData = parseDataForTable(creatures, sharedTableConfig.filtered)
+
   const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
     creatureConfig: {
       ...sharedTableConfig,
       tableID: 'creatureConfig',
-      data: parseDataForTable(creatures, sharedTableConfig.filtered),
+      data: parsedCreaturesData,
+      filteredData: parsedCreaturesData,
     },
+
     actorConfig: {
       ...sharedTableConfig,
       tableID: 'actorConfig',
       data: [],
+      filteredData: [],
+    },
+    itemConfig: {
+      ...sharedTableConfig,
+      tableID: 'itemConfig',
+      data: [],
+      filteredData: [],
+    },
+    storylineConfig: {
+      ...sharedTableConfig,
+      tableID: 'storylineConfig',
+      data: [],
+      filteredData: [],
+    },
+    spellConfig: {
+      ...sharedTableConfig,
+      tableID: 'spellConfig',
+      data: [],
+      filteredData: [],
+    },
+    playerConfig: {
+      ...sharedTableConfig,
+      tableID: 'playerConfig',
+      data: [],
+      filteredData: [],
+    },
+    encounterConfig: {
+      ...sharedTableConfig,
+      tableID: 'encounterConfig',
+      data: [],
+      filteredData: [],
     },
   })
 
-  const reducer = (type: string, payload: AnyObject) => {
+  const reducer = async (type: string, payload: AnyObject) => {
+    let returnObj: AnyObject[] = []
+    let parsedData: AnyObject[] = []
     switch (type) {
       case 'addActor':
         const newActors: AnyObject[] = [...actors, createObjID(actors, payload)]
         setActors(newActors)
-        const parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
+        parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
         setTableConfig({
           ...tableConfig,
-          actorConfig: { ...tableConfig.actorConfig, data:parsedData },
+          actorConfig: { ...tableConfig.actorConfig, data: parsedData, filteredData: parsedData },
         })
         break
+      case 'getGameObject':
+        returnObj = await apiUtils.getGameObject()
+        console.log(returnObj)
+        setCreatures(returnObj)
+        //before parsing we need to parse the array of strings
+        parsedData = parseDataForTable(returnObj, sharedTableConfig.filtered)
+        setTableConfig({
+          ...tableConfig,
+          creatureConfig: {
+            ...tableConfig.creatureConfig,
+            data: parsedData,
+            filteredData: parsedData,
+          },
+        })
+        break
+      case 'setGameObject':
+        returnObj = await apiUtils.setGameObject(payload)
+        break
+
       default:
         break
     }
@@ -88,8 +153,10 @@ export function AppProvider({ children }: AppProviderProps) {
       tableConfig,
       setTableConfig,
       reducer,
+      account,
+      setAccount
     }),
-    [creatures, actors, tableConfig]
+    [creatures, actors, tableConfig, game,account]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

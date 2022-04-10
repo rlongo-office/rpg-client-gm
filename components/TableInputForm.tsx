@@ -19,7 +19,7 @@ interface props {
 }
 
 function TableInputForm({ source, target }: props) {
-  const { creatures, actors, setActors, tableConfig,reducer } = useAppContext()
+  const { creatures, actors, setActors, tableConfig, reducer } = useAppContext()
   const[currentRecord,setCurrentRecord] = React.useState<AnyObject>()
   const [inputValues, setInputValues] = React.useState<object>({})
   const inputRefs = React.useRef<JSX.Element[]>([])

@@ -33,14 +33,14 @@ export default function Rows({ rows, page, pageSize, tableID }: RowsProps) {
     <>
       {pageOfRows.map((row: any, rowIndex: number) => (
         <div
-          id={`row-id-${row.id}`}
+          id={`row-id-${row.index}`}
           className={'rowStyle'}
           key={`row-key-${rowIndex}`}
           onClick={setRecID}
         >
           {Object.keys(row).map((key: any, cellIndex: number) => {
             return (
-              key !== 'id' && (
+              key !== 'index' && (
                 <span
                   className={'cellStyle'}
                   id={`cell-id-${rowIndex}.${cellIndex}`}
