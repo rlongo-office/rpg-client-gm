@@ -21,7 +21,7 @@ function GamePage() {
   return (
     <div>
       <button onClick={getGameObj}>Get GameObj</button>
-      <Link href="../table-test">
+      <Link href="/table-test">
         <a>Go to the Table Page!!!</a>
       </Link>
       <Login></Login>

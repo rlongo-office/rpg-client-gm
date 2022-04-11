@@ -8,14 +8,28 @@ import storylinesData from '../data/collections/storylines.json'
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../components/DataTable/TableBody/utils'
 import gameService, { apiUtils } from '../utils/game-service'
+import * as types from '../types/rpg-types'
 
-interface AnyObject {
+/* interface AnyObject {
   [key: string]: any
 }
 
 type AppProviderProps = {
   children: React.ReactNode
 }
+
+interface location {
+  actor: string
+  location: object //{x:number,y:number,z:number}
+}
+
+interface GameObject {
+  globalTime: number
+  party:string[]
+  actors: location[]
+  campaign: string
+}
+
 
 interface TableConfig {
   tableID: string
@@ -35,15 +49,15 @@ interface TableConfig {
 
 interface ConfigObject {
   [key: string]: TableConfig
-}
+} */
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
-export function AppProvider({ children }: AppProviderProps) {
+export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: '', password: '' })
-  const [creatures, setCreatures] = React.useState<AnyObject[]>(creaturesCollection)
-  const [actors, setActors] = React.useState<AnyObject[]>([])
-  const [game, setGame] = React.useState<AnyObject[]>([])
+  const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
+  const [actors, setActors] = React.useState<types.AnyObject[]>([])
+  const [game, setGame] = React.useState<types.AnyObject[]>([])
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -61,7 +75,7 @@ export function AppProvider({ children }: AppProviderProps) {
 
   const parsedCreaturesData = parseDataForTable(creatures, sharedTableConfig.filtered)
 
-  const [tableConfig, setTableConfig] = React.useState<ConfigObject>({
+  const [tableConfig, setTableConfig] = React.useState<types.ConfigObject>({
     creatureConfig: {
       ...sharedTableConfig,
       tableID: 'creatureConfig',
@@ -107,12 +121,12 @@ export function AppProvider({ children }: AppProviderProps) {
     },
   })
 
-  const reducer = async (type: string, payload: AnyObject) => {
-    let returnObj: AnyObject[] = []
-    let parsedData: AnyObject[] = []
+  const reducer = async (type: string, payload: types.AnyObject) => {
+    let returnObj: types.AnyObject[] = []
+    let parsedData: types.AnyObject[] = []
     switch (type) {
       case 'addActor':
-        const newActors: AnyObject[] = [...actors, createObjID(actors, payload)]
+        const newActors: types.AnyObject[] = [...actors, createObjID(actors, payload)]
         setActors(newActors)
         parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
         setTableConfig({
@@ -154,9 +168,9 @@ export function AppProvider({ children }: AppProviderProps) {
       setTableConfig,
       reducer,
       account,
-      setAccount
+      setAccount,
     }),
-    [creatures, actors, tableConfig, game,account]
+    [creatures, actors, tableConfig, game, account]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
