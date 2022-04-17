@@ -117,3 +117,32 @@ a {
   text-align: right;
   padding-right: 10px;
 }
+
+.chatTableWrapper {
+  position:relative;
+  overflow-y: auto;
+  width: 1000px;
+  border-style: none;
+  height: 100px;
+}
+.chatTableScroll {
+  height:150px;
+  overflow:auto;  
+  margin-top:20px;
+}
+.chatTableWrapper table {
+  width:100%;
+
+}
+.chatTableWrapper table * {
+  background:yellow;
+  color:black;
+}
+#chat-table-wrapper table thead th .text {
+  position:absolute;   
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:35%;
+  border:1px solid red;
+}

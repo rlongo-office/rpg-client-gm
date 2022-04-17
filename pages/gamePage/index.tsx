@@ -2,9 +2,10 @@ import * as React from 'react'
 import { useAppContext } from '../../context/AppProvider'
 import Link from 'next/link'
 import Login from '../../components/DataTable/TableBody/Login'
+import ChatHistory from '../../components/Chat/ChatHistory'
 
 function GamePage() {
-  const { reducer } = useAppContext()
+  const { reducer,messages } = useAppContext()
 
   const getGameObj = async () => {
     await reducer('getGameObject', {})
@@ -15,8 +16,7 @@ function GamePage() {
     await reducer('setGameObject', gameObj)
   }
 
-  React.useEffect(() => {
-  }, [])
+  React.useEffect(() => {}, [])
 
   return (
     <div>
@@ -25,6 +25,7 @@ function GamePage() {
         <a>Go to the Table Page!!!</a>
       </Link>
       <Login></Login>
+      <ChatHistory></ChatHistory>
     </div>
   )
 }

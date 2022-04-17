@@ -1,21 +1,33 @@
 import * as React from 'react'
 import { useAppContext } from '../../../context/AppProvider'
-import {wstools} from '../../../utils/web-socket-service'
+import * as types from '../../../types/rpg-types'
 
 function Login() {
   //Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement
-  const { account, setAccount } = useAppContext()
+  const { account, setAccount, connect, sendMessage } = useAppContext()
   const userRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
 
   function login(event: any) {
-    const obj = { 
-        user: userRef?.current?.value || '', 
-        password: passwordRef?.current?.value || ''
+    const obj = {
+      user: userRef?.current?.value || '',
+      password: passwordRef?.current?.value || '',
     }
 
     setAccount(obj)
-    wstools.connect(obj.user, obj.password)
+    connect(obj.user, obj.password)
+  }
+
+  const sendChatMessage = () => {
+    let msg: types.messageType = {
+      id: Math.floor(Math.random() * 10000),
+      sender: account.user,
+      timeStamp:'',
+      type: 'private',
+      body: 'Hi this is a test group message',
+      dest: ['frank'],
+    }
+    sendMessage(msg)
   }
 
   React.useEffect(() => {}, [])
@@ -37,6 +49,7 @@ function Login() {
         ref={passwordRef}
       />
       <button onClick={login}>Login</button>
+      <button onClick={sendChatMessage}>Send Message</button>
     </div>
   )
 }

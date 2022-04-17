@@ -14,14 +14,36 @@ export interface location {
     player: string
     location: object //{x:number,y:number,z:number}
   }
+
+export interface channel {
+    name: string
+    type:string //private, global, group
+    target: string[]    //list of all recipients of the message
+
+}
+
+export interface messageBody {
+    time: Date
+    body: string
+    sender: string
+    recipient: string
+}
   
 export interface GameObject {
     globalTime: number
     players: location[]
     campaign: string
+    channels: channel[]
   }
   
-  
+export interface messageType {
+    id: number
+    sender:string
+    timeStamp:string
+    type: string
+    body: string
+    dest: string[]
+  }
   
 export interface TableConfig {
     tableID: string
