@@ -31,6 +31,7 @@ const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: '', password: '' })
+  const [inboundMsg, setInboundMsg] = React.useState<any>(null)
   const [isConnected, setIsConnected] = React.useState<boolean>()
   const [wsSocket, setWSSocket] = React.useState<any>({})
   const [stompClient, setStompClient] = React.useState<any>({})
@@ -98,8 +99,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
   }
 
   const messageHandler = (message: any) => {
+    setInboundMsg(message)
     // fire the 'connect' callbacks
-    let msg = JSON.parse(message.body)
+    /*     let msg = JSON.parse(message.body)
     const { id, type, sender, timeStamp, body, dest } = msg
     console.log('message Handler called')
     switch (type) {
@@ -118,7 +120,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       case 'action':
       case 'lore':
         break
-    }
+    } */
   }
 
   const [tableConfig, setTableConfig] = React.useState<types.ConfigObject>({
@@ -182,7 +184,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
         break
       case 'addMessage':
         //const newMsgs:types.messageType[] = messages
-        let newMsgs:types.AnyObject[] = Array.from(messages)
+        let newMsgs: types.AnyObject[] = Array.from(messages)
         //newMsgs.push(payload)
         newMsgs.push(payload)
         console.log(newMsgs)
@@ -213,8 +215,15 @@ export function AppProvider({ children }: types.AppProviderProps) {
   }
 
   React.useEffect(() => {
-    console.log('isConnected = ' + isConnected)
-    console.log('Messages is now ' + messages)
+    if (inboundMsg) {
+      const msg = JSON.parse(inboundMsg.body)
+      console.log('there is a message to process' + JSON.parse(inboundMsg.body))
+      setMessages([...messages,msg])
+    }
+  }, [inboundMsg])
+
+  React.useEffect(() => {
+    console.log('checking stuff out')
   }, [isConnected, stompClient, wsSocket,messages])
 
   const value = React.useMemo(
@@ -235,7 +244,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       isConnected,
       stompClient,
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient,messages]
+    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
