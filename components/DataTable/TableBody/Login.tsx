@@ -3,6 +3,8 @@ import { useAppContext } from '../../../context/AppProvider'
 import * as types from '../../../types/rpg-types'
 import CustomImage from '../../ImageDisplay/CustomImage'
 
+
+
 function Login() {
   //Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement
   const { account, setAccount, connect, sendMessage } = useAppContext()
