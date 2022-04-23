@@ -64,3 +64,27 @@ export interface TableConfig {
 export interface ConfigObject {
     [key: string]: TableConfig
 }
+
+export interface ImageConfig {
+  img: string,
+  imgTOP: number,
+  imgLEFT: number,
+  offsetY:number,
+  offsetX:number,
+  isFirstPress: boolean,
+  isDragging: boolean,
+  isScaling: boolean,
+  divHeight: number,
+  divWidth: number,
+  topLimit: number,
+  leftLimit: number,
+  isLoaded: boolean,
+  oldMouseX: number,
+  oldMouseY: number,
+  touchDist: number
+}
+
+export interface Coords{
+  x?: number,
+  y?: number
+}

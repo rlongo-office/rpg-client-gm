@@ -5,7 +5,8 @@ import * as vars from '../../data/mapImage'
 
 const testImg = require('./testwebmap.jpg')
 
-export default function CustomImage() {
+export default function JRiceMapImage() {
+  let divRef = React.useRef(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
   const [imgLeft, setImgLeft] = React.useState<number>(0)
   const [isScaling, setIsScaling] = React.useState<boolean>(false)
@@ -44,8 +45,16 @@ export default function CustomImage() {
     return content
 } */
 
-React.useEffect(() => {
-}, [imgTop,imgLeft])
+  React.useEffect(() => {
+    const div:any = divRef.current;
+    div.addEventListener('mousedown', handleMouseDown, false);
+    div.addEventListener('mousemove', handleMouseMove, false);
+    div.addEventListener('mouseup', handleMouseUp, false);
+    div.addEventListener('mouseleave', handleMouseLeave, false);
+    div.addEventListener('touchstart', handleMouseDown, false);
+    div.addEventListener('touchmove', handleMouseMove, false);
+    div.addEventListener('touchend', handleMouseUp, false);
+  }, [])
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -57,15 +66,15 @@ React.useEffect(() => {
     let canMouseX: number
     let canMouseY: number
 
-    if (e?.nativeEvent?.clientX && e?.nativeEvent?.clientY) {
+    if (e?.clientX && e?.clientY) {
       //console.log(e)
       //canMouseX = parseInt(e.clientX - cfg.offsetX)
-      canMouseX = e.nativeEvent.clientX - cfg.offsetX
-      canMouseY = e.nativeEvent.clientY - cfg.offsetY
+      canMouseX = e.clientX - cfg.offsetX
+      canMouseY = e.clientY - cfg.offsetY
       //console.log(`${canMouseX}:${canMouseY}`)
-    } else if (e?.nativeEvent?.targetTouches) {
-      canMouseX = e.nativeEvent.targetTouches.item(0)?.clientX - cfg.offsetX
-      canMouseY = e.nativeEvent.targetTouches.item(0)?.clientY - cfg.offsetY
+    } else if (e?.targetTouches) {
+      canMouseX = e?.targetTouches[0]?.clientX - cfg.offsetX
+      canMouseY = e?.targetTouches[0]?.clientY - cfg.offsetY
       // This isn't doing anything (noticeable)
       // e.preventDefault();
     } else return {}
@@ -95,7 +104,7 @@ React.useEffect(() => {
     setCfg({ ...cfg, isDragging: true })
     if (e?.targetTouches) {
       e.preventDefault()
-      if (e?.nativeEvent?.touches?.length > 1) {
+      if (e.touches.length > 1) {
         // detected a pinch
         setTouchDist(distance(e))
         setCfg({ ...cfg, touchDist: distance(e), isScaling: true })
@@ -108,10 +117,10 @@ React.useEffect(() => {
     }
     setIsFirstPress(false)
     setCfg({ ...cfg, isFirstPress: true })
-    console.log("Mouse DOWN Event function")
+    console.log('Mouse DOWN Event function')
+    console.log(`${canMouseX}:${canMouseY}`)
   }
   const handleMouseMove = (e: any) => {
-
     let scaling = isScaling
     let dragging = isDragging
     let imgScale: number = 1
@@ -119,7 +128,7 @@ React.useEffect(() => {
     let yDiff: number
     let xDiff: number
 
-    if (e.nativeEvent.clientX && e.nativeEvent.clientY) {
+    if (e.clientX && e.clientY) {
       setIsDragging(true)
     } else if (e.targetTouches) {
       e.preventDefault()
@@ -127,11 +136,10 @@ React.useEffect(() => {
         //detected a pinch
         setIsScaling(true)
         setIsDragging(false)
-        scaling = true
+        setIsScaling(true)
       } else {
         setIsScaling(false)
         setIsDragging(true)
-
       }
     }
     if (scaling) {
@@ -140,7 +148,6 @@ React.useEffect(() => {
     }
     // if the drag flag is set, clear the canvas and draw the image
     if (isDragging && !isFirstPress) {
-      console.log(`${canMouseX}:${canMouseY}`)
       yDiff = canMouseY && oldCoords.y ? canMouseY - oldCoords.y : 0
       xDiff = canMouseX && oldCoords.x ? canMouseX - oldCoords.x : 0
       //this.subImgX += this.xDiff;
@@ -158,7 +165,7 @@ React.useEffect(() => {
       setImgTop(imgTop + yDiff)
       setImgLeft(imgLeft + xDiff)
     }
-    console.log("Mouse Move Event function")
+    console.log('Mouse Move Event function')
     setOldCoords({ x: canMouseX, y: canMouseX })
   }
   const handleMouseLeave = (e: any) => {
@@ -171,14 +178,9 @@ React.useEffect(() => {
     <div>
       <div className="portrait">
         <div
+          id="canvas"
+          ref={divRef}
           className="wrapper"
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          onTouchEnd={handleMouseUp}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleMouseDown}
-          onTouchMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
         >
           <img
             src={`data:image/jpeg;base64,${vars.bigImage}`}

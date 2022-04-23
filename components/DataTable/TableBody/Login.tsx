@@ -2,6 +2,8 @@ import * as React from 'react'
 import { useAppContext } from '../../../context/AppProvider'
 import * as types from '../../../types/rpg-types'
 import CustomImage from '../../ImageDisplay/CustomImage'
+import JRiceMapImage from '../../ImageDisplay/JRiceMapImage'
+import TestMouseImage from '../../ImageDisplay/TestMouseImage'
 
 
 
@@ -53,7 +55,7 @@ function Login() {
       />
       <button onClick={login}>Login</button>
       <button onClick={sendChatMessage}>Send Message</button>
-      <CustomImage/>
+      <JRiceMapImage/>
     </div>
   )
 }
