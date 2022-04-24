@@ -4,7 +4,7 @@ import * as types from '../../../types/rpg-types'
 import CustomImage from '../../ImageDisplay/CustomImage'
 import JRiceMapImage from '../../ImageDisplay/JRiceMapImage'
 import TestMouseImage from '../../ImageDisplay/TestMouseImage'
-
+import CleanImageTest from '../../ImageDisplay/CleanImageTest'
 
 
 function Login() {
@@ -55,7 +55,7 @@ function Login() {
       />
       <button onClick={login}>Login</button>
       <button onClick={sendChatMessage}>Send Message</button>
-      <JRiceMapImage/>
+      <CleanImageTest/>
     </div>
   )
 }
