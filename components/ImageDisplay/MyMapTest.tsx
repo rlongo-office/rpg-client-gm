@@ -2,10 +2,11 @@ import * as React from 'react'
 import * as types from '../../types/rpg-types'
 import imgSource from './testwebmap.jpg'
 import * as vars from '../../data/mapImage'
+import { ImageProps } from 'next/image'
 
 const testImg = require('./testwebmap.jpg')
 
-export default function CleanImageTest() {
+export default function MyMapTest({source}:{source:string}) {
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [loaded, setLoaded] = React.useState<boolean>(false)
@@ -44,37 +45,28 @@ export default function CleanImageTest() {
     touchDist: 0,
   })
 
-  /* const imgValues = React.useMemo(()=>{
-
-},[loaded,]
-
-) */
-
   const setNewImageLimits = () => {
     const img = imgRef
     let heightLimit: number
     let widthLimit: number
+    let scaleHeight: number
+    let scaleWidth: number
     console.log(`imgScale is: ${imgScale}`)
     //console.log(`current offsets: ${imgLeft}:${imgTop}`)
     console.log(`img width/Height: ${img.current?.width}:${img.current?.height}`)
     console.log(img)
     img.current
-      ? (heightLimit = Math.floor(imgScale * img.current.naturalHeight - cfg.divHeight))
-      : (heightLimit = 0)
+      ? scaleHeight = Math.floor(imgScale * img.current.naturalHeight)
+      : scaleHeight = 0
     img.current
-      ? (widthLimit = Math.floor(imgScale * img.current.naturalWidth - cfg.divWidth))
-      : (widthLimit = 0)
-    setTopLimit(-heightLimit)
-    setLeftLimit(-widthLimit)
+      ? scaleWidth = Math.floor(imgScale * img.current.naturalWidth)
+      : scaleWidth = 0
+    setTopLimit(-(scaleHeight - cfg.divHeight))
+    setLeftLimit(-(scaleWidth - cfg.divWidth))
     setImgLeft(0)
+    setSCHeight(scaleHeight)
+    setSCWidth(scaleWidth)
     setImgTop(0)
-    //setImgLeft(Math.floor(imgScale*imgLeft))
-    //setImgTop(Math.floor(imgScale*imgTop))
-    //setSCHeight(img.current ? img.current.height : 0)7
-    //setSCWidth(img.current ? img.current.width : 0)
-    console.log(
-      'New Image limits set with topLimit:' + heightLimit + ' and leftLimit:' + widthLimit
-    )
   }
 
   const handleImageLoad = () => {
@@ -93,11 +85,6 @@ export default function CleanImageTest() {
       setSCWidth(img.current ? img.current.naturalWidth : 0)
       console.log('Image Loaded with topLimit:' + heightLimit + ' and leftLimit:' + widthLimit)
     }
-    /*     const heightLimit = e.nativeEvent.clientHeight - cfg.divHeight
-    const widthLimit = e.nativeEvent.clientWidth - cfg.divWidth
-    setCfg({ ...cfg, topLimit: heightLimit, leftLimit: widthLimit })
-    console.log("Image Loaded with topLimit:" + heightLimit + " and leftLimit:" + widthLimit)
-       console.log("Img ONLOAD Called") */
   }
 
   React.useEffect(() => {
@@ -109,12 +96,7 @@ export default function CleanImageTest() {
   React.useEffect(() => {
     setNewImageLimits()
     console.log(`imgScale is: ${imgScale}`)
-    console.log('Image has with topLimit:' + topLimit + ' and leftLimit:' + leftLimit)
   }, [imgScale])
-
-  /* React.useEffect(()=>{
-
-},[topLimit,leftLimit]) */
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -186,7 +168,11 @@ export default function CleanImageTest() {
     if (imgScale === 3) {
       setImgScale(1)
     } else {
+      let scaleHeight = Math.floor(natHeight * (imgScale + 0.5))
+      let scaleWidth = Math.floor(natWidth * (imgScale + 0.5))
       setImgScale(imgScale + 0.5)
+      setSCHeight(scaleHeight)
+      setSCWidth(scaleWidth)
     }
   }
 
@@ -229,35 +215,18 @@ export default function CleanImageTest() {
     }
     // if the drag flag is set, clear the canvas and draw the image
     if (isDragging) {
-      //console.log(`Canvas Mouse Coords: ${canMouseX}:${canMouseY}`)
-      //console.log(`Old Mouse Coords: ${oldXCoord}:${oldYCoord}`)
       yDiff = canMouseY && oldYCoord ? accel * (canMouseY - oldYCoord) : 0
       xDiff = canMouseX && oldXCoord ? accel * (canMouseX - oldXCoord) : 0
-      //console.log(`Coordinate Diffs: ${xDiff}:${yDiff}`)
-      //this.subImgX += this.xDiff;
-      //this.subImgY += this.yDiff;
-      //console.log(`Offset Limits: ${leftLimit}:${topLimit}`)
       if (imgLeft + xDiff <= leftLimit) {
-        //xDiff = 0
         setImgLeft(leftLimit)
       } else if (imgLeft + xDiff >= 0) {
-        //xDiff = 0
         setImgLeft(0)
       } else setImgLeft(imgLeft + xDiff)
-
       if (imgTop + yDiff <= topLimit) {
-        //yDiff = 0
         setImgTop(topLimit)
       } else if (imgTop + yDiff >= 0) {
-        //yDiff = 0
         setImgTop(0)
       } else setImgTop(imgTop + yDiff)
-      /*       newLeft = imgLeft + xDiff
-      newTop = imgTop + yDiff
-      console.log(`New Left and Top: ${newLeft}:${newTop}`)
-      setImgLeft(newLeft)
-      setImgTop(newTop) */
-      //trying out a mouse move acceleration for dragging
       if (accel < 4) {
         setAccel(accel + 1)
       }
@@ -291,11 +260,12 @@ export default function CleanImageTest() {
         >
           <img
             ref={imgRef}
-            src={`data:image/jpeg;base64,${vars.bigImage}`}
+            src={`data:image/jpeg;base64,${source}`}
             style={{
-              transform: `scale(${imgScale})`,
+              transform: `translate(${imgLeft}px, ${imgTop}px)`,
+              height: `${scHeight}px`,
+              width: `${scWidth}px)`,
               transformOrigin: `top left`,
-              objectPosition: `${imgLeft}px ${imgTop}px`,
             }}
             onLoad={handleImageLoad}
           />
@@ -307,22 +277,5 @@ export default function CleanImageTest() {
   )
 }
 
-//            onLoad={handleImageLoad}
-/*
-              height: `${scHeight}px`,
-              width: `${scWidth}px`,
-              */
-
-/* const handleImageLoad = React.useCallback(() => {
-    console.log('loaded');
-    setLoaded(true);
-    const img = imgRef
-    let heightLimit:number
-    let widthLimit:number
-    img.current ? heightLimit = img.current.clientHeight - cfg.divHeight : heightLimit=0
-    img.current ? widthLimit = img.current.clientWidth - cfg.divWidth : widthLimit=0
-    setTopLimit(-heightLimit)
-    setLeftLimit(-widthLimit)
-    setCfg({ ...cfg, topLimit: heightLimit, leftLimit: widthLimit })
-    console.log("Image Loaded with topLimit:" + heightLimit + " and leftLimit:" + widthLimit)
-  }, []) */
+//objectPosition: `${imgLeft}px ${imgTop}px`,
+//transform: `scale(${imgScale}) translate(${imgLeft}px, ${imgTop}px)`,

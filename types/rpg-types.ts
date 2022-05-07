@@ -88,3 +88,7 @@ export interface Coords{
   x?: number,
   y?: number
 }
+
+export interface ImageProps{
+  source: string
+}

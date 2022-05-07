@@ -150,16 +150,13 @@ a {
 .portrait{
   height: 100%;
   width: 100%;
-  position: relative;
 }
 
 .wrapper{
     overflow:hidden;
     height: 500px;
     width: 500px;
-    position: relative;
 }
 
 .wrapper img{
-    position: relative;
 }
