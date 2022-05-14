@@ -12,6 +12,8 @@ import * as types from '../types/rpg-types'
 import SockJS from 'sockjs-client'
 import webStompClient from 'webstomp-client'
 
+import useStomp from '../hooks/useStomp'
+
 // define the game service resources here
 let _isConnected = false
 let _socket = null
@@ -30,15 +32,16 @@ const _eventHandlers = {
 const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
-  const [account, setAccount] = React.useState({ user: '', password: '' })
   const [inboundMsg, setInboundMsg] = React.useState<any>(null)
   const [isConnected, setIsConnected] = React.useState<boolean>()
   const [wsSocket, setWSSocket] = React.useState<any>({})
-  const [stompClient, setStompClient] = React.useState<any>({})
+  const [client, setClient] = React.useState<any>(null)
   const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
   const [game, setGame] = React.useState<types.AnyObject[]>([])
   const [messages, setMessages] = React.useState<types.AnyObject[]>([])
+  const [user, setUser] = React.useState<types.user>({ name: '', password: '' })
+  const [url, setUrl] = React.useState<string>('http://localhost:8080/game-app')
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -58,12 +61,10 @@ export function AppProvider({ children }: types.AppProviderProps) {
 
   const connect = async (username: string, password: string) => {
     let newSocket = new SockJS('http://localhost:8080/game-app')
-    setWSSocket(newSocket)
-    let newStompClient = webStompClient.over(newSocket)
-    setStompClient(newStompClient)
-    await newStompClient.connect(
+    let client = webStompClient.over(newSocket)
+    await client.connect(
       { username, password },
-      (frame: any) => connectionSuccess(frame, newStompClient),
+      (frame: any) => connectionSuccess(frame, client),
       connectionError
     )
   }
@@ -86,13 +87,13 @@ export function AppProvider({ children }: types.AppProviderProps) {
     console.log('sendMessage called')
     console.log('isConnected is ' + isConnected)
     const { type, body, dest } = msg
-    if (stompClient && isConnected) {
+    if (client && isConnected) {
       switch (type) {
         case 'party':
-          stompClient.send('/app/chat', msgString, {})
+          client.send('/app/chat', msgString, {})
           break
         case 'private':
-          stompClient.send('/app/messages', msgString, {})
+          client.send('/app/messages', msgString, {})
           break
       }
     }
@@ -214,17 +215,23 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }
 
+  const [dispatch, setDispatch] = React.useState<Function>(reducer)
+
+  React.useEffect(() => {}, [])
+
+  React.useEffect(() => {}, [user])
+
   React.useEffect(() => {
     if (inboundMsg) {
       const msg = JSON.parse(inboundMsg.body)
       console.log('there is a message to process' + JSON.parse(inboundMsg.body))
-      setMessages([...messages,msg])
+      setMessages([...messages, msg])
     }
   }, [inboundMsg])
 
   React.useEffect(() => {
     console.log('checking stuff out')
-  }, [isConnected, stompClient, wsSocket,messages])
+  }, [isConnected, client, wsSocket, messages])
 
   const value = React.useMemo(
     () => ({
@@ -235,16 +242,20 @@ export function AppProvider({ children }: types.AppProviderProps) {
       tableConfig,
       setTableConfig,
       reducer,
-      account,
-      setAccount,
       messages,
       setMessages,
       connect,
-      sendMessage,
       isConnected,
-      stompClient,
+      setIsConnected,
+      user,
+      setUser,
+      url,
+      setUrl,
+      dispatch,
+      client,
+      setClient,
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages]
+    [creatures, actors, tableConfig, game, isConnected, client, messages]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

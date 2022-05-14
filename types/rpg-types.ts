@@ -92,3 +92,8 @@ export interface Coords{
 export interface ImageProps{
   source: string
 }
+
+export interface user{
+  name: string,
+  password:string
+}

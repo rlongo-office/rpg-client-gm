@@ -6,37 +6,26 @@ import JRiceMapImage from '../../ImageDisplay/JRiceMapImage'
 import TestMouseImage from '../../ImageDisplay/TestMouseImage'
 import MyMapTest from '../../ImageDisplay/MyMapTest'
 import * as vars from '../../../data/mapImage'
-
-
+import Chat from '../../Chat/Chat'
 function Login() {
   //Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement
-  const { account, setAccount, connect, sendMessage } = useAppContext()
+  const { user, setUser,isConnected,setIsConnected } = useAppContext()
   const userRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
 
   function login(event: any) {
     const obj = {
-      user: userRef?.current?.value || '',
+      name: userRef?.current?.value || '',
       password: passwordRef?.current?.value || '',
     }
-
-    setAccount(obj)
-    connect(obj.user, obj.password)
+    console.log(obj)
+    setUser(obj)
+    setIsConnected(true)
   }
 
-  const sendChatMessage = () => {
-    let msg: types.messageType = {
-      id: Math.floor(Math.random() * 10000),
-      sender: account.user,
-      timeStamp:'',
-      type: 'private',
-      body: 'Hi this is a test group message',
-      dest: ['bob'],
-    }
-    sendMessage(msg)
-  }
-
-  React.useEffect(() => {}, [])
+  React.useEffect(() => {
+    //Does this rerender whenever user value changes?
+  }, [user])
 
   return (
     <div>
@@ -55,8 +44,13 @@ function Login() {
         ref={passwordRef}
       />
       <button onClick={login}>Login</button>
-      <button onClick={sendChatMessage}>Send Message</button>
-      <MyMapTest source={vars.bigImage}/>
+      <MyMapTest source={vars.bigImage} />
+      {isConnected &&
+      <Chat
+      name={user.name}
+      password={user.password}
+      />
+      }
     </div>
   )
 }
