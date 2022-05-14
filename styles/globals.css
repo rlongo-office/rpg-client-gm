@@ -49,7 +49,7 @@ a {
 
 .rowStyle {
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr 2fr 2.5fr;
+  grid-template-columns: 3fr 2fr 2fr 2.5fr;
 }
 
 .dataPage{
@@ -116,4 +116,47 @@ a {
 .InputLabel{
   text-align: right;
   padding-right: 10px;
+}
+
+.chatTableWrapper {
+  position:relative;
+  overflow-y: auto;
+  width: 1000px;
+  border-style: none;
+  height: 100px;
+}
+.chatTableScroll {
+  height:150px;
+  overflow:auto;  
+  margin-top:20px;
+}
+.chatTableWrapper table {
+  width:100%;
+
+}
+.chatTableWrapper table * {
+  background:yellow;
+  color:black;
+}
+#chat-table-wrapper table thead th .text {
+  position:absolute;   
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:35%;
+  border:1px solid red;
+}
+
+.portrait{
+  height: 100%;
+  width: 100%;
+}
+
+.wrapper{
+    overflow:hidden;
+    height: 500px;
+    width: 500px;
+}
+
+.wrapper img{
 }

@@ -28,7 +28,6 @@ interface AnyObject {
  * @constructor
  */
 function CreaturesTable() {
-  const { creatures, tableConfig, setTableConfig } = useAppContext()
 
   /*   const parsedActors = parseDataForTable(creatures, [
     'name',
@@ -37,7 +36,7 @@ function CreaturesTable() {
     'challenge_rating',
   ]) */
 
-  const setTableData = () => {
+/*   const setTableData = () => {
     let newConfig: TableConfig = tableConfig.creatureConfig
     newConfig = {
       ...newConfig,
@@ -46,18 +45,12 @@ function CreaturesTable() {
       ),
     }
     setTableConfig({ ...tableConfig, creatureConfig: newConfig })
-  }
+  } */
 
-  // This gets called during initial DOM render no matter what
-  React.useEffect(() => {
-    setTableData()
-  }, [creatures])
-
-  debugger
   return (
     <>
       <h2>Creatures Table</h2>
-      <DataTable config={tableConfig.creatureConfig} />
+      <DataTable tableID={'creatureConfig'} />
     </>
   )
 }

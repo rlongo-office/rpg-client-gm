@@ -30,6 +30,7 @@ describe('AppProvider', () => {
   })
 
   it('store to not throw an exception once the context provider is set', () => {
+    screen.logTestingPlaygroundURL()
     expect(() => {
       return render(
         <AppProvider>

@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "context/AppProvider.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "context/AppProvider.js", "components/ImageDisplay/TestMouseImage.jsx"],
   "exclude": ["node_modules"]
 }

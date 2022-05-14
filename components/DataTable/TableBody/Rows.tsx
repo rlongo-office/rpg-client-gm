@@ -8,7 +8,7 @@ interface RowsProps {
   tableID: string
 }
 
-export default function Rows({ rows, page, pageSize,tableID }: RowsProps) {
+export default function Rows({ rows, page, pageSize, tableID }: RowsProps) {
   //const { setCreaturePageIDS } = useAppContext()
   const { tableConfig, setTableConfig } = useAppContext()
 
@@ -18,12 +18,14 @@ export default function Rows({ rows, page, pageSize,tableID }: RowsProps) {
   const pageOfRows = rows.slice(pageStart, pageEnd)
 
   const setRecID = (event: React.MouseEvent<HTMLDivElement>) => {
-    let selected:Array<number> = []
+    let selected: Array<string> = []
     // Replaced innerText with innerHTML since the HTMLDivElement doesn't support innerText (this should work)
-    selected = [...selected,parseInt(event.currentTarget.children[0].innerHTML)]
+    const start = String('row-id-').length
+    const elID = String(event.currentTarget.id)
+    selected = [...selected, elID.slice(start)]
     setTableConfig({
       ...tableConfig,
-      [tableID]: { ...tableConfig[tableID], selected:selected },
+      [tableID]: { ...tableConfig[tableID], selected: selected },
     })
   }
 
@@ -31,20 +33,22 @@ export default function Rows({ rows, page, pageSize,tableID }: RowsProps) {
     <>
       {pageOfRows.map((row: any, rowIndex: number) => (
         <div
-          id={`row-id-${rowIndex}`}
+          id={`row-id-${row.index}`}
           className={'rowStyle'}
           key={`row-key-${rowIndex}`}
           onClick={setRecID}
         >
           {Object.keys(row).map((key: any, cellIndex: number) => {
             return (
-              <span
-                className={'cellStyle'}
-                id={`cell-id-${rowIndex}.${cellIndex}`}
-                key={`cell-key-${rowIndex}.${cellIndex}`}
-              >
-                {row[key]}
-              </span>
+              key !== 'index' && (
+                <span
+                  className={'cellStyle'}
+                  id={`cell-id-${rowIndex}.${cellIndex}`}
+                  key={`cell-key-${rowIndex}.${cellIndex}`}
+                >
+                  {row[key]}
+                </span>
+              )
             )
           })}
         </div>

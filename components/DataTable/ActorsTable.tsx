@@ -42,11 +42,9 @@ function ActorsTable() {
   }
 
   React.useEffect(() => {
-    setTableData()
   }, [])
 
   React.useEffect(() => {
-    setTableData()
   }, [actors])
 
   /*   React.useEffect(() => {
@@ -65,7 +63,7 @@ function ActorsTable() {
   return (
     <>
       <h2>Actors Table</h2>
-      <DataTable config={tableConfig.actorConfig} />
+      <DataTable tableID={'actorConfig'} />
     </>
   )
 }

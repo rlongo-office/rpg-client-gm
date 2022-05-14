@@ -41,11 +41,12 @@ interface configObj {
 }
 
 interface TableProps {
-  config: TableConfig
+  tableID: 'creatureConfig' | 'actorConfig'
 }
 
-function DataTable({ config }: TableProps) {
+function DataTable({ tableID }: TableProps) {
   const { tableConfig, setTableConfig } = useAppContext()
+  const config = tableConfig[tableID]
   const [isStriped, setIsStriped] = React.useState(true)
   const [filter, setFilter] = React.useState('')
   const [newRows, setNewRows] = React.useState<AnyObject[]>([])
@@ -134,13 +135,13 @@ function DataTable({ config }: TableProps) {
   const setParentFilter = (value: string) => {
     setFilter(value)
 
-    const tempRows = newRows.filter(row =>
+    const tempRows = config.data.filter((row: AnyObject) =>
       Object.values(row).some(val => String(val).toLowerCase().includes(value.toLowerCase()))
     )
     setFilteredRows(tempRows)
     setTableConfig({
       ...tableConfig,
-      [config.tableID]: { ...tableConfig[config.tableID], current: 1 },
+      [config.tableID]: { ...tableConfig[config.tableID], current: 1, filteredData:tempRows },
     })
     //setCurPage(1)
   }
@@ -152,36 +153,35 @@ function DataTable({ config }: TableProps) {
     })
     setColSortState(sortObjectArray)
     if (config && config.data && config.data.length > 0) {
-      const tempRows = addIndexColumn(config.data)
-      setNewRows(tempRows)
-      setFilteredRows(tempRows)
+      //setNewRows(config.data)
+      //setFilteredRows(config.data)
       setNumPages(
-        filteredRows.length % config.pageSize === 0
-          ? filteredRows.length / config.pageSize
-          : Math.floor(filteredRows.length / config.pageSize) + 1
+        config.filteredData.length % config.pageSize === 0
+          ? config.filteredData.length / config.pageSize
+          : Math.floor(config.filteredData.length / config.pageSize) + 1
       )
     }
   }, [])
 
   React.useEffect(() => {
-    const tempRows = addIndexColumn(config.data)
-    setNewRows(tempRows)
-    setFilteredRows(tempRows)
+    //const tempRows = addIndexColumn(config.data)
+    //setNewRows(config.data)
+    //setFilteredRows(config.data)
     setNumPages(
-      filteredRows.length % config.pageSize === 0
-        ? filteredRows.length / config.pageSize
-        : Math.floor(filteredRows.length / config.pageSize) + 1
+      config.filteredData.length % config.pageSize === 0
+        ? config.filteredData.length / config.pageSize
+        : Math.floor(config.filteredData.length / config.pageSize) + 1
     )
   }, [config])
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     setNumPages(
       filteredRows.length % config.pageSize === 0
         ? filteredRows.length / config.pageSize
         : Math.floor(filteredRows.length / config.pageSize) + 1
     )
     //setBounds()
-  }, [filteredRows, numPages])
+  }, [filteredRows, numPages]) */
 
   return (
     <>
@@ -190,10 +190,10 @@ function DataTable({ config }: TableProps) {
       <div className={isStriped ? 'striped' : ''}>
         {config.data && (
           <Rows
-            rows={filteredRows.length > 0 ? filteredRows : config.data}
+            rows={config.filteredData.length > 0 ? filteredRows : config.filteredData}
             page={config.current}
             pageSize={config.pageSize}
-            tableID = {config.tableID}
+            tableID={config.tableID}
           />
         )}
       </div>
