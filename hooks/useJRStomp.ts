@@ -16,17 +16,8 @@ const useStomp = () => {
   const [msg, setMsg] = useState<types.messageType>()
   const [isConnected, setIsConnected] = useState<boolean>(false)
   // TODO: use the process_env and set the url in context
-  const [user, dispatch, client, setClient] = useAppContext()
+  const {user, dispatch, client, setClient} = useAppContext()
   const { name, password } = user
-
-  const connect = async () => {
-    //Test if we have a client object; we don't want repeated connection attempts if there is an existing stomp client
-    if (!client) {
-      // let newSocket = new SockJS('http://localhost:8080/game-app')
-      // setWs(newSocket)
-      // setClient(webStompClient.over(newSocket))
-    }
-  }
 
   const connectionSuccess = (frame: any, client: any) => {
     setIsConnected(true)
@@ -65,20 +56,22 @@ const useStomp = () => {
   }
 
   useEffect(() => {
-    connect()
-    console.log('Hook Loaded')
-  }, [])
-
-  useEffect(() => {
     const connectToClient = async () => {
-      await client?.connect(
-        { name, password },
-        (frame: any) => connectionSuccess(frame, client),
-        connectionError
-      )
+      //Test if we have a client object; we don't want repeated connection attempts if there is an existing stomp client
+      if (!client) {
+        const newSocket = new SockJS('http://localhost:8080/game-app')
+        const newClient = webStompClient.over(newSocket)
+        await newClient?.connect(
+          { name, password },
+          (frame: any) => connectionSuccess(frame, newClient),
+          connectionError
+        )
+        setClient(newClient)
+        setWs(newSocket)
+      }
     }
     connectToClient()
-  }, [user])
+  }, [user, client])
 
   return { sendMessage }
 }

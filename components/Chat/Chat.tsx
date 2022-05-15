@@ -2,10 +2,13 @@ import * as React from 'react'
 import useStomp from '../../hooks/useJRStomp'
 import * as types from '../../types/rpg-types'
 import { useAppContext } from '../../context/AppProvider'
+import useJRStomp from "../../hooks/useJRStomp";
 
 const Chat = (name: any, password: any) => {
-  const { user, setUser } = useAppContext()
-  const { sendMessage } = useStomp()
+  const [outboundMsg, setOutboundMsg] = React.useState('')
+  const { user } = useAppContext()
+  const { sendMessage } = useJRStomp()
+
 
   const sendChatMessage = () => {
     let msg: types.messageType = {
@@ -13,7 +16,7 @@ const Chat = (name: any, password: any) => {
       sender: user.name,
       timeStamp: '',
       type: 'private',
-      body: 'Hi this is a private message',
+      body: outboundMsg,
       dest: ['bob'],
     }
     sendMessage(msg)
@@ -26,8 +29,8 @@ const Chat = (name: any, password: any) => {
         type="text"
         name="messageText"
         className="tableInput"
-        //value="Test Message"
-      ></input>
+        onChange={e => setOutboundMsg(e.target.value)}
+      />
       <button onClick={sendChatMessage}>Send Message</button>
     </div>
   )
