@@ -31,7 +31,7 @@ function Login() {
       timeStamp:'',
       type: 'private',
       body: 'Hi this is a test group message',
-      dest: ['bob'],
+      dest: ['frank'],
     }
     sendMessage(msg)
   }
