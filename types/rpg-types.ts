@@ -3,74 +3,72 @@ export const ADD_CREATURE: string = "ADD_CREATURE"
 export const SET_CREATURE_ID: string = "SET_CREATURE_ID"
 
 export interface AnyObject {
-    [key: string]: any
-  }
-  
+  [key: string]: any
+}
+
 export interface AppProviderProps {
-    children: React.ReactNode
-  }
-  
+  children: React.ReactNode
+}
+
 export interface location {
-    player: string
-    location: object //{x:number,y:number,z:number}
-  }
+  player: string
+  location: object //{x:number,y:number,z:number}
+}
 
 export interface channel {
-    name: string
-    type:string //private, global, group
-    target: string[]    //list of all recipients of the message
-
+  name: string
+  type: string //private, global, group
+  target: string[]    //list of all recipients of the message
 }
 
 export interface messageBody {
-    time: Date
-    body: string
-    sender: string
-    recipient: string
+  time: Date
+  body: string
+  sender: string
+  recipient: string
 }
-  
+
 export interface GameObject {
-    globalTime: number
-    players: location[]
-    campaign: string
-    channels: channel[]
-  }
-  
+  globalTime: number
+  players: location[]
+  campaign: string
+  channels: channel[]
+}
+
 export interface messageType {
-    id: number
-    sender:string
-    timeStamp:string
-    type: string
-    body: string
-    dest: string[]
-  }
-  
+  id: number
+  sender: string
+  type: string
+  data: string
+  dest: string[]
+}
+
 export interface TableConfig {
-    tableID: string
-    sortColumns: Array<number>
-    header: Array<string>
-    stripe: boolean
-    border: boolean
-    pageSize: number
-    current: number
-    tableSpan: number
-    lowerBound: number
-    upperBound: number
-    selected: Array<number>
-    data: Array<AnyObject>
-    filteredData: Array<AnyObject>
-  }
-  
+  tableID: string
+  sortColumns: Array<number>
+  header: Array<string>
+  stripe: boolean
+  border: boolean
+  pageSize: number
+  current: number
+  tableSpan: number
+  lowerBound: number
+  upperBound: number
+  selected: Array<number>
+  data: Array<AnyObject>
+  filteredData: Array<AnyObject>
+}
+
 export interface ConfigObject {
-    [key: string]: TableConfig
+  [key: string]: TableConfig
 }
 
 export interface ImageConfig {
   img: string,
   imgTOP: number,
   imgLEFT: number,
-  offsetY:number,
-  offsetX:number,
+  offsetY: number,
+  offsetX: number,
   isFirstPress: boolean,
   isDragging: boolean,
   isScaling: boolean,
@@ -84,11 +82,11 @@ export interface ImageConfig {
   touchDist: number
 }
 
-export interface Coords{
+export interface Coords {
   x?: number,
   y?: number
 }
 
-export interface ImageProps{
+export interface ImageProps {
   source: string
 }
