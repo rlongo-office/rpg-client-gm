@@ -24,8 +24,8 @@ function GamePage() {
       <Link href="/table-test">
         <a>Go to the Table Page!!!</a>
       </Link>
-      <Login></Login>
-      <ChatHistory></ChatHistory>
+      <Login/>
+      <ChatHistory/>
     </div>
   )
 }

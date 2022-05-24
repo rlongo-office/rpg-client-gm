@@ -78,7 +78,6 @@ function DataTable({ tableID }: TableProps) {
   }
 
   const setBounds = () => {
-    debugger
     let low: number = 0
     let upp: number = 1
     if (numPages <= config.tableSpan || config.current <= Math.round(config.tableSpan / 2)) {

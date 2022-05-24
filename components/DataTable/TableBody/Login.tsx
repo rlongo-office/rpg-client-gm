@@ -6,11 +6,15 @@ import JRiceMapImage from '../../ImageDisplay/JRiceMapImage'
 import TestMouseImage from '../../ImageDisplay/TestMouseImage'
 import MyMapTest from '../../ImageDisplay/MyMapTest'
 import * as vars from '../../../data/mapImage'
+import useStomp from "../../../hooks/useStomp";
+import SockJS from "sockjs-client";
+import webStompClient from "webstomp-client";
 
 
 function Login() {
-  //Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement
-  const { account, setAccount, connect, sendMessage } = useAppContext()
+  const { connect, sendMessage } = useStomp()
+  // Note that reference type must correspond to the HTML element it references, e.g. HTMLInputElement
+  const { account, setAccount } = useAppContext()
   const userRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
 
@@ -28,10 +32,9 @@ function Login() {
     let msg: types.messageType = {
       id: Math.floor(Math.random() * 10000),
       sender: account.user,
-      timeStamp:'',
       type: 'private',
-      body: 'Hi this is a test group message',
-      dest: ['bob'],
+      data: 'Hi this is a test group message',
+      dest: ['frank'],
     }
     sendMessage(msg)
   }
