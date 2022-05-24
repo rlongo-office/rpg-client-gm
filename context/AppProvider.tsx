@@ -1,14 +1,15 @@
 import { useContext } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
-import creaturesData from '../data/collections/creature-slice.json'
+/* import creaturesData from '../data/collections/creature-slice.json'
 import itemsData from '../data/collections/items.json'
 import playersData from '../data/collections/players.json'
 import spellsData from '../data/collections/spells.json'
-import storylinesData from '../data/collections/storylines.json'
+import storylinesData from '../data/collections/storylines.json' */
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../components/DataTable/TableBody/utils'
 import gameService, { apiUtils } from '../utils/game-service'
 import * as types from '../types/rpg-types'
+import gameObject from '../data/collections/game-object'
 
 // eslint-disable-next-line no-unused-vars
 
@@ -21,8 +22,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [stompClient, setStompClient] = React.useState<any>(null)
   const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
-  const [game, setGame] = React.useState<types.AnyObject[]>([])
-  const [messages, setMessages] = React.useState<types.AnyObject[]>([])
+  const [game, setGame] = React.useState<types.GameObject>(gameObject)
+  const [messages, setMessages] = React.useState<types.messageType[]>([])
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -99,14 +100,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
           actorConfig: { ...tableConfig.actorConfig, data: parsedData, filteredData: parsedData },
         })
         break
-      case 'addMessage':
-        //const newMsgs:types.messageType[] = messages
-        let newMsgs: types.AnyObject[] = Array.from(messages)
-        //newMsgs.push(payload)
-        newMsgs.push(payload)
-        console.log(newMsgs)
-        setMessages(newMsgs)
-        break
       case 'getGameObject':
         returnObj = await apiUtils.getGameObject()
         console.log(returnObj)
@@ -131,15 +124,28 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }
 
+  //
+  const gblMsgHandler = (message: types.messageType) => {
+    switch (message.type) {
+      case 'private':
+        setMessages([...messages, message])
+        break
+      default:
+        break
+    }
+  }
+
   const value = React.useMemo(
     () => ({
+      game,
+      setGame,
       creatures,
       setCreatures,
       actors,
       setActors,
       tableConfig,
       setTableConfig,
-      reducer,
+      gblMsgHandler,
       account,
       setAccount,
       messages,
@@ -148,7 +154,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setIsConnected,
       stompClient,
       setWSSocket,
-      setStompClient
+      setStompClient,
     }),
     [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages]
   )

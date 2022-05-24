@@ -1,0 +1,50 @@
+.dashboard{
+    display: grid;
+    grid-template-columns: repeat(13,minmax(20px,auto));
+    grid-template-rows: repeat(20,minmax(50px,auto));
+    grid-gap: 2px;
+  }
+  
+  .dashboardHeader {
+    grid-column-start: 1;
+    grid-column-end: 13;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    background-color: pink;
+    text-align: center;
+  }
+  .dashboardParty {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 3;
+    grid-row-end: 18;
+    background-color: lightblue;
+    text-align: center;
+  }
+
+  .dashboardEnvironment {
+    grid-column-start: 5;
+    grid-column-end: 9;
+    grid-row-start: 3;
+    grid-row-end: 8;
+    background-color: orange;
+    text-align: center;
+  }
+
+  .dashboardImage {
+    grid-column-start: 5;
+    grid-column-end: 9;
+    grid-row-start: 8;
+    grid-row-end: 18;
+    background-color: lightgreen;
+    text-align: center;
+  }
+
+  .dashboardMessage {
+    grid-column-start: 9;
+    grid-column-end: 13;
+    grid-row-start: 3;
+    grid-row-end: 18;
+    background-color: tan;
+    text-align: center;
+  }
