@@ -760,42 +760,44 @@ const playerOneData = {
   username: 'rlongo',
 }
 
-const climateArray:types.Climate[] = [{
-  coords: { x: 1000, y: 1500, z: 1800 },
-  highTemp: 60,
-  lowTemp: 30,
-  windSpeed:8,
-  windDir: 15,
-  humidity: 0.5,
-  precip: 0,
-  visibility: 8000,
-  conditions:[]
-}]
+const climateArray: types.Climate[] = [
+  {
+    coords: { x: 1000, y: 1500, z: 1800 },
+    highTemp: 60,
+    lowTemp: 30,
+    windSpeed: 8,
+    windDir: 15,
+    humidity: 0.5,
+    precip: 0,
+    visibility: 8000,
+    conditions: [],
+  },
+]
 
-const actors:types.Actor[] = [
+const actors: types.Actor[] = [
   {
     name: 'rollo',
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['healing', 'alert']
+    condition: ['healing', 'alert'],
   },
   {
     name: 'bob',
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['sleeping']
+    condition: ['sleeping'],
   },
   {
     name: 'frank',
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['poisoned']
-  }
+    condition: ['poisoned'],
+  },
 ]
 
 export const gameObject: types.GameObject = {
-  worldTime: 10000000,
-  yearTime: 777666000,
+  yearTime: 10500000000,
+  time: 6393600000, //March 15 in a non leap year
   players: actors,
   campaign: 'Rise of the Buttnuts',
   channels: [],
