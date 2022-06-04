@@ -1,45 +1,32 @@
 import * as React from 'react'
 import { useAppContext } from '../../../context/AppProvider'
 import * as types from '../../../types/rpg-types'
-import CustomImage from '../../ImageDisplay/CustomImage'
-import JRiceMapImage from '../../ImageDisplay/JRiceMapImage'
-import TestMouseImage from '../../ImageDisplay/TestMouseImage'
-import MyMapTest from '../../ImageDisplay/MyMapTest'
+import MyMapTest from '../../Image/MyMapTest'
 import * as vars from '../../../data/mapImage'
-import useStomp from "../../../hooks/useStomp";
-import SockJS from "sockjs-client";
-import webStompClient from "webstomp-client";
-
+import useStomp from '../../../hooks/useStomp'
+import Chat from '../../Chat/ChatClient'
 
 function Login() {
-  const { connect, sendMessage } = useStomp()
-  // Note that reference type must correspond to the HTML element it references, e.g. HTMLInputElement
-  const { account, setAccount } = useAppContext()
+  //Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement
+  const { account, setAccount, isConnected, setIsConnected } = useAppContext()
   const userRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
+  const { sendMessage, connect } = useStomp()
 
   function login(event: any) {
     const obj = {
       user: userRef?.current?.value || '',
       password: passwordRef?.current?.value || '',
     }
-
+    console.log(obj)
     setAccount(obj)
+    setIsConnected(true)
     connect(obj.user, obj.password)
   }
 
-  const sendChatMessage = () => {
-    let msg: types.messageType = {
-      id: Math.floor(Math.random() * 10000),
-      sender: account.user,
-      type: 'private',
-      data: 'Hi this is a test group message',
-      dest: ['frank'],
-    }
-    sendMessage(msg)
-  }
-
-  React.useEffect(() => {}, [])
+  /*   React.useEffect(() => {
+    //Does this rerender whenever user value changes?
+  }, [account]) */
 
   return (
     <div>
@@ -58,8 +45,8 @@ function Login() {
         ref={passwordRef}
       />
       <button onClick={login}>Login</button>
-      <button onClick={sendChatMessage}>Send Message</button>
-      <MyMapTest source={vars.bigImage}/>
+      <MyMapTest source={vars.bigImage} />
+      {isConnected && <Chat name={account.name} password={account.password} />}
     </div>
   )
 }

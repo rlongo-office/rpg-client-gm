@@ -7,7 +7,7 @@ import { useAppContext } from '../context/AppProvider'
 const useStomp = (url = 'http://localhost:8080/game-app') => {
   const [message, setMessage] = useState<types.messageType>()
 
-  const {account: user, setWSSocket, stompClient, setStompClient, messages, setMessages, isConnected, setIsConnected} = useAppContext()
+  const {account, gblMsgHandler,setWSSocket, stompClient, setStompClient, messages, setMessages, isConnected, setIsConnected} = useAppContext()
 
   const connectionSuccess = (frame: any, client: any) => {
     console.log('connection was successful')
@@ -37,12 +37,10 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
   }
 
   const messageHandler = (message: any) => {
-    console.log('message handler (set message) => ', message)
-    const body = message?.body
-    messages.push(body)
-    // messages has been updated now ensure it's updated in the context store
-    setMessages([...messages])
-    setMessage(body)
+    //The body of the returned Stomp message is what we want, a JSON string representation of 'GameMessage' Java class
+    const serverMessage = JSON.parse(message.body)
+    console.log(serverMessage)
+    gblMsgHandler(serverMessage)
   }
 
   const sendMessage = (message: types.messageType) => {

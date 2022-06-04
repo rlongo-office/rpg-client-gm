@@ -1,6 +1,6 @@
-export const ADD_ACTOR: string = "ADD_ACTOR"
-export const ADD_CREATURE: string = "ADD_CREATURE"
-export const SET_CREATURE_ID: string = "SET_CREATURE_ID"
+export const ADD_ACTOR: string = 'ADD_ACTOR'
+export const ADD_CREATURE: string = 'ADD_CREATURE'
+export const SET_CREATURE_ID: string = 'SET_CREATURE_ID'
 
 export interface AnyObject {
   [key: string]: any
@@ -10,34 +10,56 @@ export interface AppProviderProps {
   children: React.ReactNode
 }
 
+export interface messageBody {
+  time: Date
+  data: string
+  sender: string
+  recipient: string
+}
+
+//Consider using BigInt wrapper for the WorldTime
+export interface GameObject {
+  yearTime: number
+  time: number      //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
+  players: Actor[]
+  campaign: string
+  channels: channel[]
+  climate: Climate[]
+}
+
+export interface Climate {
+  coords: { x: number; y: number; z: number }
+  highTemp: number
+  lowTemp: number
+  windSpeed: number
+  windDir: number //360 radial measure, 0=north, 90=East, etc
+  humidity: number
+  precip: number //as inch per hour
+  visibility: number //in feet
+  conditions: string[]
+}
+
+export interface Actor {
+  name: string
+  stats: AnyObject
+  location: { x: number; y: number; z: number }
+  condition: string[]
+}
 export interface location {
   player: string
-  location: object //{x:number,y:number,z:number}
+  coords: object //{x:number,y:number,z:number}
 }
 
 export interface channel {
   name: string
   type: string //private, global, group
-  target: string[]    //list of all recipients of the message
-}
-
-export interface messageBody {
-  time: Date
-  body: string
-  sender: string
-  recipient: string
-}
-
-export interface GameObject {
-  globalTime: number
-  players: location[]
-  campaign: string
-  channels: channel[]
+  target: string[] //list of all recipients of the message
 }
 
 export interface messageType {
   id: number
   sender: string
+  timeStamp: string
   type: string
   data: string
   dest: string[]
@@ -64,26 +86,26 @@ export interface ConfigObject {
 }
 
 export interface ImageConfig {
-  img: string,
-  imgTOP: number,
-  imgLEFT: number,
-  offsetY: number,
-  offsetX: number,
-  isFirstPress: boolean,
-  isDragging: boolean,
-  isScaling: boolean,
-  divHeight: number,
-  divWidth: number,
-  topLimit: number,
-  leftLimit: number,
-  isLoaded: boolean,
-  oldMouseX: number,
-  oldMouseY: number,
+  img: string
+  imgTOP: number
+  imgLEFT: number
+  offsetY: number
+  offsetX: number
+  isFirstPress: boolean
+  isDragging: boolean
+  isScaling: boolean
+  divHeight: number
+  divWidth: number
+  topLimit: number
+  leftLimit: number
+  isLoaded: boolean
+  oldMouseX: number
+  oldMouseY: number
   touchDist: number
 }
 
 export interface Coords {
-  x?: number,
+  x?: number
   y?: number
 }
 

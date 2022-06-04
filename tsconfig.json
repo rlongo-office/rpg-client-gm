@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "context/AppProvider.js", "components/ImageDisplay/TestMouseImage.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "context/AppProvider.js", "components/Image/TestMouseImage.jsx", "data/collections/game-object.ts"],
   "exclude": ["node_modules"]
 }
