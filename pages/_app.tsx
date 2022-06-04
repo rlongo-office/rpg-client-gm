@@ -23,11 +23,9 @@ type AppProviderProps = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
       <AppProvider>
         <Component {...pageProps} />
       </AppProvider>
-    </ChakraProvider>
   )
 }
 
