@@ -2,6 +2,7 @@ import * as React from 'react'
 import DataTable from './DataTable'
 import { useAppContext } from '../../context/AppProvider'
 import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
+import CreatureEditForm from '../CreatureEditForm'
 
 interface TableConfig {
   tableID: string
