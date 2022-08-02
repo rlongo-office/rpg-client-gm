@@ -31,7 +31,7 @@ import {
 
 function StatComponentSimple() {
   return (
-    <ParentDiv id="parent-stat-component">
+    <div style={ParentDiv} id="parent-stat-component">
       <div style={vertStack}>
         <div id="topBar">
           <div id="topStatSection" style={HSpaced}>
@@ -391,7 +391,7 @@ function StatComponentSimple() {
           </div>
         </div>
       </div>
-    </ParentDiv>
+    </div>
   )
 }
 

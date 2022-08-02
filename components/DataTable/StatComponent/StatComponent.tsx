@@ -11,7 +11,7 @@ import {
 
 function StatComponent() {
   return (
-    <ParentDiv id="parent-stat-component">
+    <div style={ParentDiv} id="parent-stat-component">
       <VStack>
         <Box>
           <HStack>

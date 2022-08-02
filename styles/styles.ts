@@ -1,15 +1,15 @@
 import * as React from 'react'
 import styled from '@emotion/styled'
 
-export const ParentDiv = styled.div`
-  padding: '2px';
-  background-color: 'black';
-  width: '370px';
-  alignment: 'center';
-  font: '16px bolder';
-  display: 'flex';
-  justify-content: 'space-evenly';
-`
+export const ParentDiv = {
+  padding: '2px',
+  backgroundColor: 'black',
+  width: '370px',
+  alignment: 'center',
+  font: '16px bolder',
+  display: 'flex',
+  justifyContent: 'space-evenly',
+}
 
 export const vertStack = {
   width: '350px',
