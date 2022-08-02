@@ -4,14 +4,14 @@ import {
   abilityBox,
   abilityStat,
   midStatBox,
-  parentDiv,
+  ParentDiv,
   roundSquareStat,
   squareStat,
 } from '../../../styles/styles'
 
 function StatComponent() {
   return (
-    <div id="parent-stat-component" style={parentDiv}>
+    <ParentDiv id="parent-stat-component">
       <VStack>
         <Box>
           <HStack>
@@ -96,7 +96,7 @@ function StatComponent() {
           </HStack>
         </Box>
       </VStack>
-    </div>
+    </ParentDiv>
   )
 }
 

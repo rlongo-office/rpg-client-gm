@@ -1,16 +1,19 @@
-export const parentDiv = {
-  padding: '2px',
-  backgroundColor: 'black',
-  width: '370px',
-  alignment: 'center',
-  font: '16px bolder',
-  display: 'flex',
-  justifyContent: 'space-evenly',
-}
+import * as React from 'react'
+import styled from '@emotion/styled'
+
+export const ParentDiv = styled.div`
+  padding: '2px';
+  background-color: 'black';
+  width: '370px';
+  alignment: 'center';
+  font: '16px bolder';
+  display: 'flex';
+  justify-content: 'space-evenly';
+`
 
 export const vertStack = {
   width: '350px',
-}
+} as React.CSSProperties
 
 export const abilityBox = {
   padding: '5px',
@@ -20,7 +23,7 @@ export const abilityBox = {
   borderRadius: '10px',
   width: '100%',
   alignment: 'center',
-}
+} as React.CSSProperties
 
 export const midStatBox = {
   padding: '2px',
@@ -30,7 +33,7 @@ export const midStatBox = {
   borderRadius: '10px',
   width: '100%',
   alignment: 'center',
-}
+} as React.CSSProperties
 
 export const topStatBox = {
   padding: '2px',
@@ -39,11 +42,11 @@ export const topStatBox = {
   backgroundColor: '#d9f2e6',
   borderRadius: '10px',
   width: '300px',
-}
+} as React.CSSProperties
 
 export const hStack = {
   alignment: 'center',
-}
+} as React.CSSProperties
 
 export const abilityStat = {
   margin: '3px',
@@ -56,7 +59,7 @@ export const abilityStat = {
   backgroundColor: 'beige',
   fontWeight: '900',
   fontSize: '20px',
-}
+} as React.CSSProperties
 
 export const roundSquareStat = {
   margin: '2px',
@@ -68,7 +71,7 @@ export const roundSquareStat = {
   width: '90px',
   height: '90px',
   backgroundColor: 'beige',
-}
+} as React.CSSProperties
 
 export const squareStat = {
   margin: '2px',
@@ -79,7 +82,7 @@ export const squareStat = {
   width: '90px',
   height: '90px',
   backgroundColor: 'beige',
-}
+} as React.CSSProperties
 
 export const squareStatSmall = {
   ...squareStat,
@@ -90,7 +93,7 @@ export const squareStatSmall = {
   borderRadius: '10px',
   paddingTop: '5px',
   backgroundColor: 'beige',
-}
+} as React.CSSProperties
 
 export const squareStatSpell = {
   border: '3px solid Purple',
@@ -102,7 +105,7 @@ export const squareStatSpell = {
   margin: '2px',
   paddingLeft: '10px',
   paddingRight: '10px',
-}
+} as React.CSSProperties
 
 export const squareTitleSpell = {
   ...squareStatSpell,
@@ -111,7 +114,7 @@ export const squareTitleSpell = {
   border: '4px solid Purple',
   height: ' 30px',
   width: '100%',
-}
+} as React.CSSProperties
 
 export const squareLineSpell = {
   ...squareTitleSpell,
@@ -121,7 +124,7 @@ export const squareLineSpell = {
   height: '30px',
   width: '80%',
   borderRadius: '15px',
-}
+} as React.CSSProperties
 
 export const skillBox = {
   margin: '3px',
@@ -131,7 +134,7 @@ export const skillBox = {
   borderRadius: '10px',
   width: '175px',
   backgroundColor: 'white',
-}
+} as React.CSSProperties
 
 export const skillStatBox = {
   margin: '2px',
@@ -146,7 +149,7 @@ export const skillStatBox = {
   backgroundColor: 'lightCyan',
   display: 'flex',
   justifyContent: 'space-between',
-}
+} as React.CSSProperties
 
 export const skillTitle = {
   margin: '1px',
@@ -157,24 +160,25 @@ export const skillTitle = {
   justifyContent: 'space-evenly',
   fontWeight: '900',
   fontSize: '18px',
-}
+} as React.CSSProperties
+
 export const HSpaced = {
   display: 'flex',
   justifyContent: 'space-evenly',
   width: '100%',
   margin: '2px',
-}
+} as React.CSSProperties
 
 export const VSpaced = {
   justifyContent: 'space-evenly',
   width: '100%',
   margin: '2px',
-}
+} as React.CSSProperties
 
 export const HSpacedSqueeze = {
   ...HSpaced,
   justifyContent: 'center',
-}
+} as React.CSSProperties
 
 export const attackBox = {
   fontSize: '18px',
@@ -187,10 +191,10 @@ export const attackBox = {
   backgroundColor: 'beige',
   display: 'flex',
   alignText: 'center',
-}
+} as React.CSSProperties
 
-export const attackBoxLong = { ...attackBox, width: '50%' }
-export const attackBoxShort = { ...attackBox, width: '25%' }
+export const attackBoxLong = { ...attackBox, width: '50%' } as React.CSSProperties
+export const attackBoxShort = { ...attackBox, width: '25%' } as React.CSSProperties
 export const attackBoxSquare = {
   ...attackBox,
   border: '1px solid Brown',
@@ -199,26 +203,26 @@ export const attackBoxSquare = {
   fontSize: '24px',
   paddingLeft: '25px',
   paddingRight: '25px',
-}
+} as React.CSSProperties
 
-export const inventoryBox= {
-  fontSize: '24px'
-}
+export const inventoryBox = {
+  fontSize: '24px',
+} as React.CSSProperties
 
 export const inventoryBoxLong = {
   ...inventoryBox,
   width: '60%',
-  paddingLeft: '5px'
-}
+  paddingLeft: '5px',
+} as React.CSSProperties
 
 export const inventoryBoxShort = {
   ...inventoryBox,
-  width: '20%'
-}
+  width: '20%',
+} as React.CSSProperties
 
 export const skillStat = {
   width: '50%',
-}
+} as React.CSSProperties
 
 export const squareTitleBox = {
   fontWeight: '900',
@@ -227,7 +231,7 @@ export const squareTitleBox = {
   border: '4px solid Green',
   height: ' 40px',
   width: '100%',
-  textAlign: 'center'
-}
+  textAlign: 'center',
+} as React.CSSProperties
 
-export default { abilityBox, abilityStat, hStack, parentDiv }
+export default { abilityBox, abilityStat, hStack, ParentDiv }

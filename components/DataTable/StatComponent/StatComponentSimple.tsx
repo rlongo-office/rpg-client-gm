@@ -13,7 +13,7 @@ import {
   inventoryBoxLong,
   inventoryBoxShort,
   midStatBox,
-  parentDiv,
+  ParentDiv,
   roundSquareStat,
   skillBox,
   skillStat,
@@ -31,12 +31,16 @@ import {
 
 function StatComponentSimple() {
   return (
-    <div id="parent-stat-component" style={parentDiv}>
+    <ParentDiv id="parent-stat-component">
       <div style={vertStack}>
         <div id="topBar">
           <div id="topStatSection" style={HSpaced}>
-            <div style={{...squareTitleBox,borderColor:'blue',backgroundColor:'AliceBlue'}}>Rollo</div>
-            <div style={{...squareTitleBox,borderColor:'blue',backgroundColor:'AliceBlue'}}>Monk 1</div>
+            <div style={{ ...squareTitleBox, borderColor: 'blue', backgroundColor: 'AliceBlue' }}>
+              Rollo
+            </div>
+            <div style={{ ...squareTitleBox, borderColor: 'blue', backgroundColor: 'AliceBlue' }}>
+              Monk 1
+            </div>
           </div>
         </div>
         <div id="topStatSection" style={HSpaced}>
@@ -351,7 +355,7 @@ function StatComponentSimple() {
             <div style={inventoryBoxShort}>worn</div>
           </div>
           <div style={{ ...HSpaced, backgroundColor: 'white', borderColor: 'brown' }}>
-            <div style={inventoryBoxLong}>thieves' tools</div>
+            <div style={inventoryBoxLong}>thieves&apos; tools</div>
             <div style={inventoryBoxShort}>1</div>
             <div style={inventoryBoxShort}>pack</div>
           </div>
@@ -376,7 +380,7 @@ function StatComponentSimple() {
             <div style={inventoryBoxShort}>quiver</div>
           </div>
           <div style={{ ...HSpaced, backgroundColor: 'white', borderColor: 'brown' }}>
-            <div style={inventoryBoxLong}>burglar's pack</div>
+            <div style={inventoryBoxLong}>burglar&apos;s pack</div>
             <div style={inventoryBoxShort}>1</div>
             <div style={inventoryBoxShort}>pack</div>
           </div>
@@ -387,7 +391,7 @@ function StatComponentSimple() {
           </div>
         </div>
       </div>
-    </div>
+    </ParentDiv>
   )
 }
 
