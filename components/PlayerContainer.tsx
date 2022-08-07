@@ -16,6 +16,7 @@ interface Props {
 function PlayerContainer({map,data}:Props) {
   const [playerStats, setPlayerStats] = React.useState<AnyObject>(playerData[0])
   const [statMap, setStatMap] = React.useState<AnyObject>(Map)
+  
   React.useEffect(() => {}, [])
   return (
             <>

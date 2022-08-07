@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { Box, HStack, VStack, SimpleGrid, Flex } from '@chakra-ui/react'
+import heart from '../../../public/heart.png'
+import Image from 'next/image'
 import {
   abilityBox,
   abilityStat,
@@ -25,16 +27,24 @@ import {
   squareStatSpell,
   squareTitleBox,
   squareTitleSpell,
+  StateImageBox,
   vertStack,
   VSpaced,
-} from '../../../styles/styles'
+} from '../../../styles/styles-test'
+import { url } from 'inspector'
 
 function StatComponentSimple() {
   return (
     <div style={ParentDiv} id="parent-stat-component">
       <div style={vertStack}>
+        <div>
+          <div>
+            <Image src="/heart.png" height="100px" width="100px"></Image>
+          </div>
+          <div style={StateImageBox}></div>
+        </div>
         <div id="topBar">
-          <div id="topStatSection" style={HSpaced}>
+          <div id="topSection" style={HSpaced}>
             <div style={{ ...squareTitleBox, borderColor: 'blue', backgroundColor: 'AliceBlue' }}>
               Rollo
             </div>
@@ -47,8 +57,9 @@ function StatComponentSimple() {
           <div style={squareStat}>
             <div style={{ textAlign: 'center' }}>Initiative 2</div>
           </div>
-          <div style={squareStat}>
+          <div style={StateImageBox}>
             <div style={{ textAlign: 'center' }}>Hitpoints</div>
+            <div style={{ textAlign: 'center' }}>15</div>
           </div>
           <div style={squareStat}>
             <div style={{ textAlign: 'center' }}>Speed</div>

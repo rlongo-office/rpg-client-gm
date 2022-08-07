@@ -1,5 +1,7 @@
 import { useContext } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
+import playersData from '../data/collections/players.json'
+import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 /* import creaturesData from '../data/collections/creature-slice.json'
 import itemsData from '../data/collections/items.json'
 import playersData from '../data/collections/players.json'
@@ -24,6 +26,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
   const [game, setGame] = React.useState<types.GameObject>(gameObject)
   const [messages, setMessages] = React.useState<types.messageType[]>([])
+  const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
+  const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -155,8 +159,10 @@ export function AppProvider({ children }: types.AppProviderProps) {
       stompClient,
       setWSSocket,
       setStompClient,
+      players,
+      playerBP,
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages]
+    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages, players]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

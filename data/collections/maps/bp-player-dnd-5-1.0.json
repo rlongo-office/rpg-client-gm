@@ -1,0 +1,520 @@
+{
+  "map-name": "player-main-stats",
+  "rules-set": "DnDv5",
+  "version": "1.0",
+  "top": {
+    "style": "ParentDiv",
+    "type": "section",
+    "id": "parent-ui-player-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "child": [
+          {
+            "style": "HSpaced",
+            "type": "section",
+            "id": "title-section",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "child": [
+              {
+                "style": "squareTitleBoxBlue",
+                "type": "data",
+                "id": "player-name",
+                "clickable": true,
+                "message": "player-name",
+                "label": "",
+                "data": "name",
+                "orient": "horizontal"
+              },
+              {
+                "style": "squareTitleBoxBlue",
+                "type": "data",
+                "id": "player-class",
+                "clickable": true,
+                "message": "player-class",
+                "label": "",
+                "data": "classes[0].name",
+                "orient": "horizontal"
+              }
+            ]
+          },
+          {
+            "style": "HSpaced",
+            "type": "section",
+            "id": "top-stat-section",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "child": [
+              {
+                "style": "squareStat",
+                "type": "data",
+                "id": "initiative",
+                "clickable": true,
+                "message": "initiative",
+                "label": "Initiative",
+                "data": "initiative.adj",
+                "orient": "vertical"
+              },
+              {
+                "style": "squareStat",
+                "type": "data",
+                "id": "hitpoints",
+                "clickable": true,
+                "message": "hitpoints",
+                "label": "Hitpoints",
+                "data": "hitpoint.adj",
+                "orient": "vertical"
+              },
+              {
+                "style": "squareStat",
+                "type": "data",
+                "id": "speed",
+                "clickable": true,
+                "message": "player-class",
+                "label": "Speed",
+                "data": "speed.adj",
+                "orient": "vertical"
+              }
+            ]
+          },
+          {
+            "style": "midStatBox",
+            "type": "section",
+            "id": "mid-stat-section",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "child": [
+              {
+                "style": "flexEvenlySection",
+                "type": "section",
+                "id": "sub-mid-stat-section",
+                "clickable": false,
+                "message": "",
+                "label": "",
+                "child": [
+                  {
+                    "style": "roundSquareStat",
+                    "type": "data",
+                    "id": "hit-dice",
+                    "clickable": true,
+                    "message": "hit-dice",
+                    "label": "Hit Dice",
+                    "data": "classes[0].classHitDice",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "roundSquareStat",
+                    "type": "data",
+                    "id": "armor-class",
+                    "clickable": true,
+                    "message": "armor-class",
+                    "label": "Armor Class",
+                    "data": "armorClass.adj",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "roundSquareStat",
+                    "type": "data",
+                    "id": "proficiency",
+                    "clickable": true,
+                    "message": "proficiency",
+                    "label": "Proficiency",
+                    "data": "speed.name",
+                    "orient": "vertical"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "style": "abilityBox",
+            "type": "section",
+            "id": "ability-section",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "child": [
+              {
+                "style": "flexEvenlySection",
+                "type": "section",
+                "id": "sub-ability-section",
+                "clickable": false,
+                "message": "",
+                "label": "",
+                "child": [
+                  {
+                    "style": "",
+                    "type": "section",
+                    "id": "col-1-ability-section",
+                    "clickable": false,
+                    "message": "",
+                    "label": "",
+                    "child": [
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "strength",
+                        "clickable": true,
+                        "message": "strength",
+                        "label": "Strength",
+                        "data": "abilities[0].stat.adj",
+                        "orient": "vertical"
+                      },
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "dexterity",
+                        "clickable": true,
+                        "message": "dexterity",
+                        "label": "Dexterity",
+                        "data": "abilities[1].stat.adj",
+                        "orient": "vertical"
+                      },
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "constitution",
+                        "clickable": true,
+                        "message": "constitution",
+                        "label": "Constitution",
+                        "data": "abilities[2].stat.adj",
+                        "orient": "vertical"
+                      }
+                    ]
+                  },
+                  {
+                    "style": "",
+                    "type": "section",
+                    "id": "col-2-ability-section",
+                    "clickable": false,
+                    "message": "",
+                    "label": "",
+                    "child": [
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "intelligence",
+                        "clickable": true,
+                        "message": "intelligence",
+                        "label": "Intelligence",
+                        "data": "abilities[3].stat.adj",
+                        "orient": "vertical"
+                      },
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "wisdom",
+                        "clickable": true,
+                        "message": "wisdom",
+                        "label": "Wisdom",
+                        "data": "abilities[4].stat.adj",
+                        "orient": "vertical"
+                      },
+                      {
+                        "style": "abilityStat",
+                        "type": "data",
+                        "id": "charisma",
+                        "clickable": true,
+                        "message": "charisma",
+                        "label": "Charisma",
+                        "data": "abilities[5].stat.adj",
+                        "orient": "vertical"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "style": "",
+            "type": "section",
+            "id": "skills-section",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "child": [
+              {
+                "style": "flexEvenlySection",
+                "type": "section",
+                "id": "sub-skills-section",
+                "clickable": false,
+                "message": "",
+                "label": "",
+                "child": [
+                  {
+                    "style": "",
+                    "type": "section",
+                    "id": "col-1-skills-section",
+                    "clickable": false,
+                    "message": "",
+                    "label": "",
+                    "child": [
+                      {
+                        "style": "skillBox",
+                        "type": "section",
+                        "id": "skillbox-strength",
+                        "clickable": false,
+                        "message": "",
+                        "label": "Strength",
+                        "orient": "vertical",
+                        "child": [
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-athletics",
+                            "clickable": true,
+                            "message": "skillstat-athletics",
+                            "label": "Athletics",
+                            "orient": "horizontal",
+                            "data": "skills[3].stat.adj"
+                          }
+                        ]
+                      },
+                      {
+                        "style": "skillBox",
+                        "type": "section",
+                        "id": "skillbox-dexterity",
+                        "clickable": false,
+                        "message": "",
+                        "label": "Dexterity",
+                        "orient": "vertical",
+                        "child": [
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-acrobatics",
+                            "clickable": true,
+                            "message": "skillstat-acrobatics",
+                            "label": "Acrobatics",
+                            "orient": "horizontal",
+                            "data": "skills[0].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-sleight-of-hand",
+                            "clickable": true,
+                            "message": "skillstat-sleight-of-hand",
+                            "label": "Sleight of Hand",
+                            "orient": "horizontal",
+                            "data": "skills[15].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-stealth",
+                            "clickable": true,
+                            "message": "skillstat-stealth",
+                            "label": "Stealth",
+                            "orient": "horizontal",
+                            "data": "skills[16].stat.adj"
+                          }
+                        ]
+                      },
+                      {
+                        "style": "skillBox",
+                        "type": "section",
+                        "id": "skillbox-intelligence",
+                        "clickable": false,
+                        "message": "",
+                        "label": "Intelligence",
+                        "orient": "vertical",
+                        "child": [
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-arcana",
+                            "clickable": true,
+                            "message": "skillstat-arcana",
+                            "label": "Arcana",
+                            "orient": "horizontal",
+                            "data": "skills[2].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-history",
+                            "clickable": true,
+                            "message": "skillstat-history",
+                            "label": "History",
+                            "orient": "horizontal",
+                            "data": "skills[5].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-investigation",
+                            "clickable": true,
+                            "message": "skillstat-investigation",
+                            "label": "Investigation",
+                            "orient": "horizontal",
+                            "data": "skills[8].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-nature",
+                            "clickable": true,
+                            "message": "skillstat-nature",
+                            "label": "Nature",
+                            "orient": "horizontal",
+                            "data": "skills[10].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-religion",
+                            "clickable": true,
+                            "message": "skillstat-religion",
+                            "label": "Religion",
+                            "orient": "horizontal",
+                            "data": "skills[14].stat.adj"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "style": "",
+                    "type": "section",
+                    "id": "col-2-skills-section",
+                    "clickable": false,
+                    "message": "",
+                    "label": "",
+                    "child": [
+                      {
+                        "style": "skillBox",
+                        "type": "section",
+                        "id": "skillbox-wisdom",
+                        "clickable": false,
+                        "message": "",
+                        "label": "Wisdom",
+                        "orient": "vertical",
+                        "child": [
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-animal-handling",
+                            "clickable": true,
+                            "message": "skillstat-animal-handling",
+                            "label": "Animal Handling",
+                            "orient": "horizontal",
+                            "data": "skills[1].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-insight",
+                            "clickable": true,
+                            "message": "skillstat-insight",
+                            "label": "Insight",
+                            "orient": "horizontal",
+                            "data": "skills[6].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-Medicine",
+                            "clickable": true,
+                            "message": "skillstat-medicine",
+                            "label": "Medicine",
+                            "orient": "horizontal",
+                            "data": "skills[9].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-perception",
+                            "clickable": true,
+                            "message": "skillstat-perception",
+                            "label": "Perception",
+                            "orient": "horizontal",
+                            "data": "skills[11].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-survival",
+                            "clickable": true,
+                            "message": "skillstat-survival",
+                            "label": "Survival",
+                            "orient": "horizontal",
+                            "data": "skills[17].stat.adj"
+                          }
+                        ]
+                      },
+                      {
+                        "style": "skillBox",
+                        "type": "section",
+                        "id": "skillbox-charisma",
+                        "clickable": false,
+                        "message": "",
+                        "label": "Charisma",
+                        "orient": "vertical",
+                        "child": [
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-deception",
+                            "clickable": true,
+                            "message": "skillstat-deception",
+                            "label": "Deception",
+                            "orient": "horizontal",
+                            "data": "skills[4].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-intimidation",
+                            "clickable": true,
+                            "message": "skillstat-intimidation",
+                            "label": "Intimidation",
+                            "orient": "horizontal",
+                            "data": "skills[7].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-performance",
+                            "clickable": true,
+                            "message": "skillstat-performance",
+                            "label": "Performance",
+                            "orient": "horizontal",
+                            "data": "skills[12].stat.adj"
+                          },
+                          {
+                            "style": "skillStatBox",
+                            "type": "data",
+                            "id": "skillstat-persuasion",
+                            "clickable": true,
+                            "message": "skillstat-persuasion",
+                            "label": "Persuasion",
+                            "orient": "horizontal",
+                            "data": "skills[13].stat.adj"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

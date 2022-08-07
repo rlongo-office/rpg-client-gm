@@ -7,7 +7,7 @@ import {
   ParentDiv,
   roundSquareStat,
   squareStat,
-} from '../../../styles/styles'
+} from '../../../styles/styles-test'
 
 function StatComponent() {
   return (
