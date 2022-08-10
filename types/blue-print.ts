@@ -5,6 +5,8 @@ export interface UISectionObj {
   clickable: boolean
   message: string
   label: string
+  data: string
+  orient: string
   child: (UISectionObj | UIDataObj)[]
 }
 
@@ -17,4 +19,12 @@ export interface UIDataObj {
   label: string
   data: string
   orient: string
+  index?: number
+  source?: string
+  child?: (UISectionObj | UIDataObj)[]
+}
+
+export interface UIDataKeyObj extends UIDataObj {
+  index: number
+  source: string
 }

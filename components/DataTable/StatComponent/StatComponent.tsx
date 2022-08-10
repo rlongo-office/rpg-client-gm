@@ -96,7 +96,7 @@ function StatComponent() {
           </HStack>
         </Box>
       </VStack>
-    </ParentDiv>
+    </div>
   )
 }
 

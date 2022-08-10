@@ -96,8 +96,8 @@ styleObj['squareStat'] = {
 styleObj['StateImageBox'] = {
   margin: '2px',
   paddingTop: '20px',
-  width: '90px',
-  height: '90px',
+  width: '120px',
+  height: '120px',
   backgroundImage: `url("/heart.png")`,
 } as React.CSSProperties
 
@@ -226,7 +226,7 @@ styleObj['attackBoxSquare'] = {
 } as React.CSSProperties
 
 styleObj['inventoryBox'] = {
-  fontSize: '24px',
+  fontSize: '18px',
 } as React.CSSProperties
 
 styleObj['inventoryBoxLong'] = {
@@ -237,7 +237,18 @@ styleObj['inventoryBoxLong'] = {
 
 styleObj['inventoryBoxShort'] = {
   ...styleObj['inventoryBox'],
-  width: '20%',
+  width: '10%',
+} as React.CSSProperties
+
+styleObj['inventoryBoxMid'] = {
+  ...styleObj['inventoryBox'],
+  width: '30%',
+} as React.CSSProperties
+
+styleObj['inventoryEntry'] = {
+  ...styleObj['HSpaced'],
+  backgroundColor: 'white',
+  borderColor: 'brown',
 } as React.CSSProperties
 
 styleObj['skillStat'] = {

@@ -9,6 +9,8 @@
     "clickable": false,
     "message": "",
     "label": "",
+    "data": "",
+    "orient": "",
     "child": [
       {
         "style": "vertStack",
@@ -17,6 +19,8 @@
         "clickable": false,
         "message": "",
         "label": "",
+        "data": "",
+        "orient": "",
         "child": [
           {
             "style": "HSpaced",
@@ -55,6 +59,8 @@
             "clickable": false,
             "message": "",
             "label": "",
+            "data": "",
+            "orient": "",
             "child": [
               {
                 "style": "squareStat",
@@ -95,6 +101,8 @@
             "clickable": false,
             "message": "",
             "label": "",
+            "data": "",
+            "orient": "",
             "child": [
               {
                 "style": "flexEvenlySection",
@@ -103,6 +111,8 @@
                 "clickable": false,
                 "message": "",
                 "label": "",
+                "data": "",
+                "orient": "",
                 "child": [
                   {
                     "style": "roundSquareStat",
@@ -145,6 +155,8 @@
             "clickable": false,
             "message": "",
             "label": "",
+            "data": "",
+            "orient": "",
             "child": [
               {
                 "style": "flexEvenlySection",
@@ -153,6 +165,8 @@
                 "clickable": false,
                 "message": "",
                 "label": "",
+                "data": "",
+                "orient": "",
                 "child": [
                   {
                     "style": "",
@@ -161,6 +175,8 @@
                     "clickable": false,
                     "message": "",
                     "label": "",
+                    "data": "",
+                    "orient": "",
                     "child": [
                       {
                         "style": "abilityStat",
@@ -201,6 +217,8 @@
                     "clickable": false,
                     "message": "",
                     "label": "",
+                    "data": "",
+                    "orient": "",
                     "child": [
                       {
                         "style": "abilityStat",
@@ -245,6 +263,8 @@
             "clickable": false,
             "message": "",
             "label": "",
+            "data": "",
+            "orient": "",
             "child": [
               {
                 "style": "flexEvenlySection",
@@ -508,6 +528,60 @@
                         ]
                       }
                     ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "style": "",
+            "type": "section-loop-top",
+            "id": "inventory-section",
+            "clickable": false,
+            "message": "",
+            "label": "Inventory",
+            "data": "",
+            "orient": "",
+            "child": [
+              {
+                "style": "inventoryEntry",
+                "type": "section-loop-object",
+                "id": "inventory",
+                "clickable": false,
+                "message": "inventory",
+                "label": "",
+                "orient": "horizontal",
+                "data": "inventories",
+                "child": [
+                  {
+                    "style": "inventoryBoxLong",
+                    "type": "data-key",
+                    "id": "item-name",
+                    "clickable": true,
+                    "message": "item-name",
+                    "label": "",
+                    "data": "name",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxShort",
+                    "type": "data-key",
+                    "id": "item-quantity",
+                    "clickable": true,
+                    "message": "item-quantity",
+                    "label": "",
+                    "data": "quantity",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxMid",
+                    "type": "data-key",
+                    "id": "item-location",
+                    "clickable": true,
+                    "message": "item-location",
+                    "label": "",
+                    "data": "location",
+                    "orient": "horizontal"
                   }
                 ]
               }

@@ -333,7 +333,7 @@ function StatComponentSimple() {
         </div>
         <div id="inventorySection">
           <div style={squareTitleBox}>Inventory</div>
-          <div id="spellTopSection" style={HSpaced}>
+          <div id="inventoryTopSection" style={HSpaced}>
             <div style={squareStatSmall}>
               <div style={{ textAlign: 'center' }}>PP</div>
               <div style={{ textAlign: 'center' }}>0</div>
