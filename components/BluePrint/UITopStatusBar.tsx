@@ -9,10 +9,7 @@ interface props {
 }
 
 function UITopStatusBar(section: uiTypes.UISectionObj) {
-  return (
-    <div style={styleObj[`${section.style}`]}>
-    </div>
-  )
+  return <div style={styleObj[`${section.style}`]} />
 }
 
 export default UITopStatusBar

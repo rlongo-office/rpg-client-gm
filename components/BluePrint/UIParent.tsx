@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Box, HStack, VStack, SimpleGrid, Flex } from '@chakra-ui/react'
 import heart from '../../../public/heart.png'
 import Image from 'next/image'
 import {
@@ -36,13 +35,9 @@ import * as uiTypes from '../../types/blue-print'
 import UISection from './UISection'
 
 function UIParent() {
-    const {playerBP} = useAppContext()
-  return (
-  <>
-    <UISection {...playerBP.top}></UISection>
-  </>)
+  const { playerBP } = useAppContext()
+  return <UISection {...playerBP.top} />
 }
 
 export default UIParent
 
-//<UISection {...playerBP.top}></UISection>

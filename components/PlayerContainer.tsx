@@ -9,22 +9,22 @@ interface AnyObject {
 }
 
 interface Props {
-    map: InfoMap,
-    data: object
+  map: InfoMap
+  data: object
 }
 
-function PlayerContainer({map,data}:Props) {
+function PlayerContainer({ map, data }: Props) {
   const [playerStats, setPlayerStats] = React.useState<AnyObject>(playerData[0])
   const [statMap, setStatMap] = React.useState<AnyObject>(Map)
-  
+
   React.useEffect(() => {}, [])
   return (
-            <>
-            {statMap.top.sections.map((row: any, rowIndex: number) => (
-                <Section key={rowIndex} section={row} record={playerStats}/>
-              ))}
-            </>
-        )
+    <>
+      {statMap.top.sections.map((row: any, rowIndex: number) => (
+        <Section key={rowIndex} section={row} record={playerStats} />
+      ))}
+    </>
+  )
 }
 
 export default PlayerContainer

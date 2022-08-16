@@ -44,10 +44,6 @@ function UILoopSection(section: uiTypes.UISectionObj) {
   )
 }
 
-/*
-      {childArray.map((obj: any, rowIndex: number) => {
-        return <UISection key={`${obj.index}-${rowIndex}`} {...obj} />
-      })}
-*/
+
 
 export default UILoopSection
