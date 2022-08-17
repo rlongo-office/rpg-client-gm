@@ -13,10 +13,12 @@
     "@chakra-ui/react": "^2.1.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "framer-motion": "^6.3.3",
     "next": "^12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-refresh": "^0.14.0",
     "sockjs-client": "^1.6.0",
     "webstomp-client": "^1.2.6"
   },

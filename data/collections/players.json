@@ -413,7 +413,8 @@
       "weight": 5,
       "cost": 2,
       "gearType": "adventuring gear",
-      "description": "Bag for holding inventories being carried"
+      "description": "Bag for holding inventories being carried",
+      "location": "worn"
     },
     {
       "name": "Crowbar",
@@ -421,7 +422,8 @@
       "weight": 5,
       "cost": 2,
       "gearType": "adventuring gear",
-      "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied."
+      "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+      "location": "Backpack"
     },
     {
       "name": "dagger",
@@ -429,7 +431,8 @@
       "weight": 1,
       "cost": 2,
       "gearType": "weapon",
-      "description": "small blade weapon"
+      "description": "small blade weapon",
+      "location": "belt"
     },
     {
       "name": "hammer",
@@ -437,7 +440,8 @@
       "weight": 3,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Tool: Hammer"
+      "description": "Tool: Hammer",
+      "location": "Backpack"
     },
     {
       "name": "piton",
@@ -445,7 +449,8 @@
       "weight": 2.5,
       "cost": 0.5,
       "gearType": "adventuring gear",
-      "description": "metal spike that is driven into a crack or seam in the climbing surface with a climbing hammer"
+      "description": "metal spike that is driven into a crack or seam in the climbing surface with a climbing hammer",
+      "location": "Backpack"
     },
     {
       "name": "quarterstaff",
@@ -453,7 +458,8 @@
       "weight": 4,
       "cost": 0.2,
       "gearType": "weapon",
-      "description": "stick weapon"
+      "description": "stick weapon",
+      "location": "hand"
     },
     {
       "name": "rations",
@@ -461,7 +467,8 @@
       "weight": 20,
       "cost": 5,
       "gearType": "adventuring gear",
-      "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts."
+      "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",
+      "location": "Backpack"
     },
     {
       "name": "robes",
@@ -469,7 +476,8 @@
       "weight": 4,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Plain 'ole travelling robes"
+      "description": "Plain 'ole travelling robes",
+      "location": "worn"
     },
     {
       "name": "Rope, hempen (50 feet)",
@@ -477,7 +485,8 @@
       "weight": 4,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Plain 'ole travelling robes"
+      "description": "Plain 'ole travelling robes",
+      "location": "Backpack"
     },
     {
       "name": "Rope, hempen (50 feet)",
@@ -485,7 +494,8 @@
       "weight": 10,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check."
+      "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+      "location": "Backpack"
     },
     {
       "name": "sling",
@@ -493,7 +503,8 @@
       "weight": 0,
       "cost": 0.1,
       "gearType": "weapon",
-      "description": "standard range weapon"
+      "description": "standard range weapon",
+      "location": "belt"
     },
     {
       "name": "sling bullets",
@@ -501,7 +512,8 @@
       "weight": 3,
       "cost": 0.08,
       "gearType": "ammo",
-      "description": "ammunition for slings"
+      "description": "ammunition for slings",
+      "location": "belt"
     },
     {
       "name": "tinderbox",
@@ -509,7 +521,8 @@
       "weight": 1,
       "cost": 0.5,
       "gearType": "adventuring gear",
-      "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch - or anything else with abundant, exposed fuel - takes an action. Lighting any other fire takes 1 minute."
+      "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch - or anything else with abundant, exposed fuel - takes an action. Lighting any other fire takes 1 minute.",
+      "location": "Backpack"
     },
     {
       "name": "torch",
@@ -517,7 +530,8 @@
       "weight": 10,
       "cost": 0.1,
       "gearType": "adventuring gear",
-      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
+      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
+      "location": "Backpack"
     },
     {
       "name": "waterskin",
@@ -525,7 +539,8 @@
       "weight": 5,
       "cost": 0.2,
       "gearType": "adventuring gear",
-      "description": "Leather bladder for holding water"
+      "description": "Leather bladder for holding water",
+      "location": "belt"
     }
   ],
   "spells": [

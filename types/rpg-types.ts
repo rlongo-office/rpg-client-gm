@@ -112,3 +112,27 @@ export interface Coords {
 export interface ImageProps {
   source: string
 }
+
+export interface StatSection {
+  name:string,
+  title:string,
+  position:string,
+  width:number,
+  height:number,
+  style:string,
+  fields:Array<string>,
+  children:Array<StatSection>
+}
+
+export interface Field {
+  label:string,
+  path: string
+}
+
+export interface InfoMap {
+  "map-name": string,
+  "rules-set": string,
+  "version": string,
+  "top": Array<StatSection>
+}
+  
