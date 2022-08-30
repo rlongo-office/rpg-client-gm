@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Box, HStack, VStack, SimpleGrid, Flex } from '@chakra-ui/react'
 import heart from '../../../public/heart.png'
 import Image from 'next/image'
 import { styleObj } from '../../styles/styles'
