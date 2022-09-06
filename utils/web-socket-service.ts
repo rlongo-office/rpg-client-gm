@@ -53,7 +53,7 @@ const connectionError = (error: any) => {
   _isConnected = false
 }
 
-export const wstools = {
+const wstools = {
   connect: async (username: string, password: string) => {
     _isConnected = false
     _socket = new SockJS('http://localhost:8080/game-app')
@@ -90,4 +90,4 @@ export const wstools = {
   },
 }
 
-export default { wstools }
+export default wstools

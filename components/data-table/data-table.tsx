@@ -1,12 +1,9 @@
 import * as React from 'react'
-import SearchInput from './TableBody/SearchInput'
-import PageNavBar from './TableBody/PageNavBar'
-import NewPageNavBar from './TableBody/NewPageNavBar'
-import { addIndexColumn, sortColumn, renderHeader } from './TableBody/utils'
-import HeaderRow from './TableBody/HeaderRow'
-import NewHeaderRow from './TableBody/HeaderRow'
-import Rows from './TableBody/Rows'
-import { useAppContext } from '../../context/AppProvider'
+import SearchInput from './table-body/search-input'
+import NewPageNavBar from './table-body/new-page-nav-bar'
+import NewHeaderRow from './table-body/header-row'
+import { useAppContext } from '../../context/app-provider'
+import Rows from './table-body/Rows'
 
 interface AnyObject {
   [key: string]: any
@@ -140,7 +137,7 @@ function DataTable({ tableID }: TableProps) {
     setFilteredRows(tempRows)
     setTableConfig({
       ...tableConfig,
-      [config.tableID]: { ...tableConfig[config.tableID], current: 1, filteredData:tempRows },
+      [config.tableID]: { ...tableConfig[config.tableID], current: 1, filteredData: tempRows },
     })
     //setCurPage(1)
   }
@@ -151,16 +148,14 @@ function DataTable({ tableID }: TableProps) {
       sortObjectArray.push({ col: true, dir: 1 })
     })
     setColSortState(sortObjectArray)
-    if (config && config.data && config.data.length > 0) {
-      //setNewRows(config.data)
-      //setFilteredRows(config.data)
+    if (config?.data?.length > 0) {
       setNumPages(
         config.filteredData.length % config.pageSize === 0
           ? config.filteredData.length / config.pageSize
           : Math.floor(config.filteredData.length / config.pageSize) + 1
       )
     }
-  }, [])
+  }, [config])
 
   React.useEffect(() => {
     //const tempRows = addIndexColumn(config.data)
@@ -173,7 +168,7 @@ function DataTable({ tableID }: TableProps) {
     )
   }, [config])
 
-/*   React.useEffect(() => {
+  /*   React.useEffect(() => {
     setNumPages(
       filteredRows.length % config.pageSize === 0
         ? filteredRows.length / config.pageSize

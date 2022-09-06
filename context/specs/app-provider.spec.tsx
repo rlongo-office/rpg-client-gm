@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { AppProvider, useAppContext } from '../AppProvider'
+import { AppProvider, useAppContext } from '../app-provider'
 
 //import { AppProvider, Payload, useAppContext } from '../index'
 
@@ -13,12 +13,7 @@ function TestApp() {
 }
 
 function TestPage() {
-  return (
-    <div>
-      Our app:
-
-    </div>
-  )
+  return <div>Our app:</div>
 }
 
 describe('AppProvider', () => {

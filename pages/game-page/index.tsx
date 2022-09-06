@@ -1,12 +1,10 @@
 import * as React from 'react'
-import { useAppContext } from '../../context/AppProvider'
+import { useAppContext } from '../../context/app-provider'
 import Link from 'next/link'
-import Login from '../../components/DataTable/TableBody/Login'
-import ChatHistory from '../../components/Chat/ChatHistory'
+import Login from '../../components/data-table/table-body/login'
+import ChatHistory from '../../components/chat/chat-history'
 
 function GamePage() {
-
-
   React.useEffect(() => {}, [])
 
   return (
@@ -14,8 +12,8 @@ function GamePage() {
       <Link href="/table-test">
         <a>Go to the Table Page!!!</a>
       </Link>
-      <Login/>
-      <ChatHistory/>
+      <Login />
+      <ChatHistory />
     </div>
   )
 }

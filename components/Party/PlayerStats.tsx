@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useAppContext } from '../../context/AppProvider'
+import { useAppContext } from '../../context/app-provider'
 
 function PlayerStats() {
   const { game } = useAppContext()

@@ -1,23 +1,19 @@
 import * as React from 'react'
-import heart from '../../../public/heart.png'
 import Image from 'next/image'
 import {
   abilityBox,
   abilityStat,
-  attackBox,
   attackBoxLong,
   attackBoxShort,
   attackBoxSquare,
   HSpaced,
   HSpacedSqueeze,
-  inventoryBox,
   inventoryBoxLong,
   inventoryBoxShort,
   midStatBox,
   ParentDiv,
   roundSquareStat,
   skillBox,
-  skillStat,
   skillStatBox,
   skillTitle,
   squareLineSpell,
@@ -28,9 +24,7 @@ import {
   squareTitleSpell,
   StateImageBox,
   vertStack,
-  VSpaced,
 } from '../../../styles/styles-test'
-import { url } from 'inspector'
 
 function StatComponentSimple() {
   return (
@@ -38,7 +32,7 @@ function StatComponentSimple() {
       <div style={vertStack}>
         <div>
           <div>
-            <Image src="/heart.png" height="100px" width="100px"></Image>
+            <Image alt="heart" src="/heart.png" height="100px" width="100px"></Image>
           </div>
           <div style={StateImageBox}></div>
         </div>

@@ -1,15 +1,9 @@
 import * as React from 'react'
 import * as types from '../../types/rpg-types'
-import imgSource from './testwebmap.jpg'
-import * as vars from '../../data/mapImage'
-import { ImageProps } from 'next/image'
 
-const testImg = require('./testwebmap.jpg')
-
-export default function MyMapTest({source}:{source:string}) {
+export default function MyMapTest({ source }: { source: string }) {
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
-  const [loaded, setLoaded] = React.useState<boolean>(false)
   const [imgTop, setImgTop] = React.useState<number>(0)
   const [imgLeft, setImgLeft] = React.useState<number>(0)
   const [scHeight, setSCHeight] = React.useState<number>(100)
@@ -47,8 +41,6 @@ export default function MyMapTest({source}:{source:string}) {
 
   const setNewImageLimits = () => {
     const img = imgRef
-    let heightLimit: number
-    let widthLimit: number
     let scaleHeight: number
     let scaleWidth: number
     console.log(`imgScale is: ${imgScale}`)
@@ -56,11 +48,9 @@ export default function MyMapTest({source}:{source:string}) {
     console.log(`img width/Height: ${img.current?.width}:${img.current?.height}`)
     console.log(img)
     img.current
-      ? scaleHeight = Math.floor(imgScale * img.current.naturalHeight)
-      : scaleHeight = 0
-    img.current
-      ? scaleWidth = Math.floor(imgScale * img.current.naturalWidth)
-      : scaleWidth = 0
+      ? (scaleHeight = Math.floor(imgScale * img.current.naturalHeight))
+      : (scaleHeight = 0)
+    img.current ? (scaleWidth = Math.floor(imgScale * img.current.naturalWidth)) : (scaleWidth = 0)
     setTopLimit(-(scaleHeight - cfg.divHeight))
     setLeftLimit(-(scaleWidth - cfg.divWidth))
     setImgLeft(0)
@@ -72,7 +62,6 @@ export default function MyMapTest({source}:{source:string}) {
   const handleImageLoad = () => {
     if (imgRef) {
       const img = imgRef
-      //console.log(imgRef)
       let heightLimit: number
       let widthLimit: number
       img.current ? (heightLimit = img.current.naturalHeight - cfg.divHeight) : (heightLimit = 0)
@@ -87,12 +76,14 @@ export default function MyMapTest({source}:{source:string}) {
     }
   }
 
+  // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     if (imgRef.current?.complete) {
       handleImageLoad()
     }
   }, [])
 
+  // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     setNewImageLimits()
     console.log(`imgScale is: ${imgScale}`)
@@ -129,7 +120,6 @@ export default function MyMapTest({source}:{source:string}) {
   }
 
   const handleMouseUp = (e: any) => {
-    let { canMouseX, canMouseY } = setCoordinates(e)
     setIsScaling(false)
     setIsDragging(false)
     setIsFirstPress(true)
@@ -138,9 +128,7 @@ export default function MyMapTest({source}:{source:string}) {
   }
   const handleMouseDown = (e: any) => {
     const { canMouseX, canMouseY } = setCoordinates(e)
-    //console.log('Mouse DOWN Event function')
     e.preventDefault()
-    //console.log(`Mouse Down ${canMouseX}:${canMouseY}`)
     canMouseX ? setOldXCoord(canMouseX) : setOldXCoord(0)
     canMouseY ? setOldYCoord(canMouseY) : setOldYCoord(0)
     setIsDragging(true)
@@ -178,14 +166,11 @@ export default function MyMapTest({source}:{source:string}) {
 
   const handleMouseMove = (e: any) => {
     let scaling = isScaling
-    let dragging = isDragging
     let tempImgScale: number = 1
     const { canMouseX, canMouseY } = setCoordinates(e)
 
     let yDiff: number
     let xDiff: number
-    let newLeft: number
-    let newTop: number
 
     if (e.targetTouches) {
       e.preventDefault()
@@ -235,7 +220,7 @@ export default function MyMapTest({source}:{source:string}) {
     setOldXCoord(canMouseX || 0)
     setOldYCoord(canMouseY || 0)
   }
-  const handleMouseLeave = (e: any) => {
+  const handleMouseLeave = () => {
     setIsScaling(false)
     setIsDragging(false)
     setIsFirstPress(true)

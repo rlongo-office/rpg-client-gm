@@ -5,9 +5,9 @@ import {
   setObjValue,
   createObjID,
   parseDataForTable,
-} from './DataTable/TableBody/utils'
-import { useAppContext } from '../context/AppProvider'
-import { deepCopy } from './DataTable/TableBody/utils'
+} from '../utils/utils'
+import { useAppContext } from '../context/app-provider'
+import { deepCopy } from '../utils/utils'
 
 interface AnyObject {
   [key: string]: any
@@ -20,27 +20,27 @@ interface props {
 
 function TableInputForm({ source, target }: props) {
   const { creatures, actors, setActors, tableConfig, reducer } = useAppContext()
-  const[currentRecord,setCurrentRecord] = React.useState<AnyObject>()
+  const [currentRecord, setCurrentRecord] = React.useState<AnyObject>()
   const [inputValues, setInputValues] = React.useState<object>({})
   const inputRefs = React.useRef<JSX.Element[]>([])
 
-  const getRecord = (data:AnyObject[])=>{
+  const getRecord = (data: AnyObject[]) => {
     const selectedID = tableConfig[source].selected[0]
     const idPath = tableConfig[source].filtered[0]
-    const filtered = (data.filter((row: AnyObject) => {
+    const filtered = data.filter((row: AnyObject) => {
       const iDOfRecord = getObjValue(row, idPath, 0)
-      return(iDOfRecord == selectedID)
-      }))
+      return iDOfRecord == selectedID
+    })
     return filtered[0]
-    }
-    
+  }
+
   const createActor = () => {
     const record = getRecord(creatures)
     let actor: any = deepCopy(record)
     Object.entries(inputValues).forEach(([key, value]) => {
       setObjValue(actor, key, value)
     })
-    reducer('addActor',actor)
+    reducer('addActor', actor)
     //const newActors = [...actors, createObjID(actors, actor)]
     //setActors(newActors)
     //setInputValues({})

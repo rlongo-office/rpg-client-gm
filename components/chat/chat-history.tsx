@@ -1,32 +1,21 @@
 import * as React from 'react'
-import {useAppContext} from '../../context/AppProvider'
-
+import { useAppContext } from '../../context/app-provider'
 
 export default function ChatHistory() {
-  const {messages} = useAppContext()
+  const { messages } = useAppContext()
 
   return (
     <div>
       <h4>Chat History</h4>
-      {
-        messages.map((row: any, rowIndex: number) => (
-          <div
-            id={`row-id-${rowIndex}`}
-            key={`row-key-${rowIndex}`}
-          >
-            <span
-              className={'cellStyle'}
-            >
-            {
-              Object.keys(row).map((key: any, cellIndex: number) => {
-                return row[key]
-              })
-            }
-            </span>
-          </div>
-        ))
-      }
-
+      {messages.map((row: any, rowIndex: number) => (
+        <div id={`row-id-${rowIndex}`} key={`row-key-${rowIndex}`}>
+          <span className={'cellStyle'}>
+            {Object.keys(row).map((key: any, cellIndex: number) => {
+              return row[key]
+            })}
+          </span>
+        </div>
+      ))}
     </div>
     // <div className={'chatTableWrapper'}>
     //   {messages.map((row: any, rowIndex: number) => (
@@ -51,5 +40,4 @@ export default function ChatHistory() {
     //   ))}
     // </div>
   )
-
 }

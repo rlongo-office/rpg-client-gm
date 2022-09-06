@@ -1,7 +1,7 @@
 import * as React from 'react'
-import DataTable from './DataTable'
-import { useAppContext } from '../../context/AppProvider'
-import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
+import DataTable from './data-table'
+import { useAppContext } from '../../context/app-provider'
+import { parseDataForTable, addIndexColumn } from '../../utils/utils'
 
 interface TableConfig {
   sortColumns: Array<number>
@@ -41,11 +41,9 @@ function ActorsTable() {
     setTableConfig({ ...tableConfig, actorConfig: newConfig })
   }
 
-  React.useEffect(() => {
-  }, [])
+  React.useEffect(() => {}, [])
 
-  React.useEffect(() => {
-  }, [actors])
+  React.useEffect(() => {}, [actors])
 
   /*   React.useEffect(() => {
     let actorsTableConfig = {

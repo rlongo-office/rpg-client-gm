@@ -1,14 +1,9 @@
 import * as React from 'react'
-import { Box, HStack, VStack, SimpleGrid, Flex } from '@chakra-ui/react'
-import heart from '../../../public/heart.png'
-import Image from 'next/image'
 import { styleObj } from '../../styles/styles'
-import { useAppContext } from '../../context/AppProvider'
+import { useAppContext } from '../../context/app-provider'
 import * as uiTypes from '../../types/blue-print'
-import UIData from './UIData'
-import Section from '../Section'
-import * as utils from '../../components/DataTable/TableBody/utils'
-import UISection from './UISection'
+import * as utils from '../../utils/utils'
+import UISection from './ui-section'
 
 interface props {
   section: uiTypes.UISectionObj
@@ -43,7 +38,5 @@ function UILoopSection(section: uiTypes.UISectionObj) {
     </div>
   )
 }
-
-
 
 export default UILoopSection

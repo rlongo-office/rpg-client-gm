@@ -54,19 +54,6 @@ const parseDataForTable = (data: Array<AnyObject>, columnKeys: Array<string>) =>
   return newData
 }
 
-const renderHeader = (row: Object) => {
-  let content: JSX.Element[] = []
-  const keys = Object.keys(row)
-  keys.map(key => {
-    content.push(
-      <span className="cellStyle" key={`row-${key}`}>
-        {key}
-      </span>
-    )
-  })
-  return content
-}
-
 function propertiesToArray(obj: object) {
   const isObject = (val: any) => val && typeof val === 'object' && !Array.isArray(val)
 
@@ -209,7 +196,6 @@ const createObjID = (data: AnyObject[], record: AnyObject) => {
 export {
   addIndexColumn,
   sortColumn,
-  renderHeader,
   parseDataForTable,
   propertiesToArray,
   iterateObjEntries,

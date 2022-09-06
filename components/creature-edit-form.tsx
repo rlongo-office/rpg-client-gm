@@ -1,14 +1,6 @@
 import * as React from 'react'
-import DataSection from './DataSection'
-import {
-  iterateObjEntries,
-  getObjValue,
-  setObjValue,
-  createObjID,
-  parseDataForTable,
-} from './DataTable/TableBody/utils'
-import { useAppContext } from '../context/AppProvider'
-import { deepCopy } from './DataTable/TableBody/utils'
+import DataSection from './data-section'
+import { useAppContext } from '../context/app-provider'
 
 interface AnyObject {
   [key: string]: any
@@ -28,9 +20,8 @@ function CreatureEditForm({ source, target }: props) {
 
   return (
     <>
-    <h1>This is the Creature Edit Form</h1>
-      <DataSection
-        record={currentCreature} />
+      <h1>This is the Creature Edit Form</h1>
+      <DataSection record={currentCreature} />
     </>
   )
 }

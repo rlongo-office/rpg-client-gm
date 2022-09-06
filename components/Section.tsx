@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StatSection } from '../types/rpg-types'
-import { getObjValue } from '../components/DataTable/TableBody/utils'
+import { getObjValue } from '../utils/utils'
 //This is a no-no so we need a type of Creature. So refactor this with a Creature type
 interface AnyObject {
   [key: string]: any
@@ -13,8 +13,7 @@ type props = {
 
 function Section({ section, record }: props) {
   console.log('DataSection called')
-  React.useEffect(() => {
-  }, [])
+  React.useEffect(() => {}, [])
   return (
     <div id={section.name}>
       {section.fields.map((row: any, rowIndex: number) => (

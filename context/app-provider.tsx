@@ -2,18 +2,11 @@ import { useContext } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
-/* import creaturesData from '../data/collections/creature-slice.json'
-import itemsData from '../data/collections/items.json'
-import playersData from '../data/collections/players.json'
-import spellsData from '../data/collections/spells.json'
-import storylinesData from '../data/collections/storylines.json' */
 import * as React from 'react'
-import { parseDataForTable, createObjID } from '../components/DataTable/TableBody/utils'
-import gameService, { apiUtils } from '../utils/game-service'
+import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
-
-// eslint-disable-next-line no-unused-vars
+import apiUtils from '../utils/game-service'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 

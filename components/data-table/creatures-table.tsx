@@ -1,8 +1,5 @@
 import * as React from 'react'
-import DataTable from './DataTable'
-import { useAppContext } from '../../context/AppProvider'
-import { parseDataForTable, addIndexColumn } from '../../components/DataTable/TableBody/utils'
-import CreatureEditForm from '../CreatureEditForm'
+import DataTable from './data-table'
 
 interface TableConfig {
   tableID: string
@@ -29,7 +26,6 @@ interface AnyObject {
  * @constructor
  */
 function CreaturesTable() {
-
   /*   const parsedActors = parseDataForTable(creatures, [
     'name',
     'type',
@@ -37,7 +33,7 @@ function CreaturesTable() {
     'challenge_rating',
   ]) */
 
-/*   const setTableData = () => {
+  /*   const setTableData = () => {
     let newConfig: TableConfig = tableConfig.creatureConfig
     newConfig = {
       ...newConfig,

@@ -10,7 +10,7 @@ Game object will hold world time, local weather, party location, curernt campaig
 const spellUrl = 'https://www.dnd5eapi.co/api/spells'
 const heroku = 'https://rpg-dnd-server.herokuapp.com'
 
-export const apiUtils = {
+const apiUtils = {
   grabSpell: (spell = 'acid-arrow') => {
     return fetch(`${spellUrl}/${spell}`).then(res => res.json())
   },
@@ -37,7 +37,7 @@ export const apiUtils = {
 
 async function postData(url: string, data: object) {
   // Default options are marked with *
-  let response:any
+  let response: any
   response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     //mode: 'no-cors', // no-cors, *cors, same-origin
@@ -54,5 +54,4 @@ async function postData(url: string, data: object) {
   return response // parses JSON response into native JavaScript objects
 }
 
-//test Rest call to read data
-export default { apiUtils }
+export default apiUtils
