@@ -2,6 +2,7 @@
 
 # IntelliJ
 .idea/
+.vscode
 
 # dependencies
 /node_modules
