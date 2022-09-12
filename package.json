@@ -10,7 +10,6 @@
     "test:watch": "jest --updateSnapshot --watch"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.1.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",

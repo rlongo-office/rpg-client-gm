@@ -3,7 +3,6 @@ import '../styles/dashboard.css'
 import * as React from 'react'
 import type { AppProps } from 'next/app'
 import { AppProvider } from '../context/app-provider'
-import { ChakraProvider } from '@chakra-ui/react'
 
 interface InitialStateType {
   creatures: Array<Object>
@@ -23,11 +22,9 @@ type AppProviderProps = {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <AppProvider>
-        <Component {...pageProps} />
-      </AppProvider>
-    </ChakraProvider>
+    <AppProvider>
+      <Component {...pageProps} />
+    </AppProvider>
   )
 }
 
