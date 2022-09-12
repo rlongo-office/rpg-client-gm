@@ -2,12 +2,22 @@ import { useState, useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import webStompClient from 'webstomp-client'
 import * as types from '../types/rpg-types'
-import { useAppContext } from '../context/AppProvider'
+import { useAppContext } from '../context/app-provider'
 
 const useStomp = (url = 'http://localhost:8080/game-app') => {
   const [message, setMessage] = useState<types.messageType>()
 
-  const {account, gblMsgHandler,setWSSocket, stompClient, setStompClient, messages, setMessages, isConnected, setIsConnected} = useAppContext()
+  const {
+    account,
+    gblMsgHandler,
+    setWSSocket,
+    stompClient,
+    setStompClient,
+    messages,
+    setMessages,
+    isConnected,
+    setIsConnected,
+  } = useAppContext()
 
   const connectionSuccess = (frame: any, client: any) => {
     console.log('connection was successful')

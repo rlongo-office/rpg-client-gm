@@ -1,9 +1,8 @@
 import * as React from 'react'
-import TableInputForm from '../../components/TableInputForm'
-import PlayerContainer from '../../components/PlayerContainer'
-import ActorsTable from '../../components/DataTable/ActorsTable'
-import CreaturesTable from '../../components/DataTable/CreaturesTable'
-import StatComponent from '../../components/DataTable/StatComponent/StatComponent'
+import TableInputForm from '../../components/table-input-form'
+import ActorsTable from '../../components/data-table/actors-table'
+import CreaturesTable from '../../components/data-table/creatures-table'
+import StatComponentSimple from '../../components/data-table/stat-component-simple/stat-component-simple'
 
 function TableTest() {
   return (
@@ -21,7 +20,7 @@ function TableTest() {
         <TableInputForm source={'creatureConfig'} target={'actorConfig'} />
       </div>
       <div>
-        <StatComponent />
+        <StatComponentSimple />
       </div>
     </div>
   )

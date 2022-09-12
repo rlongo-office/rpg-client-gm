@@ -1,16 +1,15 @@
 import * as React from 'react'
-import { useAppContext } from '../../context/AppProvider'
+import { useAppContext } from '../../context/app-provider'
 import PartyList from './PartyList'
 import PlayerStats from './PlayerStats'
 
-
 function Party() {
-  const {game} = useAppContext()
+  const { game } = useAppContext()
 
   return (
     <>
-    <PartyList></PartyList>
-    <PlayerStats></PlayerStats>
+      <PartyList></PartyList>
+      <PlayerStats></PlayerStats>
     </>
   )
 }
