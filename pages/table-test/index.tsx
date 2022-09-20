@@ -19,9 +19,6 @@ function TableTest() {
       <div>
         <TableInputForm source={'creatureConfig'} target={'actorConfig'} />
       </div>
-      <div>
-        <StatComponentSimple />
-      </div>
     </div>
   )
 }
