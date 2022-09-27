@@ -24,6 +24,16 @@
         "child": [
           {
             "style": "HSpaced",
+            "type": "status-bar",
+            "id": "status-bar",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
             "type": "section",
             "id": "title-section",
             "clickable": false,
