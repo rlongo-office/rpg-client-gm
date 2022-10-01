@@ -19,11 +19,12 @@ export interface messageBody {
 
 //Consider using BigInt wrapper for the WorldTime
 export interface GameObject {
+  id: string
   yearTime: number
   time: number      //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
   players: Actor[]
   campaign: string
-  channels: channel[]
+  channels: channel[]  //e.g. gm, bob, michael, etc....
   climate: Climate[]
 }
 
@@ -62,6 +63,15 @@ export interface messageType {
   timeStamp: string
   type: string
   data: string
+  dest: string[]
+}
+
+export interface textMessage {
+  id: number
+  type:string
+  timeStamp: string
+  sender: string
+  text: string
   dest: string[]
 }
 

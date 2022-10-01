@@ -23,7 +23,7 @@
         "orient": "",
         "child": [
           {
-            "style": "HSpaced",
+            "style": "topStatusBar",
             "type": "status-bar",
             "id": "status-bar",
             "clickable": false,

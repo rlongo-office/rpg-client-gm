@@ -8,7 +8,7 @@ import Image from 'next/image'
 function UIEnvWind() {
   return (
     <div>
-      <Image alt="weather" src="/wind.png" height="100px" width="100px"></Image>
+      <img alt="weather" src="/wind.png" height="30px" width="30px"></img>
     </div>
   )
 }

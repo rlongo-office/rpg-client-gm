@@ -6,7 +6,9 @@ import * as utils  from '../../../utils/utils'
 
 
 function UIPlayerHealth() {
-  return <div/>
+  return <div>
+    <img alt="weather" src="/heart.png" height="30px" width="30px"></img>
+  </div>
 }
 
 export default UIPlayerHealth

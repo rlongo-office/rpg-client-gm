@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
+import textData from '../data/collections/textMessages.json'
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
@@ -21,6 +22,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
+  const [textHistory,setTextHistory] = React.useState<types.textMessage[]>(textData)
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -154,8 +156,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setStompClient,
       players,
       playerBP,
+      textHistory
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages, players]
+    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages, players,textHistory]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

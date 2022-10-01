@@ -3,13 +3,16 @@ import { styleObj } from '../../../styles/styles'
 import { useAppContext } from '../../../context/app-provider'
 import * as uiTypes from '../../../types/blue-print'
 import * as utils from '../../../utils/utils'
+import Image from 'next/image'
 
-function UIEnvTemp() {
+function UIEnvWindText() {
   return (
-    <div>
-      <img src="/temp-mild.png" height="30px" width="30px"></img>
+    <div style={styleObj['defaultText']} >
+      <div >
+      10mph SSE
+      </div>
     </div>
   )
 }
 
-export default UIEnvTemp
+export default UIEnvWindText

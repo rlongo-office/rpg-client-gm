@@ -8,14 +8,16 @@ import UiEnvWeather from './ui-env-weather'
 import UiEnvWind from './ui-env-wind'
 import UiEnvVisibility from './ui-env-visibility'
 import UiEnvTemp from './ui-env-temp'
+import UIEnvWindText from './ui-env-wind-text'
 
 function UIEnvStatus() {
   return (
     <div style={styleObj[`HSpaced`]}>
+      <UiEnvClock />
       <UiEnvWeather />
       <UiEnvWind />
+      <UIEnvWindText/>
       <UiEnvVisibility />
-      <UiEnvClock />
       <UiEnvTemp />
     </div>
   )

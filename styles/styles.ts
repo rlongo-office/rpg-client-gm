@@ -269,6 +269,22 @@ styleObj['squareTitleBoxBlue'] = {
   ...styleObj['squareTitleBox'],
   border: '4px solid Blue',
   backgroundColor: 'LightBlue',
-}
+} as React.CSSProperties
+
+styleObj['topStatusBar'] = {
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  width: '100%',
+  margin: '2px',
+  backgroundColor: 'white'
+} as React.CSSProperties
+
+styleObj['baseText'] = {fontSize:'12px'} as React.CSSProperties
+styleObj['gmText'] = { color: 'purple' } as React.CSSProperties
+styleObj['playerText'] = { color: 'green' } as React.CSSProperties
+styleObj['gameText'] = { color: 'blue', fontStyle: 'italic' } as React.CSSProperties
+styleObj['alertText'] = { color: 'red', fontWeight: 'bold' } as React.CSSProperties
+styleObj['loreText'] = { color: 'black', fontStyle: 'italic' } as React.CSSProperties
+styleObj['defaultText'] = { ...styleObj['baseText'], color: 'black', fontStyle: 'italic' } as React.CSSProperties
 
 export default { styleObj }

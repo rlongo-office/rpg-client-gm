@@ -5,11 +5,7 @@ import * as uiTypes from '../../../types/blue-print'
 import * as utils from '../../../utils/utils'
 
 function UIEnvVisiblity() {
-  return (
-    <div>
-      <a style={{color:'white'}}>1km</a>
-    </div>
-  )
+  return <div style={styleObj['defaultText']}>1 mi</div>
 }
 
 export default UIEnvVisiblity
