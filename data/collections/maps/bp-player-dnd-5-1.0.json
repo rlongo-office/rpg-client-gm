@@ -2,7 +2,212 @@
   "map-name": "player-main-stats",
   "rules-set": "DnDv5",
   "version": "1.0",
-  "top": {
+  "statusBar": {
+    "style": "topStatusBar",
+    "type": "status-bar",
+    "id": "status-bar",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": ""
+  },
+  "mapPage": {
+    "style": "ParentDiv",
+    "type": "section",
+    "id": "parent-ui-map-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "topStatusBar",
+            "type": "status-bar",
+            "id": "status-bar",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }, {
+            "style": "HSpaced",
+            "type": "world-map",
+            "id": "world-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
+            "type": "world-map",
+            "id": "world-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
+            "type": "world-map",
+            "id": "world-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
+  "inventoryPage": {
+    "style": "ParentDiv",
+    "type": "section",
+    "id": "parent-ui-inventory-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "topStatusBar",
+            "type": "status-bar",
+            "id": "status-bar",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },           {
+            "style": "",
+            "type": "section-loop-top",
+            "id": "inventory-section",
+            "clickable": false,
+            "message": "",
+            "label": "Inventory",
+            "data": "",
+            "orient": "",
+            "child": [
+              {
+                "style": "inventoryEntry",
+                "type": "section-loop-object",
+                "id": "inventory",
+                "clickable": false,
+                "message": "inventory",
+                "label": "",
+                "orient": "horizontal",
+                "data": "inventories",
+                "child": [
+                  {
+                    "style": "inventoryBoxLong",
+                    "type": "data-key",
+                    "id": "item-name",
+                    "clickable": true,
+                    "message": "item-name",
+                    "label": "",
+                    "data": "name",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxShort",
+                    "type": "data-key",
+                    "id": "item-quantity",
+                    "clickable": true,
+                    "message": "item-quantity",
+                    "label": "",
+                    "data": "quantity",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxMid",
+                    "type": "data-key",
+                    "id": "item-location",
+                    "clickable": true,
+                    "message": "item-location",
+                    "label": "",
+                    "data": "location",
+                    "orient": "horizontal"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "worldPage": {},
+  "chatPage": {
+    "style": "ChatParent",
+    "type": "section",
+    "id": "parent-ui-map-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "topStatusBar",
+            "type": "status-bar",
+            "id": "status-bar",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }, 
+          {
+            "style": "chatClient",
+            "type": "chat-client",
+            "id": "chat-client",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
+  "playerPage": {
     "style": "ParentDiv",
     "type": "section",
     "id": "parent-ui-player-section",

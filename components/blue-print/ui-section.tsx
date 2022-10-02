@@ -4,6 +4,8 @@ import * as uiTypes from '../../types/blue-print'
 import UITopStatusBar from './status-bar/ui-top-status-bar'
 import UIData from './ui-data'
 import UILoopSection from './ui-loop-section'
+import UIMap from '../Image/ui-map'
+import UIChatClient from '../chat/chat-client'
 
 function UISection(section: uiTypes.UISectionObj) {
   return (
@@ -16,7 +18,11 @@ function UISection(section: uiTypes.UISectionObj) {
           <UILoopSection {...obj} key={`UI-Loop-Section-${rowIndex}`} />
         ) : obj.type === 'status-bar' ? (
           <UITopStatusBar {...obj} key={`UI-Top-Status-Bar-${rowIndex}`} />
-        ) : (
+        ) : obj.type === 'world-map' ? (
+          <UIMap {...obj} key={`UI-world-map-${rowIndex}`} />
+        ) : obj.type === 'chat-client' ? (
+          <UIChatClient {...obj} key={`UI-chat-client-${rowIndex}`} />
+        ) :(
           <UIData {...obj} key={`UI-Data-${rowIndex}`} />
         )
       )}

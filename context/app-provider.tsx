@@ -8,6 +8,7 @@ import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
 import apiUtils from '../utils/game-service'
+import * as imageDump from '../data/mapImage'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
@@ -22,7 +23,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
-  const [textHistory,setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -156,9 +158,22 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setStompClient,
       players,
       playerBP,
-      textHistory
+      textHistory,
+      images,
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages, players,textHistory]
+    [
+      creatures,
+      actors,
+      tableConfig,
+      game,
+      account,
+      isConnected,
+      stompClient,
+      messages,
+      players,
+      textHistory,
+      images,
+    ]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
