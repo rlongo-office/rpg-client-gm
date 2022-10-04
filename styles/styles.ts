@@ -285,10 +285,24 @@ styleObj['playerText'] = { color: 'green' } as React.CSSProperties
 styleObj['gameText'] = { color: 'blue', fontStyle: 'italic' } as React.CSSProperties
 styleObj['alertText'] = { color: 'red', fontWeight: 'bold' } as React.CSSProperties
 styleObj['loreText'] = { color: 'black', fontStyle: 'italic' } as React.CSSProperties
+styleObj['loreClientText'] = { ...styleObj['loreText'], paddingBottom: '10px' } as React.CSSProperties
 styleObj['defaultText'] = {
   ...styleObj['baseText'],
   color: 'black',
   fontStyle: 'italic',
 } as React.CSSProperties
-styleObj['ChatParent'] = { ...styleObj['ParentDiv'], backgroundColor: 'white' } as React.CSSProperties
+styleObj['ParentDivWhite'] = { ...styleObj['ParentDiv'], backgroundColor: 'white' } as React.CSSProperties
+
+styleObj["Collapsible"] = {
+  backgroundColor: "lightGray",
+  color: "white",
+  cursor: "pointer",
+  padding: "18px",
+  width: "100%",
+  border: "none",
+  textAlign: "left",
+  outline: "none",
+  fontSize: "15px"
+} as React.CSSProperties
+
 export default { styleObj }

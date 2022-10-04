@@ -41,7 +41,8 @@
             "label": "",
             "data": "",
             "orient": ""
-          }, {
+          },
+          {
             "style": "HSpaced",
             "type": "world-map",
             "id": "world-map",
@@ -104,7 +105,8 @@
             "label": "",
             "data": "",
             "orient": ""
-          },           {
+          },
+          {
             "style": "",
             "type": "section-loop-top",
             "id": "inventory-section",
@@ -162,9 +164,52 @@
       }
     ]
   },
-  "worldPage": {},
+  "lorePage": {
+    "style": "ParentDivWhite",
+    "type": "section",
+    "id": "parent-ui-world-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "topStatusBar",
+            "type": "status-bar",
+            "id": "status-bar",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
+            "type": "lore-client",
+            "id": "lore-client",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
   "chatPage": {
-    "style": "ChatParent",
+    "style": "ParentDivWhite",
     "type": "section",
     "id": "parent-ui-map-section",
     "clickable": false,
@@ -192,7 +237,7 @@
             "label": "",
             "data": "",
             "orient": ""
-          }, 
+          },
           {
             "style": "chatClient",
             "type": "chat-client",
@@ -222,6 +267,7 @@
         "type": "section",
         "id": "top-vertical-section",
         "clickable": false,
+        "collapse": false,
         "message": "",
         "label": "",
         "data": "",
@@ -232,6 +278,7 @@
             "type": "status-bar",
             "id": "status-bar",
             "clickable": false,
+            "collapse": false,
             "message": "",
             "label": "",
             "data": "",
@@ -242,6 +289,7 @@
             "type": "section",
             "id": "title-section",
             "clickable": false,
+            "collapse": false,
             "message": "",
             "label": "",
             "child": [
@@ -250,6 +298,7 @@
                 "type": "data",
                 "id": "player-name",
                 "clickable": true,
+                "collapse": false,
                 "message": "player-name",
                 "label": "",
                 "data": "name",
@@ -260,6 +309,7 @@
                 "type": "data",
                 "id": "player-class",
                 "clickable": true,
+                "collapse": false,
                 "message": "player-class",
                 "label": "",
                 "data": "classes[0].name",
@@ -269,9 +319,10 @@
           },
           {
             "style": "HSpaced",
-            "type": "section",
+            "type": "collapse-section",
             "id": "top-stat-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
             "label": "",
             "data": "",
@@ -311,9 +362,10 @@
           },
           {
             "style": "midStatBox",
-            "type": "section",
+            "type": "collapse-section",
             "id": "mid-stat-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
             "label": "",
             "data": "",
@@ -365,9 +417,10 @@
           },
           {
             "style": "abilityBox",
-            "type": "section",
+            "type": "collapse-section",
             "id": "ability-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
             "label": "",
             "data": "",
@@ -473,9 +526,10 @@
           },
           {
             "style": "",
-            "type": "section",
+            "type": "collapse-section",
             "id": "skills-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
             "label": "",
             "data": "",
@@ -743,60 +797,6 @@
                         ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "style": "",
-            "type": "section-loop-top",
-            "id": "inventory-section",
-            "clickable": false,
-            "message": "",
-            "label": "Inventory",
-            "data": "",
-            "orient": "",
-            "child": [
-              {
-                "style": "inventoryEntry",
-                "type": "section-loop-object",
-                "id": "inventory",
-                "clickable": false,
-                "message": "inventory",
-                "label": "",
-                "orient": "horizontal",
-                "data": "inventories",
-                "child": [
-                  {
-                    "style": "inventoryBoxLong",
-                    "type": "data-key",
-                    "id": "item-name",
-                    "clickable": true,
-                    "message": "item-name",
-                    "label": "",
-                    "data": "name",
-                    "orient": "horizontal"
-                  },
-                  {
-                    "style": "inventoryBoxShort",
-                    "type": "data-key",
-                    "id": "item-quantity",
-                    "clickable": true,
-                    "message": "item-quantity",
-                    "label": "",
-                    "data": "quantity",
-                    "orient": "horizontal"
-                  },
-                  {
-                    "style": "inventoryBoxMid",
-                    "type": "data-key",
-                    "id": "item-location",
-                    "clickable": true,
-                    "message": "item-location",
-                    "label": "",
-                    "data": "location",
-                    "orient": "horizontal"
                   }
                 ]
               }

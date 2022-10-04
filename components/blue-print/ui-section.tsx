@@ -6,6 +6,8 @@ import UIData from './ui-data'
 import UILoopSection from './ui-loop-section'
 import UIMap from '../Image/ui-map'
 import UIChatClient from '../chat/chat-client'
+import UILoreClient from '../lore/lore-client'
+import UICollapsibleSection from './ui-collapsible-section'
 
 function UISection(section: uiTypes.UISectionObj) {
   return (
@@ -14,6 +16,8 @@ function UISection(section: uiTypes.UISectionObj) {
       {section?.child?.map((obj: any, rowIndex: number) =>
         obj.type === 'section' ? (
           <UISection {...obj} key={`UI-Section-${rowIndex}`} />
+        ) : obj.type === 'collapse-section' ? (
+          <UICollapsibleSection {...obj} key={`UI-collapse-Section-${rowIndex}`} />
         ) : obj.type === 'section-loop-top' ? (
           <UILoopSection {...obj} key={`UI-Loop-Section-${rowIndex}`} />
         ) : obj.type === 'status-bar' ? (
@@ -22,7 +26,9 @@ function UISection(section: uiTypes.UISectionObj) {
           <UIMap {...obj} key={`UI-world-map-${rowIndex}`} />
         ) : obj.type === 'chat-client' ? (
           <UIChatClient {...obj} key={`UI-chat-client-${rowIndex}`} />
-        ) :(
+        ) : obj.type === 'lore-client' ? (
+          <UILoreClient {...obj} key={`UI-lore-client-${rowIndex}`} />
+        ) : (
           <UIData {...obj} key={`UI-Data-${rowIndex}`} />
         )
       )}

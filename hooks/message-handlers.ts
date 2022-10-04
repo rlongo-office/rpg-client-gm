@@ -9,6 +9,7 @@ export enum handlerKey {
   imageExchange,
   statUpdate,
   gameUpdate,
+  loreText
 }
 
 /* Jason has recommended we move this into 'Service' for better efficiency and use */

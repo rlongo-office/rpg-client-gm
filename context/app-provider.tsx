@@ -3,6 +3,7 @@ import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 import textData from '../data/collections/textMessages.json'
+import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
@@ -24,6 +25,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
   const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
 
   const sharedTableConfig = {
@@ -159,7 +161,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       players,
       playerBP,
       textHistory,
-      images,
+      loreMsgData,
+      images
     }),
     [
       creatures,
@@ -172,7 +175,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       messages,
       players,
       textHistory,
-      images,
+      loreMsgData,
+      images
     ]
   )
 

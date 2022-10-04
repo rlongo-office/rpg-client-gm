@@ -1,0 +1,18 @@
+[
+  {
+    "id": 10000,
+    "type": "loreText",
+    "timeStamp": "2019-10-11T13:33:05.673",
+    "sender": "Game",
+    "text": "Orc: Orcs are savage humanoids with stooped postures, piggish faces, and prominent teeth that resemble tusks. They gather in tribes that satisfy their bloodlust by slaying any humanoids that stand against them. Monster Manual (SRD) → DnD 5e Monsters. ",
+    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+  },
+  {
+    "id": 10001,
+    "type": "loreText",
+    "timeStamp": "2019-10-11T13:33:05.673",
+    "sender": "Game",
+    "text": "Neverwinter: Neverwinter, also known as the City of Skilled Hands and the Jewel of the North, is a bustling, cultured, and cosmopolitan city-state in northwest Faerûn.Neverwinter is regarded by Volo as the most cosmopolitan and civilized city in all of Faerûn. The city is a member in good standing of the Lords' Alliance. Known for its craftsfolk and gardeners, the city's multi-colored-glass lamps, precision water clocks, exquisite jewelry, and magnificent gardens ensured the warm winters were colorful and the summers were rich with fresh fruit. ",
+    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+  }
+]

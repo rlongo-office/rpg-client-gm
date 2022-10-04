@@ -8,7 +8,6 @@ function PlayerUI() {
   return (
     <div style={styleObj[`VSpaced`]}>
       <UIParent pageType={`playerPage`}></UIParent>
-      <ChatClient/>
     </div>
   )
 }
