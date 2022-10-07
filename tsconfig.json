@@ -23,6 +23,6 @@
     "components/image/test-mouse-image.jsx",
     "data/collections/game-object.ts",
     "styles/styles.ts"
-  ],
+, "components/blue-print/ui-bottom-navbar.jsx"  ],
   "exclude": ["node_modules"]
 }

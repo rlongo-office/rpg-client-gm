@@ -1,4 +1,5 @@
 import * as React from 'react'
+import UIBottomNavbar from '../../components/blue-print/ui-bottom-navbar'
 import UICollapse from '../../components/blue-print/ui-collapse'
 
 
@@ -8,7 +9,7 @@ function CollapsePage() {
 
   return (
     <div>
-        <UICollapse/>
+        <UIBottomNavbar/>
     </div>
   )
 }

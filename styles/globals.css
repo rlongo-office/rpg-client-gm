@@ -1,3 +1,49 @@
+.rooter {
+  height: 70vh;
+  width: 21.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.Header--container {
+  flex: 1;
+  background-color: green;
+}
+
+.Footer--container {
+  flex: 1;
+  background-color: white;
+}
+
+.Content--container {
+  flex: 5;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.example {
+  flex:5;
+  background-color: #eee;
+  border: 1px dotted black;
+  overflow-y: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+
+
+
 .itemHeader {
   grid-column-start: 1;
   grid-column-end: 3;

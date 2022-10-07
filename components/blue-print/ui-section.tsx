@@ -10,6 +10,9 @@ import UILoreClient from '../lore/lore-client'
 import UICollapsibleSection from './ui-collapsible-section'
 
 function UISection(section: uiTypes.UISectionObj) {
+
+  //Add function a switch for the types of components
+
   return (
     <div style={styleObj[`${section.style}`]}>
       {section?.label.length > 0 && <div>{section.label}</div>}

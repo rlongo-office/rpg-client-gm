@@ -7,7 +7,10 @@ function UIParent({ pageType }: { pageType: string }) {
   const { playerBP } = useAppContext()
   return (
     <div>
+      <div className="example">
       <UISection {...playerBP[pageType]} />
+      </div>
+
     </div>
   )
 }
