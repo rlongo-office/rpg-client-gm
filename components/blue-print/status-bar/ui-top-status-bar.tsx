@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 function UITopStatusBar(section: uiTypes.UISectionObj) {
   return (
-    <div style={styleObj[`${section.style}`]}>
+    <div style={styleObj[`topStatusBar`]}>
       <UiPlayerStatus />
       <UiEnvStatus />
     </div>

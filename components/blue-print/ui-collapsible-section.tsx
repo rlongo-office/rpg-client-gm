@@ -10,13 +10,13 @@ import UILoreClient from '../lore/lore-client'
 import UISection from './ui-section'
 
 let collapsible = {
-  backgroundColor: 'lightGray',
-  color: 'white',
+  backgroundColor: 'DarkGray',
+  color: 'black',
   cursor: 'pointer',
   padding: '12px',
-  width: '100%',
   border: 'none',
-  textAlign: 'left',
+  height: '30px',
+  textAlign: 'center',
   outline: 'none',
   fontSize: '15px',
 } as React.CSSProperties
@@ -41,7 +41,7 @@ function UICollapsibleSection(section: uiTypes.UISectionObj) {
   const [isExpanded, setIsExpanded] = React.useState(false)
   const [childStyle, setChildStyle] = React.useState(contentHidden)
   const [parentStyle, setParentStyle] = React.useState(collapsible)
-  const [childSection, setChildSection] = React.useState(section.child[0])
+  //const [childSection, setChildSection] = React.useState(section.child[0])
 
   const toggleVisbility = () => {
     if (isExpanded) {
@@ -57,7 +57,7 @@ function UICollapsibleSection(section: uiTypes.UISectionObj) {
 
   return (
     <div style={styleObj[`${section.style}`]}>
-      <button type="button" style={parentStyle} onClick={toggleVisbility}>
+      <button type="button" style={styleObj[`SectionButton`]} onClick={toggleVisbility}>
         {section?.label.length > 0 ? section.label : 'section'}
       </button>
       <div style={childStyle}>

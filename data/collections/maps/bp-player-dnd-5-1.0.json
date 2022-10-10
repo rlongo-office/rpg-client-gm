@@ -7,6 +7,7 @@
     "type": "status-bar",
     "id": "status-bar",
     "clickable": false,
+    "collapse": false,
     "message": "",
     "label": "",
     "data": "",
@@ -274,17 +275,6 @@
         "orient": "",
         "child": [
           {
-            "style": "topStatusBar",
-            "type": "status-bar",
-            "id": "status-bar",
-            "clickable": false,
-            "collapse": false,
-            "message": "",
-            "label": "",
-            "data": "",
-            "orient": ""
-          },
-          {
             "style": "HSpaced",
             "type": "section",
             "id": "title-section",
@@ -318,45 +308,58 @@
             ]
           },
           {
-            "style": "HSpaced",
+            "style": "VSpaced",
             "type": "collapse-section",
             "id": "top-stat-section",
             "clickable": false,
             "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Top Stat Section",
             "data": "",
             "orient": "",
             "child": [
               {
-                "style": "squareStat",
-                "type": "data",
-                "id": "initiative",
-                "clickable": true,
-                "message": "initiative",
-                "label": "Initiative",
-                "data": "initiative.adj",
-                "orient": "vertical"
-              },
-              {
-                "style": "squareStat",
-                "type": "data",
-                "id": "hitpoints",
-                "clickable": true,
-                "message": "hitpoints",
-                "label": "Hitpoints",
-                "data": "hitpoint.adj",
-                "orient": "vertical"
-              },
-              {
-                "style": "squareStat",
-                "type": "data",
-                "id": "speed",
-                "clickable": true,
-                "message": "player-class",
-                "label": "Speed",
-                "data": "speed.adj",
-                "orient": "vertical"
+                "style": "HSpaced",
+                "type": "section",
+                "id": "top-stat-wrapper",
+                "clickable": false,
+                "collapse": false,
+                "message": "",
+                "label": "",
+                "data": "",
+                "orient": "",
+                "child": [
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "initiative",
+                    "clickable": true,
+                    "message": "initiative",
+                    "label": "Initiative",
+                    "data": "initiative.adj",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "hitpoints",
+                    "clickable": true,
+                    "message": "hitpoints",
+                    "label": "Hitpoints",
+                    "data": "hitpoint.adj",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "speed",
+                    "clickable": true,
+                    "message": "player-class",
+                    "label": "Speed",
+                    "data": "speed.adj",
+                    "orient": "vertical"
+                  }
+                ]
               }
             ]
           },
@@ -367,7 +370,7 @@
             "clickable": false,
             "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Mid Stat Section",
             "data": "",
             "orient": "",
             "child": [
@@ -422,7 +425,7 @@
             "clickable": false,
             "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Ability Stat Section",
             "data": "",
             "orient": "",
             "child": [
@@ -531,7 +534,7 @@
             "clickable": false,
             "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Skills Stat Section",
             "data": "",
             "orient": "",
             "child": [

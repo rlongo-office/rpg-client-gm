@@ -27,6 +27,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
   const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
+  const [devWidth, setDevWidth] = React.useState(375)
+  const [devHeight, setDevHeight] = React.useState(700)
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -137,6 +139,44 @@ export function AppProvider({ children }: types.AppProviderProps) {
         break
     }
   }
+  //The following function and useEffect added to address responsive layout needs across
+  //different devices.  I needed both width and length of window to plan component layout
+
+  const isMobile = () => {
+    var result = false
+    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
+      // if Pointer Events are supported, just check maxTouchPoints
+      if (navigator.maxTouchPoints > 0) {
+        result = true
+      }
+    } else {
+      // no Pointer Events...
+      if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
+        // check for any-pointer:coarse which mostly means touchscreen
+        result = true
+      } else if (window.TouchEvent || 'ontouchstart' in window) {
+        // last resort - check for exposed touch events API / event handler
+        result = true
+      }
+    }
+    return result
+  }
+
+  const handleWindowResize = () => {
+    setDevWidth(window.innerWidth)
+    setDevHeight(window.innerHeight)
+    console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
+  }
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let mobile = isMobile()
+      if (mobile) {
+        window.addEventListener('resize', handleWindowResize)
+        return () => window.removeEventListener('resize', handleWindowResize)
+      }
+    }
+  }, [])
 
   const value = React.useMemo(
     () => ({
@@ -162,7 +202,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       playerBP,
       textHistory,
       loreMsgData,
-      images
+      images,
+      devHeight,
+      devWidth,
     }),
     [
       creatures,
@@ -176,7 +218,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       players,
       textHistory,
       loreMsgData,
-      images
+      images,
+      devHeight,
+      devWidth,
     ]
   )
 
