@@ -3,7 +3,7 @@ import { useAppContext } from '../../context/app-provider'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
 
-export default function MyMapTest({ section }: { section: uiTypes.UISectionObj }) {
+export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj }) {
   const {images} = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)

@@ -26,6 +26,9 @@ const UIBottomNavbar = () => {
         <a id="short" href="\player-sheet">
           <img src="/nav/player.png" scale="0"></img>
         </a>
+        <a id="short" href="\skills-page">
+          <img src="/nav/skills.png" scale="0"></img>
+        </a>
         <a id="short" href="\inventory-page">
           <img src="/nav/inventory.png" scale="0"></img>
         </a>

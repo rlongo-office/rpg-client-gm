@@ -4,7 +4,7 @@ import * as uiTypes from '../../types/blue-print'
 import UITopStatusBar from './status-bar/ui-top-status-bar'
 import UIData from './ui-data'
 import UILoopSection from './ui-loop-section'
-import UIMap from '../Image/ui-map'
+import UIMap from '../Image/ui-world-map'
 import UIChatClient from '../chat/chat-client'
 import UILoreClient from '../lore/lore-client'
 
