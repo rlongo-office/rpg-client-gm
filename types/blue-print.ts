@@ -7,7 +7,7 @@ export interface UISectionObj {
   label: string
   data: string
   orient: string
-  child: (UISectionObj | UIDataObj)[]
+  child?: (UISectionObj | UIDataObj)[]
 }
 
 export interface UIDataObj {

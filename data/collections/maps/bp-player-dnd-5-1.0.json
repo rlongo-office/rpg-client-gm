@@ -2,10 +2,32 @@
   "map-name": "player-main-stats",
   "rules-set": "DnDv5",
   "version": "1.0",
-  "top": {
+  "statusBar": {
+    "style": "topStatusBar",
+    "type": "status-bar",
+    "id": "status-bar",
+    "clickable": false,
+    "collapse": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": ""
+  },
+  "bottomNavBar": {
+    "style": "bottomNavBar",
+    "type": "nav-bar",
+    "id": "nav-bar",
+    "clickable": false,
+    "collapse": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": ""
+  },
+  "mapPage": {
     "style": "ParentDiv",
     "type": "section",
-    "id": "parent-ui-player-section",
+    "id": "parent-ui-map-section",
     "clickable": false,
     "message": "",
     "label": "",
@@ -24,9 +46,211 @@
         "child": [
           {
             "style": "HSpaced",
+            "type": "world-map",
+            "id": "world-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
+            "type": "region-map",
+            "id": "region-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          },
+          {
+            "style": "HSpaced",
+            "type": "tactical-map",
+            "id": "tactical-map",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
+  "inventoryPage": {
+    "style": "ParentDiv",
+    "type": "section",
+    "id": "parent-ui-inventory-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "",
+            "type": "section-loop-top",
+            "id": "inventory-section",
+            "clickable": false,
+            "message": "",
+            "label": "Inventory",
+            "data": "",
+            "orient": "",
+            "child": [
+              {
+                "style": "inventoryEntry",
+                "type": "section-loop-object",
+                "id": "inventory",
+                "clickable": false,
+                "message": "inventory",
+                "label": "",
+                "orient": "horizontal",
+                "data": "inventories",
+                "child": [
+                  {
+                    "style": "inventoryBoxLong",
+                    "type": "data-key",
+                    "id": "item-name",
+                    "clickable": true,
+                    "message": "item-name",
+                    "label": "",
+                    "data": "name",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxShort",
+                    "type": "data-key",
+                    "id": "item-quantity",
+                    "clickable": true,
+                    "message": "item-quantity",
+                    "label": "",
+                    "data": "quantity",
+                    "orient": "horizontal"
+                  },
+                  {
+                    "style": "inventoryBoxMid",
+                    "type": "data-key",
+                    "id": "item-location",
+                    "clickable": true,
+                    "message": "item-location",
+                    "label": "",
+                    "data": "location",
+                    "orient": "horizontal"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "lorePage": {
+    "style": "ParentDivWhite",
+    "type": "section",
+    "id": "parent-ui-world-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "HSpaced",
+            "type": "lore-client",
+            "id": "lore-client",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
+  "chatPage": {
+    "style": "ParentDivWhite",
+    "type": "section",
+    "id": "parent-ui-map-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "chatClient",
+            "type": "chat-client",
+            "id": "chat-client",
+            "clickable": false,
+            "message": "",
+            "label": "",
+            "data": "",
+            "orient": ""
+          }
+        ]
+      }
+    ]
+  },
+  "playerPage": {
+    "style": "ParentDiv",
+    "type": "section",
+    "id": "parent-ui-player-section",
+    "clickable": false,
+    "message": "",
+    "label": "",
+    "data": "",
+    "orient": "",
+    "child": [
+      {
+        "style": "vertStack",
+        "type": "section",
+        "id": "top-vertical-section",
+        "clickable": false,
+        "collapse": false,
+        "message": "",
+        "label": "",
+        "data": "",
+        "orient": "",
+        "child": [
+          {
+            "style": "HSpaced",
             "type": "section",
             "id": "title-section",
             "clickable": false,
+            "collapse": false,
             "message": "",
             "label": "",
             "child": [
@@ -35,6 +259,7 @@
                 "type": "data",
                 "id": "player-name",
                 "clickable": true,
+                "collapse": false,
                 "message": "player-name",
                 "label": "",
                 "data": "name",
@@ -45,6 +270,7 @@
                 "type": "data",
                 "id": "player-class",
                 "clickable": true,
+                "collapse": false,
                 "message": "player-class",
                 "label": "",
                 "data": "classes[0].name",
@@ -53,54 +279,69 @@
             ]
           },
           {
-            "style": "HSpaced",
-            "type": "section",
+            "style": "VSpaced",
+            "type": "collapse-section",
             "id": "top-stat-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Top Stat Section",
             "data": "",
             "orient": "",
             "child": [
               {
-                "style": "squareStat",
-                "type": "data",
-                "id": "initiative",
-                "clickable": true,
-                "message": "initiative",
-                "label": "Initiative",
-                "data": "initiative.adj",
-                "orient": "vertical"
-              },
-              {
-                "style": "squareStat",
-                "type": "data",
-                "id": "hitpoints",
-                "clickable": true,
-                "message": "hitpoints",
-                "label": "Hitpoints",
-                "data": "hitpoint.adj",
-                "orient": "vertical"
-              },
-              {
-                "style": "squareStat",
-                "type": "data",
-                "id": "speed",
-                "clickable": true,
-                "message": "player-class",
-                "label": "Speed",
-                "data": "speed.adj",
-                "orient": "vertical"
+                "style": "HSpaced",
+                "type": "section",
+                "id": "top-stat-wrapper",
+                "clickable": false,
+                "collapse": false,
+                "message": "",
+                "label": "",
+                "data": "",
+                "orient": "",
+                "child": [
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "initiative",
+                    "clickable": true,
+                    "message": "initiative",
+                    "label": "Initiative",
+                    "data": "initiative.adj",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "hitpoints",
+                    "clickable": true,
+                    "message": "hitpoints",
+                    "label": "Hitpoints",
+                    "data": "hitpoint.adj",
+                    "orient": "vertical"
+                  },
+                  {
+                    "style": "squareStat",
+                    "type": "data",
+                    "id": "speed",
+                    "clickable": true,
+                    "message": "player-class",
+                    "label": "Speed",
+                    "data": "speed.adj",
+                    "orient": "vertical"
+                  }
+                ]
               }
             ]
           },
           {
             "style": "midStatBox",
-            "type": "section",
+            "type": "collapse-section",
             "id": "mid-stat-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Mid Stat Section",
             "data": "",
             "orient": "",
             "child": [
@@ -150,11 +391,12 @@
           },
           {
             "style": "abilityBox",
-            "type": "section",
+            "type": "collapse-section",
             "id": "ability-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Ability Stat Section",
             "data": "",
             "orient": "",
             "child": [
@@ -258,11 +500,12 @@
           },
           {
             "style": "",
-            "type": "section",
+            "type": "collapse-section",
             "id": "skills-section",
             "clickable": false,
+            "collapse": true,
             "message": "",
-            "label": "",
+            "label": "Skills Stat Section",
             "data": "",
             "orient": "",
             "child": [
@@ -528,60 +771,6 @@
                         ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "style": "",
-            "type": "section-loop-top",
-            "id": "inventory-section",
-            "clickable": false,
-            "message": "",
-            "label": "Inventory",
-            "data": "",
-            "orient": "",
-            "child": [
-              {
-                "style": "inventoryEntry",
-                "type": "section-loop-object",
-                "id": "inventory",
-                "clickable": false,
-                "message": "inventory",
-                "label": "",
-                "orient": "horizontal",
-                "data": "inventories",
-                "child": [
-                  {
-                    "style": "inventoryBoxLong",
-                    "type": "data-key",
-                    "id": "item-name",
-                    "clickable": true,
-                    "message": "item-name",
-                    "label": "",
-                    "data": "name",
-                    "orient": "horizontal"
-                  },
-                  {
-                    "style": "inventoryBoxShort",
-                    "type": "data-key",
-                    "id": "item-quantity",
-                    "clickable": true,
-                    "message": "item-quantity",
-                    "label": "",
-                    "data": "quantity",
-                    "orient": "horizontal"
-                  },
-                  {
-                    "style": "inventoryBoxMid",
-                    "type": "data-key",
-                    "id": "item-location",
-                    "clickable": true,
-                    "message": "item-location",
-                    "label": "",
-                    "data": "location",
-                    "orient": "horizontal"
                   }
                 ]
               }

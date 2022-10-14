@@ -9,11 +9,7 @@ function GamePage() {
 
   return (
     <div>
-      <Link href="/table-test">
-        <a>Go to the Table Page!!!</a>
-      </Link>
       <Login />
-      <ChatHistory />
     </div>
   )
 }

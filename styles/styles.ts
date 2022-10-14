@@ -4,11 +4,11 @@ export let styleObj: any = {}
 
 styleObj['ParentDiv'] = {
   padding: '2px',
-  width: '370px',
-  backgroundColor: 'black',
+  width: '100%',
+  backgroundColor: 'gray',
   alignment: 'center',
   font: '16px bolder',
-  display: 'flex',
+  //display: 'flex',
   justifyContent: 'space-evenly',
 } as React.CSSProperties
 
@@ -18,7 +18,7 @@ styleObj['flexEvenlySection'] = {
 } as React.CSSProperties
 
 styleObj['vertStack'] = {
-  width: '350px',
+  width: '100%',
 } as React.CSSProperties
 
 styleObj['abilityBox'] = {
@@ -269,6 +269,66 @@ styleObj['squareTitleBoxBlue'] = {
   ...styleObj['squareTitleBox'],
   border: '4px solid Blue',
   backgroundColor: 'LightBlue',
-}
+} as React.CSSProperties
+
+styleObj['topStatusBar'] = {
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  width: '100%',
+  margin: '2px',
+  backgroundColor: 'white',
+} as React.CSSProperties
+
+styleObj['baseText'] = { fontSize: '12px' } as React.CSSProperties
+styleObj['gmText'] = { color: 'purple' } as React.CSSProperties
+styleObj['playerText'] = { color: 'green' } as React.CSSProperties
+styleObj['gameText'] = { color: 'blue', fontStyle: 'italic' } as React.CSSProperties
+styleObj['alertText'] = { color: 'red', fontWeight: 'bold' } as React.CSSProperties
+styleObj['loreText'] = { color: 'black', fontStyle: 'italic' } as React.CSSProperties
+styleObj['loreClientText'] = {
+  ...styleObj['loreText'],
+  paddingBottom: '10px',
+} as React.CSSProperties
+styleObj['defaultText'] = {
+  ...styleObj['baseText'],
+  color: 'black',
+  fontStyle: 'italic',
+} as React.CSSProperties
+styleObj['ParentDivWhite'] = {
+  ...styleObj['ParentDiv'],
+  backgroundColor: 'white',
+} as React.CSSProperties
+
+styleObj['Collapsible'] = {
+  backgroundColor: 'lightGray',
+  color: 'black',
+  cursor: 'pointer',
+  padding: '18px',
+  width: '100%',
+  border: 'none',
+  textAlign: 'left',
+  outline: 'none',
+  fontSize: '15px',
+} as React.CSSProperties
+
+styleObj['TopFlexPage'] = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'stretch',
+} as React.CSSProperties
+
+styleObj['SectionButton'] = {
+  backgroundColor: 'Indigo',
+  color: 'white',
+  cursor: 'pointer',
+  border: 'none',
+  height: '30px',
+  width: '100%',
+  textAlign: 'center',
+  fontWeight: '900',
+  alignItems: 'center',
+  outline: 'none',
+  fontSize: '18px',
+} as React.CSSProperties
 
 export default { styleObj }

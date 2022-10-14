@@ -2,11 +2,14 @@ import { useContext } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
+import textData from '../data/collections/textMessages.json'
+import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
 import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
 import apiUtils from '../utils/game-service'
+import * as imageDump from '../data/mapImage'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
@@ -21,6 +24,11 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
+  const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
+  const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
+  const [devWidth, setDevWidth] = React.useState(375)
+  const [devHeight, setDevHeight] = React.useState(700)
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -131,6 +139,44 @@ export function AppProvider({ children }: types.AppProviderProps) {
         break
     }
   }
+  //The following function and useEffect added to address responsive layout needs across
+  //different devices.  I needed both width and length of window to plan component layout
+
+  const isMobile = () => {
+    var result = false
+    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
+      // if Pointer Events are supported, just check maxTouchPoints
+      if (navigator.maxTouchPoints > 0) {
+        result = true
+      }
+    } else {
+      // no Pointer Events...
+      if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
+        // check for any-pointer:coarse which mostly means touchscreen
+        result = true
+      } else if (window.TouchEvent || 'ontouchstart' in window) {
+        // last resort - check for exposed touch events API / event handler
+        result = true
+      }
+    }
+    return result
+  }
+
+  const handleWindowResize = () => {
+    setDevWidth(window.innerWidth)
+    setDevHeight(window.innerHeight)
+    console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
+  }
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let mobile = isMobile()
+      if (mobile) {
+        window.addEventListener('resize', handleWindowResize)
+        return () => window.removeEventListener('resize', handleWindowResize)
+      }
+    }
+  }, [])
 
   const value = React.useMemo(
     () => ({
@@ -154,8 +200,28 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setStompClient,
       players,
       playerBP,
+      textHistory,
+      loreMsgData,
+      images,
+      devHeight,
+      devWidth,
     }),
-    [creatures, actors, tableConfig, game, account, isConnected, stompClient, messages, players]
+    [
+      creatures,
+      actors,
+      tableConfig,
+      game,
+      account,
+      isConnected,
+      stompClient,
+      messages,
+      players,
+      textHistory,
+      loreMsgData,
+      images,
+      devHeight,
+      devWidth,
+    ]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

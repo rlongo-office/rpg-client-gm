@@ -3,6 +3,8 @@ import SockJS from 'sockjs-client'
 import webStompClient from 'webstomp-client'
 import * as types from '../types/rpg-types'
 import { useAppContext } from '../context/app-provider'
+import {messageEventHandlers} from './message-handlers'
+import {handlerKey} from './message-handlers'
 
 const useStomp = (url = 'http://localhost:8080/game-app') => {
   const [message, setMessage] = useState<types.messageType>()
@@ -46,11 +48,20 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
     }
   }
 
-  const messageHandler = (message: any) => {
+  const messageHandlerOld = (message: any) => {
     //The body of the returned Stomp message is what we want, a JSON string representation of 'GameMessage' Java class
     const serverMessage = JSON.parse(message.body)
     console.log(serverMessage)
     gblMsgHandler(serverMessage)
+  }
+
+  const messageHandler = (message: any) => {
+    // fire the 'connect' callbacks
+    //The STOMP body has my game-related message, so I need to parse that into the object
+    let gameMsg: types.messageType = JSON.parse(message.body)
+    let key:string = gameMsg.type
+    const msgType:number = handlerKey[key as keyof typeof handlerKey] //REALLY?? are they kidding????
+    messageEventHandlers[msgType].call
   }
 
   const sendMessage = (message: types.messageType) => {
