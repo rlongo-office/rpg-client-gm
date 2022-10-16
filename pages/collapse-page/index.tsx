@@ -5,6 +5,8 @@ import useViewport from '../../hooks/useViewport'
 import { styleObj } from '../../styles/styles'
 import PlayerBP from '../../data/collections/maps/bp-player-dnd-5-1.0.json'
 import UINavbar from '../../components/blue-print/ui-nav-bar'
+import MyMapTest from '../../components/Image/my-map-test'
+import MapDrawTest from '../../components/Image/map-draw-test'
 
 function CollapsePage() {
   const { devWidth, devHeight } = useViewport()
@@ -13,6 +15,7 @@ function CollapsePage() {
   return (
     <div style={{ ...styleObj[`TopFlexPage`], height: `${devHeight}px`, width: `${devWidth}px` }}>
       <UITopStatusBar {...PlayerBP.statusBar} />
+      <MapDrawTest />
       <div className="overflow-control">
         <UIParent pageType={`playerPage`}></UIParent>
       </div>

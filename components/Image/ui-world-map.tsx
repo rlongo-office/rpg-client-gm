@@ -4,7 +4,7 @@ import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
 
 export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj }) {
-  const {images} = useAppContext()
+  const { images } = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -137,7 +137,7 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     setIsDragging(true)
     setCfg({ ...cfg, isDragging: true })
     if (e?.targetTouches) {
-      e.preventDefault()
+      console.log(e)
       if (e?.nativeEvent?.touches?.length > 1) {
         // detected a pinch
         setTouchDist(distance(e))
@@ -176,9 +176,9 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     let xDiff: number
 
     if (e.targetTouches) {
-      e.preventDefault()
       if (e.touches.length > 1) {
         //detected a pinch
+        console.log(e)
         setIsScaling(true)
         setIsDragging(false)
         scaling = true
@@ -233,10 +233,8 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
 
   return (
     <div>
-      <div className="portrait">
+      <div style={{ overflow: 'hidden', height: '300px', width: '300px' }}>
         <div
-          ref={divRef}
-          className="wrapper"
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
           onTouchEnd={handleMouseUp}
@@ -245,6 +243,7 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
           onTouchMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           onDoubleClick={handleDoubleClick}
+          ref={divRef}
         >
           <img
             ref={imgRef}

@@ -191,12 +191,12 @@ a {
   border: 1px solid red;
 }
 .portrait {
+  overflow: hidden;
   height: 100%;
   width: 100%;
 }
 
 .wrapper {
-  overflow: hidden;
   height: 500px;
   width: 500px;
 }

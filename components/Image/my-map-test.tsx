@@ -1,7 +1,10 @@
 import * as React from 'react'
-import * as types from '../../types/rpg-types'
+import { useAppContext } from '../../context/app-provider'
+import * as uiTypes from '../../types/blue-print'
+import * as rpgTypes from '../../types/rpg-types'
 
-export default function MyMapTest({ source }: { source: string }) {
+export default function UIWorldMap() {
+  const {images} = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -20,7 +23,7 @@ export default function MyMapTest({ source }: { source: string }) {
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<types.ImageConfig>({
+  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>({
     img: '',
     imgTOP: 0,
     imgLEFT: 0,
@@ -245,12 +248,11 @@ export default function MyMapTest({ source }: { source: string }) {
         >
           <img
             ref={imgRef}
-            src={`data:image/jpeg;base64,${source}`}
+            src={`data:image/jpeg;base64,${images[0]}`}
             style={{
               transform: `translate(${imgLeft}px, ${imgTop}px)`,
               height: `${scHeight}px`,
-              width: `${scWidth}px)`,
-              transformOrigin: `top left`,
+              width: `${scWidth}px)`
             }}
             onLoad={handleImageLoad}
           />
