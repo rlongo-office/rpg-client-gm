@@ -2,9 +2,11 @@ import * as React from 'react'
 import { useAppContext } from '../../context/app-provider'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
+import useViewport from '../../hooks/useViewport'
 
 export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj }) {
   const { images } = useAppContext()
+  const { devWidth, devHeight } = useViewport()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -32,8 +34,8 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     isFirstPress: true,
     isDragging: false,
     isScaling: false,
-    divHeight: 500,
-    divWidth: 500,
+    divHeight: 350,
+    divWidth: 350,
     topLimit: 0,
     leftLimit: 0,
     isLoaded: true,
@@ -46,10 +48,6 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     const img = imgRef
     let scaleHeight: number
     let scaleWidth: number
-    console.log(`imgScale is: ${imgScale}`)
-    //console.log(`current offsets: ${imgLeft}:${imgTop}`)
-    console.log(`img width/Height: ${img.current?.width}:${img.current?.height}`)
-    console.log(img)
     img.current
       ? (scaleHeight = Math.floor(imgScale * img.current.naturalHeight))
       : (scaleHeight = 0)
@@ -60,22 +58,27 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     setSCHeight(scaleHeight)
     setSCWidth(scaleWidth)
     setImgTop(0)
+
   }
 
   const handleImageLoad = () => {
     if (imgRef) {
       const img = imgRef
+      let offsetLeft:number
+      let offsetTop:number
       let heightLimit: number
       let widthLimit: number
       img.current ? (heightLimit = img.current.naturalHeight - cfg.divHeight) : (heightLimit = 0)
       img.current ? (widthLimit = img.current.naturalWidth - cfg.divWidth) : (widthLimit = 0)
+      img.current ? (offsetLeft = img.current?.offsetLeft) : (offsetLeft = 0)
+      img.current ? (offsetTop = img.current?.offsetTop) : (offsetTop = 0)
       setTopLimit(-heightLimit)
       setLeftLimit(-widthLimit)
       setNatHeight(img.current ? img.current.naturalHeight : 0)
       setNatWidth(img.current ? img.current.naturalWidth : 0)
       setSCHeight(img.current ? img.current.naturalHeight : 0)
       setSCWidth(img.current ? img.current.naturalWidth : 0)
-      console.log('Image Loaded with topLimit:' + heightLimit + ' and leftLimit:' + widthLimit)
+      setCfg({...cfg,offsetX:offsetLeft,offsetY: offsetTop })
     }
   }
 
@@ -89,8 +92,7 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     setNewImageLimits()
-    console.log(`imgScale is: ${imgScale}`)
-  }, [imgScale])
+  }, [touchDist, imgScale])
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -100,10 +102,20 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     } else return 0
   }
 
-  function setCoordinates(e: any) {
-    let canMouseX: number
-    let canMouseY: number
 
+  function getTransformOrigin() {
+    let transformOriginX = 0
+    let transformOriginY = 0
+  }
+
+
+  function setCoordinates(e: any) {
+    let canMouseX: number = 0
+    let canMouseY: number = 0
+    let canMouseX1: number
+    let canMouseY1: number
+    let canMouseX2: number
+    let canMouseY2: number
     if (e?.nativeEvent?.clientX && e?.nativeEvent?.clientY) {
       //console.log(e)
       //canMouseX = parseInt(e.clientX - cfg.offsetX)
@@ -111,22 +123,32 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
       canMouseY = e.nativeEvent.clientY - cfg.offsetY
       //console.log(`${canMouseX}:${canMouseY}`)
     } else if (e?.nativeEvent?.targetTouches) {
-      canMouseX = e.nativeEvent.targetTouches.item(0)?.clientX - cfg.offsetX
-      canMouseY = e.nativeEvent.targetTouches.item(0)?.clientY - cfg.offsetY
+      canMouseX1 = e.nativeEvent.targetTouches.item(0)?.clientX - cfg.offsetX
+      canMouseY1 = e.nativeEvent.targetTouches.item(0)?.clientY - cfg.offsetY
+      if (e?.nativeEvent?.touches?.length > 1) {
+        //To get the center of the 'pinch' we to 'average' the two points
+        canMouseX2 = e.nativeEvent.targetTouches.item(1)?.clientX - cfg.offsetX
+        canMouseY2 = e.nativeEvent.targetTouches.item(1)?.clientY - cfg.offsetY
+        canMouseX = Math.round((canMouseX1 + canMouseX2)/2)
+        canMouseX = Math.round((canMouseY1 + canMouseY2)/2)
+      } else {
+        canMouseX = canMouseX1
+        canMouseY = canMouseY1
+      }
       // This isn't doing anything (noticeable)
       // e.preventDefault();
-    } else return {}
+    }
     return {
       canMouseX,
-      canMouseY,
+      canMouseY
     }
   }
 
   const handleMouseUp = (e: any) => {
     setIsScaling(false)
     setIsDragging(false)
-    setIsFirstPress(true)
     setAccel(1)
+    setTouchDist(0)
     console.log('Mouse UP Event function')
   }
   const handleMouseDown = (e: any) => {
@@ -135,13 +157,11 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     canMouseX ? setOldXCoord(canMouseX) : setOldXCoord(0)
     canMouseY ? setOldYCoord(canMouseY) : setOldYCoord(0)
     setIsDragging(true)
-    setCfg({ ...cfg, isDragging: true })
     if (e?.targetTouches) {
       console.log(e)
       if (e?.nativeEvent?.touches?.length > 1) {
         // detected a pinch
         setTouchDist(distance(e))
-        setCfg({ ...cfg, touchDist: distance(e), isScaling: true })
         setIsScaling(true)
         setIsDragging(false)
       } else {
@@ -150,13 +170,10 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
         setIsDragging(true)
       }
     }
-    setIsFirstPress(false)
-    setCfg({ ...cfg, isFirstPress: true })
   }
 
   const handleDoubleClick = (e: any) => {
-    const { canMouseX, canMouseY } = setCoordinates(e)
-    if (imgScale === 3) {
+    if (imgScale > 3) {
       setImgScale(1)
     } else {
       let scaleHeight = Math.floor(natHeight * (imgScale + 0.5))
@@ -170,37 +187,43 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
   const handleMouseMove = (e: any) => {
     let scaling = isScaling
     let tempImgScale: number = 1
+    let tempLeft = 0
+    let tempTop = 0
     const { canMouseX, canMouseY } = setCoordinates(e)
 
+    let scalediff = 0.025
     let yDiff: number
     let xDiff: number
+    let scaleHeight = 1
+    let scaleWidth = 1
 
-    if (e.targetTouches) {
-      if (e.touches.length > 1) {
-        //detected a pinch
-        console.log(e)
-        setIsScaling(true)
-        setIsDragging(false)
-        scaling = true
-      } else {
-        setIsScaling(false)
-        setIsDragging(true)
-      }
-    }
-    //console.log(`isScaling : ${isScaling}`)
     if (scaling) {
-      //...adding rndScaleTest to force processing of scaling randomly
       let dist = distance(e)
-      //Can't divide by zero, so return dist in denom. if touchDist still at initial 0 value
-      tempImgScale = dist / (touchDist === 0 ? dist : touchDist)
-      //console.log(`imgScale is: ${imgScale}`)
+      if (dist < touchDist) {
+        scalediff = -scalediff
+      }
+      tempImgScale = imgScale + scalediff
       if (tempImgScale < 1) tempImgScale = 1 //for now no scaling down allowed...
-      if (tempImgScale > 2) tempImgScale = 2 //...and scaling up limited to 2.5x
-      setSCHeight(Math.floor(imgScale * natHeight))
-      setSCWidth(Math.floor(imgScale * natWidth))
+      //if (tempImgScale > 3) tempImgScale = 4 //...and scaling up limited to 3x
+
+      scaleHeight = Math.floor(natHeight * tempImgScale)
+      scaleWidth = Math.floor(natWidth * tempImgScale)
       setImgScale(tempImgScale)
       setTouchDist(dist)
+      tempLeft = imgLeft * tempImgScale
+      tempTop = imgTop * tempImgScale
+      if (tempLeft <= leftLimit) {
+        setImgLeft(leftLimit)
+      } else if (tempLeft >= 0) {
+        setImgLeft(0)
+      } else setImgLeft(tempLeft)
+      if (tempTop <= topLimit) {
+        setImgTop(topLimit)
+      } else if (tempTop >= 0) {
+        setImgTop(0)
+      } else setImgTop(tempTop)
     }
+
     // if the drag flag is set, clear the canvas and draw the image
     if (isDragging) {
       yDiff = canMouseY && oldYCoord ? accel * (canMouseY - oldYCoord) : 0
@@ -228,12 +251,13 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
     setIsDragging(false)
     setIsFirstPress(true)
     setAccel(1)
+    setTouchDist(0)
     console.log('Mouse LEAVE Event function')
   }
 
   return (
     <div>
-      <div style={{ overflow: 'hidden', height: '300px', width: '300px' }}>
+      <div style={{ overflow: 'hidden', height: '350px', width: '350px', touchAction: 'none' }}>
         <div
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
@@ -249,17 +273,21 @@ export default function UIWorldMap({ section }: { section: uiTypes.UISectionObj 
             ref={imgRef}
             src={`data:image/jpeg;base64,${images[0]}`}
             style={{
-              transform: `translate(${imgLeft}px, ${imgTop}px)`,
-              height: `${scHeight}px`,
-              width: `${scWidth}px)`,
-              transformOrigin: `top left`,
+              transform: `scale(${imgScale}) translate(${imgLeft}px, ${imgTop}px)`,
             }}
             onLoad={handleImageLoad}
           />
         </div>
       </div>
-      <span>{`imgLeft: ${imgLeft}px `}</span>
-      <span>{`imgTop: ${imgTop}px  `}</span>
+      <span>
+        <b>{`isPinching: ${isScaling} `}</b>
+      </span>
+      <span>
+        <b>{`scale: ${imgScale}  `}</b>
+      </span>
+      <span>
+        <b>{`Dist: ${touchDist}  `}</b>
+      </span>
     </div>
   )
 }
