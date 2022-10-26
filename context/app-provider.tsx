@@ -9,24 +9,27 @@ import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
 import apiUtils from '../utils/game-service'
-import * as imageDump from '../data/mapImage'
+import * as imgStore from '../data/mapImage'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
-  const [isConnected, setIsConnected] = React.useState<boolean>()
+  const [isConnected, setIsConnected] = React.useState(false)
   const [wsSocket, setWSSocket] = React.useState<any>({})
   const [stompClient, setStompClient] = React.useState<any>(null)
   const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
+  //Actors are any entity in the world  whether NPC (GM) or player controlled
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
   const [game, setGame] = React.useState<types.GameObject>(gameObject)
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
+  //Those exchanged websocket messages of type group, private, party, or game texts
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
-  const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
+  const [images, setImages] = React.useState<object>(imgStore)
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
 
