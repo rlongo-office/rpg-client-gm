@@ -331,4 +331,12 @@ styleObj['SectionButton'] = {
   fontSize: '18px',
 } as React.CSSProperties
 
+styleObj['imgStyleProp'] = {
+  overflow: 'hidden',
+  alignContent: 'center',
+  height: '340px',
+  width: '340px',
+  touchAction: 'none'
+} as React.CSSProperties
+
 export default { styleObj }

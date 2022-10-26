@@ -15,6 +15,7 @@ import UIRegionMap from '../Image/ui-region-map'
 function UISection(section: uiTypes.UISectionObj) {
   //Add function a switch for the types of components
 
+
   return (
     <div style={styleObj[`${section.style}`]}>
       {section?.label.length > 0 && <div>{section.label}</div>}
@@ -41,8 +42,16 @@ function UISection(section: uiTypes.UISectionObj) {
           <UIData {...obj} key={`UI-Data-${rowIndex}`} />
         )
       )}
+      
     </div>
   )
 }
 
 export default UISection
+
+/*        ) : obj.type === 'world-map' ? (
+          <UIWorldMap {...obj} key={`UI-world-map-${rowIndex}`} />
+        ) : obj.type === 'region-map' ? (
+          <UIRegionMap {...obj} key={`UI-region-map-${rowIndex}`} />
+        ) : obj.type === 'tactical-map' ? (
+          <UITacticalMap {...obj} key={`UI-tactical-map-${rowIndex}`} /> */

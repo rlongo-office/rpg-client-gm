@@ -3,7 +3,7 @@ import * as types from '../../types/rpg-types'
 import { useAppContext } from '../../context/app-provider'
 import useStomp from '../../hooks/useStomp'
 
-function ChatText() {
+function ChatEntry() {
   
   return (
     <>
@@ -12,4 +12,4 @@ function ChatText() {
   )
 }
 
-export default ChatText
+export default ChatEntry
