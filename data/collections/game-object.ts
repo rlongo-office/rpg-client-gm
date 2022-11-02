@@ -796,6 +796,7 @@ const actors: types.Actor[] = [
 ]
 
 export const gameObject: types.GameObject = {
+  id: "It begins",
   yearTime: 10500000000,
   time: 6393600000, //March 15 in a non leap year
   players: actors,

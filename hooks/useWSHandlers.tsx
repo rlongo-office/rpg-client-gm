@@ -21,6 +21,7 @@ const useWSHandlers = () => {
 
   /* Jason has recommended we move this into 'Service' for better efficiency and use */
   MessageEventHandlers[handlerKey.privateText] = function (msg: any) {
+    //common function called for text related messages
     //inbound process of text message sent to multiple party members and GM
   }
   MessageEventHandlers[handlerKey.groupText] = function (msg: any) {
