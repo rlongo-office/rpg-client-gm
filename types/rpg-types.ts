@@ -42,6 +42,7 @@ export interface Climate {
 
 export interface Actor {
   name: string
+  stats: object
   location: { x: number; y: number; z: number }
   condition: string[]
 }

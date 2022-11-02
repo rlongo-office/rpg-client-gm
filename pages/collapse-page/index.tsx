@@ -3,6 +3,7 @@ import ImageWrapper from '../../components/Image/image-wrapper'
 import { styleObj } from '../../styles/styles'
 
 import useViewport from '../../hooks/useViewport'
+import GameObjEditor from '../../components/gm-ui/game-obj-editor'
 
 function CollapsePage() {
   const { devWidth, devHeight } = useViewport()
@@ -23,6 +24,7 @@ function CollapsePage() {
     <div style={{ border: '10px black', height: `${devHeight}px`, width: `${devWidth}px` }}>
       <div style={{ ...styleObj[`TopFlexPage`] }}>
         <ImageWrapper {...imageProps} />
+        <GameObjEditor></GameObjEditor>
       </div>
     </div>
   )

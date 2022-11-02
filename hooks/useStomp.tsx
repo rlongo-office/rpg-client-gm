@@ -51,7 +51,6 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
   }
 
 
-
   const messageHandler = (message: any) => {
     // fire the 'connect' callbacks
     //The STOMP "body" is a stringified object that comprises the game message, so we only

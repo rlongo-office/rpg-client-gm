@@ -25,6 +25,7 @@ function TableInputForm({ source, target }: props) {
   const inputRefs = React.useRef<JSX.Element[]>([])
 
   const getRecord = (data: AnyObject[]) => {
+    //We request the ID of the currently selected row for the source table we are reading from
     const selectedID = tableConfig[source].selected[0]
     const idPath = tableConfig[source].filtered[0]
     const filtered = data.filter((row: AnyObject) => {
