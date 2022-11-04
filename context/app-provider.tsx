@@ -8,6 +8,9 @@ import * as React from 'react'
 import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
+import itemsData from '../data/collections/items.json'
+import spellsData from '../data/collections/spells.json'
+import storylinesData from '../data/collections/storylines.json'
 import apiUtils from '../utils/game-service'
 import * as imgStore from '../data/mapImage'
 
@@ -24,6 +27,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [game, setGame] = React.useState<types.GameObject>(gameObject)
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
+  const [items, setItems] = React.useState<types.AnyObject[]>(itemsData)
+  const [spells, setSpells] = React.useState<types.AnyObject[]>(spellsData)
+  const [storylines, setStorylines] = React.useState<types.AnyObject[]>(storylinesData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
   //Those exchanged websocket messages of type group, private, party, or game texts
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
