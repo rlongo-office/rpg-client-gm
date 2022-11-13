@@ -12,10 +12,10 @@
     "raw": 30,
     "adj": 30
   },
-  "race": {
-    "Elf": 0.5,
-    "Human": 0.5
-  },
+  "race": [
+    {"Elf": 0.5},
+    {"Human": 0.5}
+  ],
   "alignment": "Neutral Good",
   "hair": "brown",
   "eyes": "gray",

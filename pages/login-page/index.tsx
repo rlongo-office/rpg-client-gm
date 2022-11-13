@@ -1,7 +1,7 @@
 import * as React from 'react'
 import useViewport from '../../hooks/useViewport'
 import { styleObj } from '../../styles/styles'
-import useStomp from '../../hooks/useStomp'
+import useStomp from '../../hooks/use.stomp'
 import { useRouter } from 'next/router'
 import { useAppContext } from '../../context/app-provider'
 

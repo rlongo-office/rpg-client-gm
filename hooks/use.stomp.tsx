@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client'
 import webStompClient from 'webstomp-client'
 import * as types from '../types/rpg-types'
 import { useAppContext } from '../context/app-provider'
-import useWSHandler from './useWSHandlers'
+import useWSHandler from './use-ws-handlers'
 
 const useStomp = (url = 'http://localhost:8080/game-app') => {
   const [message, setMessage] = useState<types.messageType>()

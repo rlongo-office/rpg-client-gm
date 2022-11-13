@@ -213,7 +213,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       loreMsgData,
       images,
       devHeight,
-      devWidth,
+      devWidth
     }),
     [
       creatures,
@@ -229,7 +229,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       loreMsgData,
       images,
       devHeight,
-      devWidth,
+      devWidth
     ]
   )
 

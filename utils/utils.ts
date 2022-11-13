@@ -166,7 +166,7 @@ const setObjValue = function (obj: any, path: string, value: any) {
    * @param  {String|Array} path The path
    * @return {Array}             The path array
    */
-  // Get the path as an array
+  // Get the path parsed out into an array
   path = stringToPath(path)
   // Cache the current object
   let current = obj
@@ -176,6 +176,7 @@ const setObjValue = function (obj: any, path: string, value: any) {
     current = current[path[j]]
     j += 1
   }
+  //if we have a valid path after traversing the 
   current[path[j]] = !current[path[j]] ? null : value
 }
 
@@ -193,6 +194,57 @@ const createObjID = (data: AnyObject[], record: AnyObject) => {
   return record
 }
 
+const getNodeType = (obj: object) => {
+  if (Array.isArray(obj)) {
+    return 'array'
+  } else {
+    if (typeof obj === 'object') {
+      return 'object'
+    } else return 'value'
+  }
+}
+
+/* The follow grabs the subVal and subPath string for each child entry in an object, if the val is of
+array or object. In the object editor component, we are using this function parse out the next level
+of children for rendering the tree for an object */
+const getChildNodes = (parent: string, val: any) => {
+  let childNodeArray = []
+  let parentPath = parent === '' ? '' : parent
+  if (Array.isArray(val)) {
+    let index = 0
+    if (val.length === 0) {
+      childNodeArray.push(parent)
+    }
+    val.forEach((subVal: any) => {
+      let arrayIndex = '[' + index + ']'
+      childNodeArray.push({
+        label: index,
+        value: subVal,
+        subPath: `${parentPath}${arrayIndex}`,
+        type: getNodeType(subVal),
+      })
+      index += 1
+    })
+  } else {
+    let dotOrNot = parentPath === '' ? '' : '.'
+    if (typeof val === 'object') {
+      Object.keys(val).forEach(key => {
+        let subVal = val[key]
+        if (subVal === null) {
+          subVal = 'null'
+        }
+        childNodeArray.push({
+          label: key,
+          value: subVal,
+          subPath: `${parentPath}${dotOrNot}${key}`,
+          type: getNodeType(subVal),
+        })
+      })
+    }
+  }
+  return childNodeArray
+}
+
 export {
   addIndexColumn,
   sortColumn,
@@ -203,4 +255,6 @@ export {
   setObjValue,
   deepCopy,
   createObjID,
+  getNodeType,
+  getChildNodes,
 }

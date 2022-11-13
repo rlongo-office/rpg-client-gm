@@ -1,0 +1,80 @@
+{
+  "objects": [
+    {
+      "player": {
+        "active": {
+          "type": "boolean",
+          "valid": "boolean"
+        },
+        "gender": {
+          "type": "list",
+          "valid": "list-gender"
+        },
+        "age.raw": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "age.adj": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "race": {
+          "type": "object-list-fixed",
+          "valid": "list-race"
+        },
+        "alignment": {
+          "type": "list",
+          "valid": "list-alignment"
+        },
+        "height.raw": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "height.adj": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "weight.raw": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "weight.adj": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "size.raw": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "size.adj": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "experience.raw": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "experience.adj": {
+          "type": "number",
+          "valid": "min.0"
+        },
+        "classes": {
+          "type": "object-list-fixed",
+          "valid": "list-classes"
+        },
+        "inventories": {
+          "type": "object-list-fixed",
+          "valid": "list-inventories"
+        },
+        "weapons": {
+          "type": "object-list-fixed",
+          "valid": "list-weapons"
+        },
+        "defenses": {
+          "type": "object-list-fixed",
+          "valid": "list-defenses"
+        }
+      }
+    }
+  ]
+}
