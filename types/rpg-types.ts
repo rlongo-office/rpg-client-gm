@@ -29,7 +29,7 @@ export interface GameObject {
 }
 
 export interface Climate {
-  coords: { x: number; y: number; z: number }
+  coords: { x: number, y: number, z: number }
   highTemp: number
   lowTemp: number
   windSpeed: number
