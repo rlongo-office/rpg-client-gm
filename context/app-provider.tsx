@@ -36,6 +36,20 @@ export function AppProvider({ children }: types.AppProviderProps) {
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
   const [images, setImages] = React.useState<object>(imgStore)
+  //To mimic a true reducer, I am collecting all the state values into one large object
+  const [gameStates, setGameStates] = React.useState<any>({
+    actors: [actors, setActors],
+    items: [items, setItems],
+    storylines: [storylines, setStorylines],
+    players: [players, setPlayers],
+    game: [game, setGame],
+    creatures: [creatures, setCreatures],
+    images: [images, setImages],
+    spells: [spells, setSpells],
+    loreMsgData: [loreMsgData, setLoreMsgData],
+    textHistory: [textHistory, setTextHistory],
+    messages: [messages, setMessages],
+  })
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
 
@@ -100,57 +114,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       filteredData: [],
     },
   })
-
-  const reducer = async (type: string, payload: any) => {
-    let returnObj: types.AnyObject[] = []
-    let parsedData: types.AnyObject[] = []
-    switch (type) {
-      case 'addActor':
-        const newActors: types.AnyObject[] = [...actors, createObjID(actors, payload)]
-        setActors(newActors)
-        parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
-        setTableConfig({
-          ...tableConfig,
-          actorConfig: { ...tableConfig.actorConfig, data: parsedData, filteredData: parsedData },
-        })
-        break
-      case 'getGameObject':
-        returnObj = await apiUtils.getGameObject()
-        console.log(returnObj)
-        setCreatures(returnObj)
-        //before parsing we need to parse the array of strings
-        parsedData = parseDataForTable(returnObj, sharedTableConfig.filtered)
-        setTableConfig({
-          ...tableConfig,
-          creatureConfig: {
-            ...tableConfig.creatureConfig,
-            data: parsedData,
-            filteredData: parsedData,
-          },
-        })
-        break
-      case 'setGameObject':
-        returnObj = await apiUtils.setGameObject(payload)
-        break
-
-      default:
-        break
-    }
-  }
-
-  //
-  const gblMsgHandler = (message: types.messageType) => {
-    switch (message.type) {
-      case 'private':
-        setMessages([...messages, message])
-        break
-      default:
-        break
-    }
-  }
+  /************************************************************************************/
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
-
   const isMobile = () => {
     var result = false
     if (window.PointerEvent && 'maxTouchPoints' in navigator) {
@@ -170,13 +136,11 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
     return result
   }
-
   const handleWindowResize = () => {
     setDevWidth(window.innerWidth)
     setDevHeight(window.innerHeight)
     console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
   }
-
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       let mobile = isMobile()
@@ -186,6 +150,25 @@ export function AppProvider({ children }: types.AppProviderProps) {
       }
     }
   }, [])
+  /**********************************************************************************************/
+
+/*   //For object reducer hook need, creating a larger 'state' object where
+  //individual states and their set functions can be referenced programmatically by key
+  React.useEffect(() => {
+    let statesObj: any = {}
+    statesObj['actors'] = [actors, setActors]
+    statesObj['creatures'] = [creatures, setCreatures]
+    statesObj['players'] = [players, setPlayers]
+    statesObj['game'] = [game, setGame]
+    statesObj['messages'] = [messages, setMessages]
+    statesObj['images'] = [images, setImages]
+    statesObj['items'] = [items, setItems]
+    statesObj['storylines'] = [storylines, setStorylines]
+    statesObj['spells'] = [spells, setSpells]
+    statesObj['textHistory'] = [textHistory, setTextHistory]
+    statesObj['loreMsgData'] = [loreMsgData, setLoreMsgData]
+    setGameStates(statesObj)
+  }, []) */
 
   const value = React.useMemo(
     () => ({
@@ -197,7 +180,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setActors,
       tableConfig,
       setTableConfig,
-      gblMsgHandler,
       account,
       setAccount,
       messages,
@@ -213,7 +195,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       loreMsgData,
       images,
       devHeight,
-      devWidth
+      devWidth,
+      gameStates,
     }),
     [
       creatures,
@@ -229,7 +212,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       loreMsgData,
       images,
       devHeight,
-      devWidth
+      devWidth,
+      gameStates,
     ]
   )
 

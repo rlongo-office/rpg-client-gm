@@ -61,7 +61,7 @@ function UiObjTreeNode({ label, subSource, path, callRootEdit, nodeType, level }
         break
       case 'value':
         setNodeElm('V-')
-        setBtnStyle({ border: 'none', backgroundColor: 'white', disabled: true })
+        setBtnStyle({ border: 'none', backgroundColor: 'yellow', disabled: true })
         break
     }
   }
@@ -88,8 +88,8 @@ function UiObjTreeNode({ label, subSource, path, callRootEdit, nodeType, level }
   const storeInput = (event: any) => {
     if (event.keyCode === 13) {
       event.preventDefault()
-      let val:any
-      typeof subSource =='number' ? val=Number(event.target.value) : val = event.target.value
+      let val: any
+      typeof subSource == 'number' ? (val = Number(event.target.value)) : (val = event.target.value)
       console.log(`value: ${val} path: ${path}`)
       callRootEdit(val, path)
     }

@@ -7,17 +7,19 @@ import {
   getNodeType,
 } from '../../utils/utils'
 import UiObjTreeNode from './ui-obj-tree-node'
+import useObjReducer from '../../hooks/use-obj-reducer-alternate'
 
 interface AnyObject {
   [key: string]: any
 }
 
 interface props {
-  source: object
+  source: string
 }
 
 function UiObjTreeEditor({ source }: props) {
-  const [clonedObj, setClonedObj] = React.useState<object>({})
+  const { objReducer } = useObjReducer()
+  const [clonedObj, setClonedObj] = React.useState<any>({})
 
   const storeInput = (value: any, path: string) => {
     //called from child, changes value in current cloned copy of source object
@@ -27,25 +29,23 @@ function UiObjTreeEditor({ source }: props) {
     console.log(tempObj)
   }
 
-  React.useEffect(() => {
-    //make a deep copy clone so we dont mess with original
-    setClonedObj(deepCopy(source))
-  }, [source])
+  const loadSource = () => {
+    return objReducer(source, {}, 'return-object', '')
+  }
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0)
-    }
+    const sourceObj = loadSource()
+    setClonedObj(sourceObj)
   }, [])
 
   return (
     <>
       <UiObjTreeNode
-        label={source.constructor.name}
-        subSource={source}
+        label={source}
+        subSource={clonedObj}
         path={``}
         callRootEdit={storeInput}
-        nodeType={getNodeType(source)}
+        nodeType={getNodeType(clonedObj)}
         level={0}
       />
     </>

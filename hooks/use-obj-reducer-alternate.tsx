@@ -9,57 +9,12 @@ import { waitForDebugger } from 'inspector'
 //components, felt that creating a reducer hook could keep the mess neatly contained.  The objReducer
 //would also make any call outs to validation functions or hooks, also keeping the components cleaner and
 //easier to read
-const useObjReducer = () => {
+const useObjReducerAlternate = () => {
   const stateObj = 0
   const stateFunc = 1
-  const {
-    game,
-    setGame,
-    creatures,
-    setCreatures,
-    actors,
-    setActors,
-    messages,
-    setMessages,
-    players,
-    setPlayers,
-    images,
-    setImages,
-    items,
-    setItems,
-    storylines,
-    setStorylines,
-    spells,
-    setSpells,
-    textHistory,
-    setTextHistory,
-    loreMsgData,
-    setLoreMsgData,
-  } = useAppContext()
+  const { gameStates, game } = useAppContext()
 
-  const [gameStates, setGameStates] = useState<any>(null)
-
-  const loadState = () => {
-    let statesObj: any = {}
-    if (actors) {
-      statesObj['actors'] = [actors, setActors]
-      statesObj['creatures'] = [creatures, setCreatures]
-      statesObj['players'] = [players, setPlayers]
-      statesObj['game'] = [game, setGame]
-      statesObj['messages'] = [messages, setMessages]
-      statesObj['images'] = [images, setImages]
-      statesObj['items'] = [items, setItems]
-      statesObj['storylines'] = [storylines, setStorylines]
-      statesObj['spells'] = [spells, setSpells]
-      statesObj['textHistory'] = [textHistory, setTextHistory]
-      statesObj['loreMsgData'] = [loreMsgData, setLoreMsgData]
-      setGameStates(statesObj)
-    }
-  }
-
-  useEffect(() => {
-    loadState()
-  }, [])
+  useEffect(() => {}, [])
 
   const objReducer = (obj: string, data: object, action: string, path: string) => {
     switch (action) {
@@ -126,7 +81,7 @@ const useObjReducer = () => {
         gameStates[obj][stateFunc].call(tempDelObj)
         break
       case 'return-object':
-        return game
+        return gameStates[obj][stateObj]
         break
     }
   }
@@ -134,4 +89,4 @@ const useObjReducer = () => {
   return { objReducer }
 }
 
-export default useObjReducer
+export default useObjReducerAlternate

@@ -5,7 +5,8 @@ import useViewport from '../../hooks/useViewport'
 import UiObjTreeEditor from '../../components/gm-ui/ui-obj-tree-editor'
 import { useAppContext } from '../../context/app-provider'
 import GMUIPopupEntry from '../../components/gm-ui/gm-ui-popup-entry'
-import useObjReducer from '../../hooks/use-obj-reducer'
+import useObjReducer from '../../hooks/use-obj-reducer-alternate'
+import * as types from '../../types/rpg-types'
 
 function CollapsePage() {
   const { devWidth, devHeight } = useViewport()
@@ -14,7 +15,7 @@ function CollapsePage() {
   const { objReducer } = useObjReducer()
 
   const testHook = () => {
-    const newClimate = {
+    const newClimate:types.Climate = {
       coords: { x: 100, y: 200, z: 200 },
       highTemp: 78,
       lowTemp: 50,
@@ -43,7 +44,7 @@ function CollapsePage() {
   return (
     <div style={{ border: '10px black', height: `${devHeight}px`, width: `${devWidth}px` }}>
       <div style={{ ...styleObj[`TopFlexPage`] }}>
-        <button onClick={testHook}></button>
+        <button onClick={testHook}>Test Hook</button>
         <ImageWrapper {...imageProps} />
         <button style={{ width: '100px' }} onClick={() => setUsePopup(true)}>
           Open Popup
@@ -51,7 +52,7 @@ function CollapsePage() {
         <GMUIPopupEntry trigger={usePopup} setTrigger={setUsePopup}>
           <h3>My popup</h3>
         </GMUIPopupEntry>
-        <UiObjTreeEditor source={players[0]} />
+        <UiObjTreeEditor source={'players'} />
       </div>
     </div>
   )
