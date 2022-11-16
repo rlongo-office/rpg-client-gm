@@ -7,7 +7,7 @@ import {
   getNodeType,
 } from '../../utils/utils'
 import UiObjTreeNode from './ui-obj-tree-node'
-import useObjReducer from '../../hooks/use-obj-reducer-alternate'
+import useObjReducer from '../../hooks/use-obj-reducer'
 
 interface AnyObject {
   [key: string]: any

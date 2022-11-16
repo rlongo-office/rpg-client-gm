@@ -5,7 +5,7 @@ import useViewport from '../../hooks/useViewport'
 import UiObjTreeEditor from '../../components/gm-ui/ui-obj-tree-editor'
 import { useAppContext } from '../../context/app-provider'
 import GMUIPopupEntry from '../../components/gm-ui/gm-ui-popup-entry'
-import useObjReducer from '../../hooks/use-obj-reducer-alternate'
+import useObjReducer from '../../hooks/use-obj-reducer'
 import * as types from '../../types/rpg-types'
 
 function CollapsePage() {
@@ -15,7 +15,7 @@ function CollapsePage() {
   const { objReducer } = useObjReducer()
 
   const testHook = () => {
-    const newClimate:types.Climate = {
+    const newClimate: types.Climate = {
       coords: { x: 100, y: 200, z: 200 },
       highTemp: 78,
       lowTemp: 50,
@@ -52,7 +52,7 @@ function CollapsePage() {
         <GMUIPopupEntry trigger={usePopup} setTrigger={setUsePopup}>
           <h3>My popup</h3>
         </GMUIPopupEntry>
-        <UiObjTreeEditor source={'players'} />
+        <UiObjTreeEditor source={'game'} />
       </div>
     </div>
   )

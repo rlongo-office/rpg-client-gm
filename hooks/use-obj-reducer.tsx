@@ -37,29 +37,19 @@ const useObjReducer = () => {
     setLoreMsgData,
   } = useAppContext()
 
-  const [gameStates, setGameStates] = useState<any>(null)
-
-  const loadState = () => {
-    let statesObj: any = {}
-    if (actors) {
-      statesObj['actors'] = [actors, setActors]
-      statesObj['creatures'] = [creatures, setCreatures]
-      statesObj['players'] = [players, setPlayers]
-      statesObj['game'] = [game, setGame]
-      statesObj['messages'] = [messages, setMessages]
-      statesObj['images'] = [images, setImages]
-      statesObj['items'] = [items, setItems]
-      statesObj['storylines'] = [storylines, setStorylines]
-      statesObj['spells'] = [spells, setSpells]
-      statesObj['textHistory'] = [textHistory, setTextHistory]
-      statesObj['loreMsgData'] = [loreMsgData, setLoreMsgData]
-      setGameStates(statesObj)
-    }
-  }
-
-  useEffect(() => {
-    loadState()
-  }, [])
+  const [gameStates, setGameStates] = useState<any>({
+    actors: [actors, setActors],
+    items: [items, setItems],
+    storylines: [storylines, setStorylines],
+    players: [players, setPlayers],
+    game: [game, setGame],
+    creatures: [creatures, setCreatures],
+    images: [images, setImages],
+    spells: [spells, setSpells],
+    loreMsgData: [loreMsgData, setLoreMsgData],
+    textHistory: [textHistory, setTextHistory],
+    messages: [messages, setMessages],
+  })
 
   const objReducer = (obj: string, data: object, action: string, path: string) => {
     switch (action) {
@@ -123,10 +113,10 @@ const useObjReducer = () => {
         //now set the subObject with the inserted data back in the original parent object
         setObjValue(tempDelObj, path, objDelPoint)
         //and call that object's app context set function to change at the app level
-        gameStates[obj][stateFunc].call(tempDelObj)
+        gameStates[obj][stateFunc](tempDelObj)
         break
       case 'return-object':
-        return game
+        return gameStates[obj][stateObj]
         break
     }
   }

@@ -36,20 +36,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
   const [images, setImages] = React.useState<object>(imgStore)
-  //To mimic a true reducer, I am collecting all the state values into one large object
-  const [gameStates, setGameStates] = React.useState<any>({
-    actors: [actors, setActors],
-    items: [items, setItems],
-    storylines: [storylines, setStorylines],
-    players: [players, setPlayers],
-    game: [game, setGame],
-    creatures: [creatures, setCreatures],
-    images: [images, setImages],
-    spells: [spells, setSpells],
-    loreMsgData: [loreMsgData, setLoreMsgData],
-    textHistory: [textHistory, setTextHistory],
-    messages: [messages, setMessages],
-  })
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
 
@@ -152,7 +138,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   }, [])
   /**********************************************************************************************/
 
-/*   //For object reducer hook need, creating a larger 'state' object where
+  /*   //For object reducer hook need, creating a larger 'state' object where
   //individual states and their set functions can be referenced programmatically by key
   React.useEffect(() => {
     let statesObj: any = {}
@@ -196,7 +182,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
-      gameStates,
     }),
     [
       creatures,
@@ -213,7 +198,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
-      gameStates,
     ]
   )
 

@@ -12,7 +12,7 @@ import { waitForDebugger } from 'inspector'
 const useObjReducerAlternate = () => {
   const stateObj = 0
   const stateFunc = 1
-  const { gameStates, game } = useAppContext()
+  const { gameStates } = useAppContext()
 
   useEffect(() => {}, [])
 
