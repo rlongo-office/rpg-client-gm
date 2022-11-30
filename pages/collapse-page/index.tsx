@@ -7,6 +7,7 @@ import { useAppContext } from '../../context/app-provider'
 import GMUIPopupEntry from '../../components/gm-ui/gm-ui-popup-entry'
 import useObjReducer from '../../hooks/use-obj-reducer'
 import * as types from '../../types/rpg-types'
+import { diceCombo } from '../../utils/util-js'
 
 function CollapsePage() {
   const { devWidth, devHeight } = useViewport()
@@ -15,18 +16,7 @@ function CollapsePage() {
   const { objReducer } = useObjReducer()
 
   const testHook = () => {
-    const newClimate: types.Climate = {
-      coords: { x: 100, y: 200, z: 200 },
-      highTemp: 78,
-      lowTemp: 50,
-      windSpeed: 10,
-      windDir: 30, //360 radial measure, 0=north, 90=East, etc
-      humidity: 45,
-      precip: 0, //as inch per hour
-      visibility: 2000, //in feet
-      conditions: ['clear', 'breezy', 'sunny'],
-    }
-    objReducer('game', newClimate, 'add-object', 'climate')
+    console.log(diceCombo(3, 3,1,[[]]))
   }
 
   const imageProps = {

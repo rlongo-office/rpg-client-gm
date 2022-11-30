@@ -176,7 +176,7 @@ const setObjValue = function (obj: any, path: string, value: any) {
     current = current[path[j]]
     j += 1
   }
-  //if we have a valid path after traversing the 
+  //if we have a valid path after traversing the
   current[path[j]] = !current[path[j]] ? null : value
 }
 
@@ -244,6 +244,8 @@ const getChildNodes = (parent: string, val: any) => {
   }
   return childNodeArray
 }
+
+
 
 export {
   addIndexColumn,
