@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useAppContext } from '../../context/app-provider'
 
 type ImageProps = {
@@ -30,17 +30,19 @@ export default function ImageResponsive(props: ImageProps) {
   const [imgScale, setImgScale] = useState(1) //The current scale rate for image
   const [touchDist, setTouchDist] = useState(0) //The last recorded touch distance - used for pinch testing
   const [isLoaded, setIsLoaded] = useState(false) //image has/has not loaded flag
-  const [offsetTop, setOffsetTop] = useState(0) //top offset from top most element. Required to accurate calculate mouse coordinates
+  const [offsetTop] = useState(0) //top offset from top most element. Required to accurate calculate mouse coordinates
   const [offsetLeft, setOffsetLeft] = useState(0) //top offset from left most element. Required to accurate calculate mouse coordinates
   const [oldXCoord, setOldXCoord] = useState(0) //stored previous mouse X coordinate
   const [oldYCoord, setOldYCoord] = useState(0) //stored previous mouse Y coordinate
   const [source, setSource] = useState<string>() //image source string as determined by passed parameter options
-  const [scaleInc, setScaleInc] = useState(0.025) //increment of scaling allowed
+  const [scaleInc] = useState(0.025) //increment of scaling allowed
   const [panRate, setPanRate] = useState(1) //current panning speed
 
   /*LOADING, IMAGE PROCESSING AND STATE CHANGES*/
 
-  const handleImageLoad = () => {
+  // This will only get called if fHeight or fWidth differ
+  // from the previous fHeight and fWidth used in the callback.
+  const handleImageLoad = React.useCallback(() => {
     if (imgRef) {
       const img = imgRef
       let offLeft: number
@@ -61,7 +63,7 @@ export default function ImageResponsive(props: ImageProps) {
       setOffsetLeft(offLeft)
       setOffsetLeft(offTop)
     }
-  }
+  }, [fHeight, fWidth])
 
   //After every change in scale, we need to change scaling width,height and translate to new position near pinch
   const setNewImageLimits = (scale: number, x: number, y: number) => {
@@ -92,7 +94,7 @@ export default function ImageResponsive(props: ImageProps) {
     } else setImgTop(newTop)
   }
 
-  const setImageSource = () => {
+  const setImageSource = React.useCallback(() => {
     switch (sourceType) {
       //the source is a base64 string itself...
       case 1:
@@ -107,7 +109,7 @@ export default function ImageResponsive(props: ImageProps) {
         setSource(imgSource)
         break
     }
-  }
+  }, [images, imgSource, sourceType])
 
   useEffect(() => {
     setImageSource()
@@ -116,7 +118,7 @@ export default function ImageResponsive(props: ImageProps) {
       handleImageLoad()
       setIsLoaded(true)
     }
-  }, [])
+  }, [setImageSource, handleImageLoad])
 
   useEffect(() => {}, [scWidth])
 
@@ -170,28 +172,50 @@ export default function ImageResponsive(props: ImageProps) {
   */
 
   //When Mouse button up (touch released) reset to orginal setting
-  const handleMouseUp = (e: any) => {
+  const handleMouseUp = (e: React.TouchEvent | React.MouseEvent) => {
     setIsScaling(false)
     setIsDragging(false)
     setPanRate(1)
     setTouchDist(0)
   }
 
-  const handleMouseLeave = (e: any) => {
+  const handleMouseLeave = (e: React.TouchEvent | React.MouseEvent) => {
     //for now, leaving the image does the same as release mouse or touch
     handleMouseUp(e)
   }
 
-  const handleMouseDown = (e: any) => {
-    const { canMouseX, canMouseY } = setCoordinates(e)
+  const onStart = (event: React.TouchEvent | React.MouseEvent) => {
+    event.persist()
+    console.log('event ', event)
+    if (event.nativeEvent instanceof TouchEvent) {
+      console.log(event.nativeEvent.touches)
+    }
+
+    if (event.nativeEvent instanceof MouseEvent) {
+      console.log(event.nativeEvent.screenX)
+    }
+  }
+
+  const handleMouseDown = (event: React.TouchEvent | React.MouseEvent) => {
+    event.preventDefault()
+
+    const { canMouseX, canMouseY } = setCoordinates(event)
     canMouseX ? setOldXCoord(canMouseX) : setOldXCoord(0)
     canMouseY ? setOldYCoord(canMouseY) : setOldYCoord(0)
-    e.preventDefault()
+
     setIsDragging(true)
-    if (e?.targetTouches) {
+
+    if (event.nativeEvent instanceof TouchEvent) {
+      console.log(event.nativeEvent.touches)
+    }
+
+    // Is this a touch event (mobile)?
+    // See: https://stackoverflow.com/questions/54688147/react-typescript-event-type-for-both-interfaces-mouseevent-and-touchevent
+
+    if (event.nativeEvent instanceof TouchEvent && 'targetTouches' in event) {
       //test for more than one touch to detect pinch
-      if (e?.nativeEvent?.touches?.length > 1) {
-        setTouchDist(distance(e)) //set pinch distance to test for zooming in/out later
+      if (event?.nativeEvent?.touches?.length > 1) {
+        setTouchDist(distance(event)) //set pinch distance to test for zooming in/out later
         setIsScaling(true) //detected pinch so we are now scaling...
         setIsDragging(false) //...and we are not dragging
       } else {
@@ -264,7 +288,9 @@ export default function ImageResponsive(props: ImageProps) {
 
   return (
     <div>
+      {/*eslint-disable-next-line @next/next/no-img-element*/}
       <img
+        alt="map"
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onTouchEnd={handleMouseUp}

@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 interface AnyObject {
   [key: string]: any
 }

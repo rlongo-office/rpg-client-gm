@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { useAppContext } from '../../context/app-provider'
+import { useAppContext } from '@context/app-provider'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
 
 export default function UITacticalMap({ section }: { section: uiTypes.UISectionObj }) {
-  const {images} = useAppContext()
+  const { images } = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -42,7 +42,7 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
     touchDist: 0,
   })
 
-  const setNewImageLimits = () => {
+  const setNewImageLimits = React.useCallback(() => {
     const img = imgRef
     let scaleHeight: number
     let scaleWidth: number
@@ -60,9 +60,9 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
     setSCHeight(scaleHeight)
     setSCWidth(scaleWidth)
     setImgTop(0)
-  }
+  }, [cfg.divHeight, cfg.divWidth, imgScale])
 
-  const handleImageLoad = () => {
+  const handleImageLoad = React.useCallback(() => {
     if (imgRef) {
       const img = imgRef
       let heightLimit: number
@@ -77,20 +77,20 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
       setSCWidth(img.current ? img.current.naturalWidth : 0)
       console.log('Image Loaded with topLimit:' + heightLimit + ' and leftLimit:' + widthLimit)
     }
-  }
+  }, [cfg.divHeight, cfg.divWidth])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     if (imgRef.current?.complete) {
       handleImageLoad()
     }
-  }, [])
+  }, [handleImageLoad])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     setNewImageLimits()
     console.log(`imgScale is: ${imgScale}`)
-  }, [imgScale])
+  }, [imgScale, setNewImageLimits])
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -246,7 +246,9 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
           onMouseLeave={handleMouseLeave}
           onDoubleClick={handleDoubleClick}
         >
+          {/*eslint-disable-next-line @next/next/no-img-element*/}
           <img
+            alt="tactical-map"
             ref={imgRef}
             src={`data:image/jpeg;base64,${images[0]}`}
             style={{

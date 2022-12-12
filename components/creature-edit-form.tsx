@@ -1,6 +1,6 @@
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 import DataSection from './data-section'
-import { useAppContext } from '../context/app-provider'
 
 interface AnyObject {
   [key: string]: any
@@ -12,8 +12,8 @@ interface props {
 }
 
 function CreatureEditForm({ source, target }: props) {
-  const { creatures, actors, setActors, tableConfig, reducer } = useAppContext()
-  const [currentCreature, setCurrentCreature] = React.useState<AnyObject>(creatures[source])
+  const { creatures } = useAppContext()
+  const [currentCreature] = React.useState<AnyObject>(creatures[source])
   //Add child components to format page each receiving the necessary data for rendering
   //
   React.useEffect(() => {}, [])

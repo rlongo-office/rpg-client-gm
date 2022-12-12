@@ -1,12 +1,9 @@
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import { useAppContext } from '../../context/app-provider'
-import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
-import useViewport from '../../hooks/useViewport'
 
 export default function UIWorldMap() {
   const { images } = useAppContext()
-  const { devWidth, devHeight } = useViewport()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -45,7 +42,7 @@ export default function UIWorldMap() {
     touchDist: 0,
   })
 
-  const setNewImageLimits = () => {
+  const setNewImageLimits = React.useCallback(() => {
     const img = imgRef
     let newTopLimit
     let newLeftLimit
@@ -59,9 +56,9 @@ export default function UIWorldMap() {
     setLeftLimit(-newLeftLimit)
     setImgLeft(0)
     setImgTop(0)
-  }
+  }, [cfg.divHeight, cfg.divWidth])
 
-  const handleImageLoad = () => {
+  const handleImageLoad = React.useCallback(() => {
     if (imgRef) {
       const img = imgRef
       let offsetLeft: number
@@ -80,19 +77,19 @@ export default function UIWorldMap() {
       setSCWidth(img.current ? img.current.naturalWidth : 0)
       setCfg({ ...cfg, offsetX: offsetLeft, offsetY: offsetTop })
     }
-  }
+  }, [cfg])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     if (imgRef.current?.complete) {
       handleImageLoad()
     }
-  }, [])
+  }, [handleImageLoad])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     setNewImageLimits()
-  }, [touchDist, imgScale])
+  }, [setNewImageLimits])
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -269,7 +266,9 @@ export default function UIWorldMap() {
           ref={divRef}
           style={{ overflow: 'hidden', height: '350px', width: '350px', touchAction: 'none' }}
         >
+          {/*eslint-disable-next-line @next/next/no-img-element*/}
           <img
+            alt="world-map"
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             onTouchEnd={handleMouseUp}
@@ -283,8 +282,8 @@ export default function UIWorldMap() {
             style={{
               transform: `translate(${imgLeft}px, ${imgTop}px)`,
               transformOrigin: 'top left',
-              width:`2434px`,
-              height:`1544px`
+              width: `2434px`,
+              height: `1544px`,
             }}
             onLoad={handleImageLoad}
           />

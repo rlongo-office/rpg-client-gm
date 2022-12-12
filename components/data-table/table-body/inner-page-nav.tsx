@@ -1,5 +1,5 @@
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import { useAppContext } from '../../../context/app-provider'
 
 interface InnerPageNavProps {
   tableID: string

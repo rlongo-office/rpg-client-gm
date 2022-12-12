@@ -1,7 +1,7 @@
 import * as React from 'react'
 import DataTable from './data-table'
-import { useAppContext } from '../../context/app-provider'
-import { parseDataForTable, addIndexColumn } from '../../utils/utils'
+import { parseDataForTable, addIndexColumn } from '@utils/utils'
+import { useAppContext } from '@context/app-provider'
 
 interface TableConfig {
   sortColumns: Array<number>

@@ -1,11 +1,10 @@
-import { useContext } from 'react'
-import { useAppContext } from '../context/app-provider'
+import { useAppContext } from '@context/app-provider'
 
 const useViewport = () => {
-    /* useViewport hook pulls the width and height values from the App provider
+  /* useViewport hook pulls the width and height values from the App provider
      context*/
-    const { devWidth, devHeight } = useAppContext();
-    return { devWidth, devHeight };
-  }
+  const { devWidth, devHeight } = useAppContext()
+  return { devWidth, devHeight }
+}
 
-  export default useViewport
+export default useViewport

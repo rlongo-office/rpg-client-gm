@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useAppContext } from '@context/app-provider'
+import * as React from 'react'
 import * as types from '../types/rpg-types'
-import { useAppContext } from '../context/app-provider'
 
 const useWSHandlers = () => {
-  const [message, setMessage] = useState<types.messageType>()
-
-  const { game, setGame, images, setImages } = useAppContext()
+  const { setGame } = useAppContext()
 
   let MessageEventHandlers: Function[] = []
 
@@ -32,7 +30,7 @@ const useWSHandlers = () => {
   }
   MessageEventHandlers[handlerKey.imageExchange] = function (msg: any) {}
 
-    /*Any changes related to player stats*/
+  /*Any changes related to player stats*/
   MessageEventHandlers[handlerKey.statUpdate] = function (msg: any) {}
 
   /*Any changes related to game object, which could include but not limited to

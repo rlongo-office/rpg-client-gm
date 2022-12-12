@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useAppContext } from '@context/app-provider'
+import * as React from 'react'
 import SockJS from 'sockjs-client'
 import webStompClient from 'webstomp-client'
 import * as types from '../types/rpg-types'
-import { useAppContext } from '../context/app-provider'
 import useWSHandler from './useWSHandlers'
 
 const useStomp = (url = 'http://localhost:8080/game-app') => {
-  const [message, setMessage] = useState<types.messageType>()
-  const {handlerKey,MessageEventHandlers} = useWSHandler()
+  const { handlerKey, MessageEventHandlers } = useWSHandler()
 
   const {
     account,
@@ -49,7 +48,6 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
       )
     }
   }
-
 
   const messageHandler = (message: any) => {
     // fire the 'connect' callbacks

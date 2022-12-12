@@ -24,7 +24,7 @@ import {
   squareTitleSpell,
   StateImageBox,
   vertStack,
-} from '../../../styles/styles-test'
+} from '@styles/styles-test'
 
 function StatComponentSimple() {
   return (

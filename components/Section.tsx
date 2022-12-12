@@ -1,6 +1,6 @@
+import { getObjValue } from '@utils/utils'
 import * as React from 'react'
 import { StatSection } from '../types/rpg-types'
-import { getObjValue } from '../utils/utils'
 //This is a no-no so we need a type of Creature. So refactor this with a Creature type
 interface AnyObject {
   [key: string]: any

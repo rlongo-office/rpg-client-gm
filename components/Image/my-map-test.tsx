@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useAppContext } from '../../context/app-provider'
-import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
 import useViewport from '../../hooks/useViewport'
 

@@ -1,4 +1,4 @@
-import { useAppContext } from '../../../context/app-provider'
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 
 interface RowsProps {

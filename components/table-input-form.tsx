@@ -1,13 +1,6 @@
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import {
-  iterateObjEntries,
-  getObjValue,
-  setObjValue,
-  createObjID,
-  parseDataForTable,
-} from '../utils/utils'
-import { useAppContext } from '../context/app-provider'
-import { deepCopy } from '../utils/utils'
+import { deepCopy, getObjValue, iterateObjEntries, setObjValue } from '@utils/utils'
 
 interface AnyObject {
   [key: string]: any

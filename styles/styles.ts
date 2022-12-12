@@ -336,7 +336,7 @@ styleObj['imgStyleProp'] = {
   alignContent: 'center',
   height: '340px',
   width: '340px',
-  touchAction: 'none'
+  touchAction: 'none',
 } as React.CSSProperties
 
 export default { styleObj }

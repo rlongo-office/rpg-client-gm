@@ -5,11 +5,11 @@ import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
-import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
-import apiUtils from '../utils/game-service'
 import * as imgStore from '../data/mapImage'
+import { createObjID, parseDataForTable } from '@utils/utils'
+import apiUtils from '@utils/game-service'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
@@ -132,16 +132,19 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }
 
-  //
-  const gblMsgHandler = (message: types.messageType) => {
-    switch (message.type) {
-      case 'private':
-        setMessages([...messages, message])
-        break
-      default:
-        break
-    }
-  }
+  const gblMsgHandler = React.useCallback(
+    (message: types.messageType) => {
+      switch (message.type) {
+        case 'private':
+          setMessages([...messages, message])
+          break
+        default:
+          break
+      }
+    },
+    [messages]
+  )
+
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
 
@@ -210,15 +213,17 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devWidth,
     }),
     [
+      game,
       creatures,
       actors,
       tableConfig,
-      game,
+      gblMsgHandler,
       account,
+      messages,
       isConnected,
       stompClient,
-      messages,
       players,
+      playerBP,
       textHistory,
       loreMsgData,
       images,

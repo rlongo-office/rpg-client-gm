@@ -1,16 +1,13 @@
-import * as React from 'react'
-import { useAppContext } from '../context/app-provider'
-
 export let MessageEventHandlers: Function[] = []
 
 export enum handlerKey {
-  privateText=0,
+  privateText = 0,
   groupText,
   gameText,
   imageExchange,
   statUpdate,
   gameUpdate,
-  loreText
+  loreText,
 }
 
 /* Jason has recommended we move this into 'Service' for better efficiency and use */
@@ -26,10 +23,9 @@ MessageEventHandlers[handlerKey.gameText] = function (msg: any) {
 MessageEventHandlers[handlerKey.imageExchange] = function (msg: any) {}
 MessageEventHandlers[handlerKey.statUpdate] = function (msg: any) {}
 
-  /*Any changes related to game object, which could include but not limited to
+/*Any changes related to game object, which could include but not limited to
   environment changes, player locations, conditions in the environment, campaign
   updates, etc*/
 MessageEventHandlers[handlerKey.gameUpdate] = function (msg: any) {
   //update game object in App Provider
 }
-
