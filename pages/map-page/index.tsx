@@ -10,13 +10,15 @@ function MapPage() {
   const { devWidth, devHeight } = useViewport()
 
   return (
-    <div id="map-page" style={{ ...styleObj[`TopFlexPage`], height: `${devHeight}px`, width: `${devWidth}px` }}>
-            <UITopStatusBar {...PlayerBP.statusBar} />
+    <div
+      id="map-page"
+      style={{ ...styleObj[`TopFlexPage`], height: `${devHeight}px`, width: `${devWidth}px` }}
+    >
+      <UITopStatusBar {...PlayerBP.statusBar} />
       <div className="overflow-control">
         <UIParent pageType={`mapPage`}></UIParent>
       </div>
       <UINavbar />
-      
     </div>
   )
 }

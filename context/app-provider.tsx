@@ -32,6 +32,26 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [images, setImages] = React.useState<object>(imgStore)
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
+  const [imgConfig, setImgConfig] = React.useState({
+    img: '',
+    imgTOP: 0,
+    imgLEFT: 0,
+    offsetX: 0,
+    offsetY: 0,
+    isFirstPress: true,
+    isDragging: false,
+    isScaling: false,
+    divHeight: 350,
+    divWidth: 350,
+    topLimit: 0,
+    leftLimit: 0,
+    isLoaded: true,
+    oldMouseX: 0,
+    oldMouseY: 0,
+    touchDist: 0,
+    accLimit: 4,
+    scaleInc: .025
+  })
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -211,6 +231,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
+      imgConfig
     }),
     [
       game,
@@ -229,6 +250,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
+      imgConfig
     ]
   )
 

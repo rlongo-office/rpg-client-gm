@@ -4,7 +4,7 @@ import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
 
 export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj }) {
-  const { images } = useAppContext()
+  const {images,imgConfig} = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -40,6 +40,8 @@ export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj
     oldMouseX: 0,
     oldMouseY: 0,
     touchDist: 0,
+    accLimit: 0,
+    scaleInc: 0
   })
 
   const setNewImageLimits = React.useCallback(() => {

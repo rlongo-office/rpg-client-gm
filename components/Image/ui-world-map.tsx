@@ -1,9 +1,12 @@
 import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 import * as rpgTypes from '../../types/rpg-types'
+import useViewport from '../../hooks/useViewport'
+import * as utils from '../../utils/utils'
 
 export default function UIWorldMap() {
-  const { images } = useAppContext()
+  const { images,imgConfig } = useAppContext()
+  const { devWidth, devHeight } = useViewport()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -23,24 +26,7 @@ export default function UIWorldMap() {
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>({
-    img: '',
-    imgTOP: 0,
-    imgLEFT: 0,
-    offsetX: 0,
-    offsetY: 0,
-    isFirstPress: true,
-    isDragging: false,
-    isScaling: false,
-    divHeight: 350,
-    divWidth: 350,
-    topLimit: 0,
-    leftLimit: 0,
-    isLoaded: true,
-    oldMouseX: 0,
-    oldMouseY: 0,
-    touchDist: 0,
-  })
+  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>(utils.deepCopy(imgConfig))
 
   const setNewImageLimits = React.useCallback(() => {
     const img = imgRef
@@ -147,6 +133,7 @@ export default function UIWorldMap() {
     console.log('Mouse UP Event function')
   }
   const handleMouseDown = (e: any) => {
+    console.log(e)
     const { canMouseX, canMouseY } = setCoordinates(e)
     e.preventDefault()
     canMouseX ? setOldXCoord(canMouseX) : setOldXCoord(0)
@@ -184,7 +171,7 @@ export default function UIWorldMap() {
     let tempTop = 0
     const { canMouseX, canMouseY } = setCoordinates(e)
 
-    let scalediff = 0.025
+    let scalediff = cfg.scaleInc
     let yDiff: number
     let xDiff: number
     let newScaleHeight
@@ -199,7 +186,6 @@ export default function UIWorldMap() {
       }
       tempImgScale = imgScale + scalediff
       if (tempImgScale < 1) tempImgScale = 1 //for now no scaling down allowed...
-      //if (tempImgScale > 3) tempImgScale = 4 //...and scaling up limited to 3x
       setImgScale(tempImgScale)
       setNewImageLimits()
       //changing scale should fire a rerender because of useEffect
@@ -222,7 +208,7 @@ export default function UIWorldMap() {
         setImgTop(0)
       } else setImgTop(imgTop + yDiff)
 
-      if (accel < 4) {
+      if (accel < cfg.accLimit) {
         setAccel(accel + 1)
       }
     }

@@ -112,6 +112,8 @@ export interface ImageConfig {
   oldMouseX: number
   oldMouseY: number
   touchDist: number
+  accLimit: number
+  scaleInc: number
 }
 
 export interface Coords {
