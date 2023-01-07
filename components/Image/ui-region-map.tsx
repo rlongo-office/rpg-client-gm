@@ -2,9 +2,10 @@ import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
+import * as utils from '../../utils/utils'
 
 export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj }) {
-  const {images,imgConfig} = useAppContext()
+  const { images, imgConfig } = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -23,26 +24,7 @@ export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>({
-    img: '',
-    imgTOP: 0,
-    imgLEFT: 0,
-    offsetX: 0,
-    offsetY: 0,
-    isFirstPress: true,
-    isDragging: false,
-    isScaling: false,
-    divHeight: 500,
-    divWidth: 500,
-    topLimit: 0,
-    leftLimit: 0,
-    isLoaded: true,
-    oldMouseX: 0,
-    oldMouseY: 0,
-    touchDist: 0,
-    accLimit: 0,
-    scaleInc: 0
-  })
+  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>(utils.deepCopy(imgConfig))
 
   const setNewImageLimits = React.useCallback(() => {
     const img = imgRef
