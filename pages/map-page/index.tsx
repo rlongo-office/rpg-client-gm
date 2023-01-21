@@ -16,7 +16,7 @@ function MapPage() {
     >
       <UITopStatusBar {...PlayerBP.statusBar} />
       <div className="overflow-control">
-        <UIParent pageType={`mapPage`}></UIParent>
+        <UIParent pageType={`mapPage`} />
       </div>
       <UINavbar />
     </div>

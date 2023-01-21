@@ -1,27 +1,18 @@
 export interface UISectionObj {
+  child?: (UISectionObj | UIDataObj)[]
+  clickable: boolean
+  data: string
+  id: string
+  label: string
+  message: string
+  orient: string
   style: string
   type: string
-  id: string
-  clickable: boolean
-  message: string
-  label: string
-  data: string
-  orient: string
-  child?: (UISectionObj | UIDataObj)[]
 }
 
-export interface UIDataObj {
-  style: string
-  type: string
-  id: string
-  clickable: boolean
-  message: string
-  label: string
-  data: string
-  orient: string
+export interface UIDataObj extends UISectionObj {
   index?: number
   source?: string
-  child?: (UISectionObj | UIDataObj)[]
 }
 
 export interface UIDataKeyObj extends UIDataObj {
