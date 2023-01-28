@@ -1,4 +1,5 @@
 import { useAppContext } from '@context/app-provider'
+import { mapImage } from 'data/mapImage'
 import * as React from 'react'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
@@ -216,7 +217,7 @@ export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj
   }
 
   return (
-    <div>
+    <div style={{ padding: '15px' }}>
       <div className="portrait">
         <div
           ref={divRef}
@@ -234,7 +235,7 @@ export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj
           <img
             alt="region-map"
             ref={imgRef}
-            src={`data:image/jpeg;base64,${images[0]}`}
+            src={`data:image/jpeg;base64,${mapImage}`}
             style={{
               transform: `translate(${imgLeft}px, ${imgTop}px)`,
               height: `${scHeight}px`,
@@ -245,7 +246,7 @@ export default function UIRegionMap({ section }: { section: uiTypes.UISectionObj
           />
         </div>
       </div>
-      <span>{`imgLeft: ${imgLeft}px `}</span>
+      <span>{`regional map imgLeft: ${imgLeft}px `}</span>
       <span>{`imgTop: ${imgTop}px  `}</span>
     </div>
   )

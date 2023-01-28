@@ -3,9 +3,10 @@ import * as React from 'react'
 import * as rpgTypes from '../../types/rpg-types'
 import useViewport from '../../hooks/useViewport'
 import * as utils from '../../utils/utils'
+import { mapImage } from 'data/mapImage'
 
 export default function UIWorldMap() {
-  const { images,imgConfig } = useAppContext()
+  const { images, imgConfig } = useAppContext()
   const { devWidth, devHeight } = useViewport()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
@@ -61,9 +62,10 @@ export default function UIWorldMap() {
       setNatWidth(img.current ? img.current.naturalWidth : 0)
       setSCHeight(img.current ? img.current.naturalHeight : 0)
       setSCWidth(img.current ? img.current.naturalWidth : 0)
-      setCfg({ ...cfg, offsetX: offsetLeft, offsetY: offsetTop })
+      // TODO: make sure we don't need this line of code (look at ui-region-map.tsx and ui-tactical-map.tsx)
+      // setCfg({ ...cfg, offsetX: offsetLeft, offsetY: offsetTop })
     }
-  }, [cfg])
+  }, [cfg.divHeight, cfg.divWidth])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
@@ -132,6 +134,7 @@ export default function UIWorldMap() {
     setTouchDist(0)
     console.log('Mouse UP Event function')
   }
+
   const handleMouseDown = (e: any) => {
     console.log(e)
     const { canMouseX, canMouseY } = setCoordinates(e)
@@ -246,8 +249,15 @@ export default function UIWorldMap() {
   }
 
   return (
-    <div>
-      <div style={{ overflow: 'hidden', height: '350px', width: '350px', touchAction: 'none' }}>
+    <div style={{ padding: '15px' }}>
+      <div
+        style={{
+          overflow: 'hidden',
+          height: '350px',
+          width: '350px',
+          touchAction: 'none',
+        }}
+      >
         <div
           ref={divRef}
           style={{ overflow: 'hidden', height: '350px', width: '350px', touchAction: 'none' }}
@@ -264,7 +274,7 @@ export default function UIWorldMap() {
             onMouseLeave={handleMouseLeave}
             onDoubleClick={handleDoubleClick}
             ref={imgRef}
-            src={`data:image/jpeg;base64,${images[0]}`}
+            src={`data:image/jpeg;base64,${mapImage}`}
             style={{
               transform: `translate(${imgLeft}px, ${imgTop}px)`,
               transformOrigin: 'top left',
@@ -276,7 +286,7 @@ export default function UIWorldMap() {
         </div>
       </div>
       <span>
-        <b>{`scale: ${imgScale}  `}</b>
+        <b>{`World map scale: ${imgScale}  `}</b>
       </span>
       <span>
         <b>{`Dist: ${touchDist}  `}</b>

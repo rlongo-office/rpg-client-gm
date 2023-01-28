@@ -10,21 +10,22 @@ import UICollapsibleSection from './ui-collapsible-section'
 import UIWorldMap from '../Image/ui-world-map'
 import UITacticalMap from '../Image/ui-tactical-map'
 import UIRegionMap from '../Image/ui-region-map'
+import { debug } from 'console'
 
 function UISection({ style, label, child }: uiTypes.UISectionObj) {
-  debugger
-
   return (
     <div style={styleObj[`${style}`]}>
       {label.length > 0 && <div>{label}</div>}
       {child?.map((obj: any, rowIndex: number) => {
         if (obj && obj.type) {
+          console.log(`Index ${rowIndex} > `, JSON.stringify(obj))
+
           switch (obj.type) {
             case 'section':
-              console.log(JSON.stringify(obj))
-              return <div key={`UI-Section-${rowIndex}`}>SECTION</div>
-            // return <UICollapsibleSection {...obj} key={`UI-collapse-Section-${rowIndex}`} />
-            // return <UISection {...obj} key={`UI-Section-${rowIndex}`} />
+              // debugger
+              // return <div key={`UI-Section-${rowIndex}`}>SECTION</div>
+              // return <UICollapsibleSection {...obj} key={`UI-collapse-Section-${rowIndex}`} />
+              return <UISection {...obj} key={`UI-Section-${rowIndex}`} />
             case 'collapse-section':
               return <UICollapsibleSection {...obj} key={`UI-collapse-Section-${rowIndex}`} />
             case 'section-loop-top':

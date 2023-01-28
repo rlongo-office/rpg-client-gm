@@ -7,7 +7,7 @@ import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
-import * as imgStore from '../data/mapImage'
+import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
 import apiUtils from '@utils/game-service'
 
@@ -29,7 +29,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
-  const [images, setImages] = React.useState<object>(imgStore)
+  const [images, setImages] = React.useState<string>(mapImage)
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
   const [imgConfig, setImgConfig] = React.useState({
@@ -50,7 +50,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     oldMouseY: 0,
     touchDist: 0,
     accLimit: 4,
-    scaleInc: .025
+    scaleInc: 0.025,
   })
 
   const sharedTableConfig = {
@@ -231,7 +231,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
-      imgConfig
+      imgConfig,
     }),
     [
       game,
@@ -250,7 +250,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
-      imgConfig
+      imgConfig,
     ]
   )
 

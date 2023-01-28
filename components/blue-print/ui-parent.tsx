@@ -5,7 +5,6 @@ import UISection from './ui-section'
 
 function UIParent({ pageType }: { pageType: string }) {
   const { playerBP } = useAppContext()
-  debugger
   return (
     <div>
       <div className="example">

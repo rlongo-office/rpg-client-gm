@@ -1,3 +1,4 @@
+import { mapImage } from 'data/mapImage'
 import * as React from 'react'
 import { useAppContext } from '@context/app-provider'
 import * as uiTypes from '../../types/blue-print'
@@ -216,7 +217,7 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
   }
 
   return (
-    <div>
+    <div style={{ padding: '15px' }}>
       <div className="portrait">
         <div
           ref={divRef}
@@ -230,23 +231,26 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
           onMouseLeave={handleMouseLeave}
           onDoubleClick={handleDoubleClick}
         >
-          {/*eslint-disable-next-line @next/next/no-img-element*/}
-          <img
-            alt="tactical-map"
-            ref={imgRef}
-            src={`data:image/jpeg;base64,${images[0]}`}
-            style={{
-              transform: `translate(${imgLeft}px, ${imgTop}px)`,
-              height: `${scHeight}px`,
-              width: `${scWidth}px)`,
-              transformOrigin: `top left`,
-            }}
-            onLoad={handleImageLoad}
-          />
+          {mapImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              alt="tactical-map"
+              ref={imgRef}
+              src={`data:image/jpeg;base64,${mapImage}`}
+              style={{
+                transform: `translate(${imgLeft}px, ${imgTop}px)`,
+                height: `${scHeight}px`,
+                width: `${scWidth}px)`,
+                transformOrigin: `top left`,
+              }}
+              onLoad={handleImageLoad}
+            />
+          )}
         </div>
       </div>
-      <span>{`imgLeft: ${imgLeft}px `}</span>
+      <span>{`tactical map imgLeft: ${imgLeft}px `}</span>
       <span>{`imgTop: ${imgTop}px  `}</span>
+      <span>{mapImage}</span>
     </div>
   )
 }
