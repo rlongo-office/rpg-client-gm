@@ -1,8 +1,6 @@
 // Rest Calls for CRUD functions
 // websocket functionality for messaging
-type AnyObject = {
-  [key: string]: any
-}
+
 /*
 Game object will hold world time, local weather, party location, curernt campaign:adventure:scenario
 */
@@ -29,8 +27,8 @@ const apiUtils = {
     //})
     return obj.json()
   },
-  setGameObject: (obj: AnyObject) => {
-    const newGameObj = { name: 'game', time: 12356, hour: 12, weather: 55 }
+  setGameObject: (obj: object) => {
+    // const newGameObj = { name: 'game', time: 12356, hour: 12, weather: 55 }
     return postData(`http://localhost:8080/getGameObject`, obj)
   },
 }

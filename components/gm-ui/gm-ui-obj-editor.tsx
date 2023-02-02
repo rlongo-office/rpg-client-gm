@@ -1,51 +1,29 @@
-import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import { deepCopy, getObjValue, iterateObjEntries, setObjValue } from '@utils/utils'
+import { iterateObjEntries, getObjValue, setObjValue, deepCopy } from '../../utils/utils'
+import { useAppContext } from '../../context/app-provider'
 
 interface AnyObject {
   [key: string]: any
 }
 
 interface props {
-  source: string
-  target: string
+  source: object
+  subObject:object
 }
 
-function TableInputForm({ source, target }: props) {
-  const { creatures, actors, setActors, tableConfig, reducer } = useAppContext()
+function GMUIObjEditor({ source, subObject }: props) {
+
   const [currentRecord, setCurrentRecord] = React.useState<AnyObject>()
   const [inputValues, setInputValues] = React.useState<object>({})
   const inputRefs = React.useRef<JSX.Element[]>([])
 
-  const getRecord = (data: AnyObject[]) => {
-    //We request the ID of the currently selected row for the source table we are reading from
-    const selectedID = tableConfig[source].selected[0]
-    const idPath = tableConfig[source].filtered[0]
-    const filtered = data.filter((row: AnyObject) => {
-      const iDOfRecord = getObjValue(row, idPath, 0)
-      return iDOfRecord == selectedID
-    })
-    return filtered[0]
-  }
-
-  const createActor = () => {
-    const record = getRecord(creatures)
-    let actor: any = deepCopy(record)
-    Object.entries(inputValues).forEach(([key, value]) => {
-      setObjValue(actor, key, value)
-    })
-    reducer('addActor', actor)
-    //const newActors = [...actors, createObjID(actors, actor)]
-    //setActors(newActors)
-    //setInputValues({})
-  }
 
   const resetValues = () => {
     console.log(inputRefs)
   }
 
   const storeInput = (event: any) => {
-    if (event.key === 'Enter') {
+    if (event.keyCode === 13) {
       event.preventDefault()
       let inputUpdate: AnyObject = inputValues
       inputUpdate[event.target.id] = event.target.value
@@ -54,8 +32,7 @@ function TableInputForm({ source, target }: props) {
   }
 
   const renderInputForm = () => {
-    if (tableConfig[source].selected.length > 0) {
-      const record = getRecord(creatures)
+      const record = source
       //setCurrentRecord(record)
       let content: JSX.Element[] = []
       let inputLabels: Array<string> = []
@@ -63,12 +40,13 @@ function TableInputForm({ source, target }: props) {
 
       inputLabels.forEach((path: string) => {
         let labelText = path.toUpperCase()
+        let placeHolder = getObjValue(record, path, 'none')
         let labelProps: Object = { className: 'InputLabel', key: `label-${path}` }
         let inputProps: Object = {
           id: `${path}`,
           key: `input-${path}`,
-          placeholder: getObjValue(record, path, 'none'),
-          onKeyPress: storeInput,
+          placeholder: placeHolder,
+          onKeyDown: storeInput,
           type: 'text',
           ref: (e: JSX.Element) => inputRefs.current.push(e),
           autoFocus: true,
@@ -80,22 +58,24 @@ function TableInputForm({ source, target }: props) {
         content.push(inputEl)
       })
       return content
-    }
+
   }
+
+  React.useEffect(() => {
+    console.log(inputValues)
+  },[inputValues])
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0)
     }
-  }, [tableConfig])
+  },[])
 
   return (
     <>
-      <button onClick={createActor}>Create Actor</button>
-      <button onClick={resetValues}>Reset values</button>
       <div className="InputPage inputStriped">{renderInputForm()}</div>
     </>
   )
 }
-//renderInputForm(creatures[tableConfig["creatureConfig"].selected[0]])}
-export default TableInputForm
+
+export default GMUIObjEditor

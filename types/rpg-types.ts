@@ -42,7 +42,7 @@ export interface Climate {
 
 export interface Actor {
   name: string
-  stats: AnyObject
+  stats: object
   location: { x: number; y: number; z: number }
   condition: string[]
 }
@@ -112,6 +112,8 @@ export interface ImageConfig {
   oldMouseX: number
   oldMouseY: number
   touchDist: number
+  accLimit: number
+  scaleInc: number
 }
 
 export interface Coords {

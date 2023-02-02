@@ -5,30 +5,53 @@ import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
-import { parseDataForTable, createObjID } from '../utils/utils'
 import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
-import apiUtils from '../utils/game-service'
-import * as imageDump from '../data/mapImage'
+import { mapImage } from '../data/mapImage'
+import { createObjID, parseDataForTable } from '@utils/utils'
+import apiUtils from '@utils/game-service'
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
-  const [isConnected, setIsConnected] = React.useState<boolean>()
+  const [isConnected, setIsConnected] = React.useState(false)
   const [wsSocket, setWSSocket] = React.useState<any>({})
   const [stompClient, setStompClient] = React.useState<any>(null)
   const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
+  //Actors are any entity in the world  whether NPC (GM) or player controlled
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
   const [game, setGame] = React.useState<types.GameObject>(gameObject)
   const [messages, setMessages] = React.useState<types.messageType[]>([])
   const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
+  //Those exchanged websocket messages of type group, private, party, or game texts
   const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
-  const [images, setImages] = React.useState<string[]>([imageDump.bigImage])
+  const [images, setImages] = React.useState<string>(mapImage)
   const [devWidth, setDevWidth] = React.useState(375)
   const [devHeight, setDevHeight] = React.useState(700)
+  const [imgConfig, setImgConfig] = React.useState({
+    img: '',
+    imgTOP: 0,
+    imgLEFT: 0,
+    offsetX: 0,
+    offsetY: 0,
+    isFirstPress: true,
+    isDragging: false,
+    isScaling: false,
+    divHeight: 350,
+    divWidth: 350,
+    topLimit: 0,
+    leftLimit: 0,
+    isLoaded: true,
+    oldMouseX: 0,
+    oldMouseY: 0,
+    touchDist: 0,
+    accLimit: 4,
+    scaleInc: 0.025,
+  })
 
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -129,16 +152,19 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }
 
-  //
-  const gblMsgHandler = (message: types.messageType) => {
-    switch (message.type) {
-      case 'private':
-        setMessages([...messages, message])
-        break
-      default:
-        break
-    }
-  }
+  const gblMsgHandler = React.useCallback(
+    (message: types.messageType) => {
+      switch (message.type) {
+        case 'private':
+          setMessages([...messages, message])
+          break
+        default:
+          break
+      }
+    },
+    [messages]
+  )
+
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
 
@@ -205,22 +231,26 @@ export function AppProvider({ children }: types.AppProviderProps) {
       images,
       devHeight,
       devWidth,
+      imgConfig,
     }),
     [
+      game,
       creatures,
       actors,
       tableConfig,
-      game,
+      gblMsgHandler,
       account,
+      messages,
       isConnected,
       stompClient,
-      messages,
       players,
+      playerBP,
       textHistory,
       loreMsgData,
       images,
       devHeight,
       devWidth,
+      imgConfig,
     ]
   )
 

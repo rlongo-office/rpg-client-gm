@@ -1,31 +1,32 @@
 import * as React from 'react'
-import UITopStatusBar from '../../components/blue-print/status-bar/ui-top-status-bar'
-import UIParent from '../../components/blue-print/ui-parent'
-import useViewport from '../../hooks/useViewport'
+import ImageWrapper from '../../components/Image/image-wrapper'
 import { styleObj } from '../../styles/styles'
-import PlayerBP from '../../data/collections/maps/bp-player-dnd-5-1.0.json'
-import UINavbar from '../../components/blue-print/ui-nav-bar'
+
+import useViewport from '../../hooks/useViewport'
+import GameObjEditor from '../../components/gm-ui/game-obj-editor'
+import { useAppContext } from '@context/app-provider'
 
 function CollapsePage() {
+  const { images } = useAppContext()
   const { devWidth, devHeight } = useViewport()
-  React.useEffect(() => {}, [])
+
+  const imageProps = {
+    imgSource: images,
+    sourceType: 2,
+    accelRate: 1,
+    maxPanRate: 5,
+    zoomRate: 0.025,
+    zoomMax: 4,
+    fHeight: 340,
+    fWidth: 340,
+    style: styleObj['imgStyleProp'],
+  }
 
   return (
-    <div style={{ ...styleObj[`TopFlexPage`], height: `${devHeight}px`, width: `${devWidth}px` }}>
-      <UITopStatusBar {...PlayerBP.statusBar} />
-      <div className="overflow-control">
-        <UIParent pageType={`playerPage`}></UIParent>
-      </div>
-      <div
-        style={{
-          ...styleObj[`HSpaced`],
-          alignItems: 'center',
-          height: '40px',
-          backgroundColor: 'LightGray',
-          bottom: '0',
-        }}
-      >
-        <UINavbar />
+    <div style={{ border: '10px black', height: `${devHeight}px`, width: `${devWidth}px` }}>
+      <div style={{ ...styleObj[`TopFlexPage`] }}>
+        <ImageWrapper {...imageProps} />
+        <GameObjEditor></GameObjEditor>
       </div>
     </div>
   )

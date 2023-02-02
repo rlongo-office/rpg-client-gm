@@ -3,7 +3,7 @@ import SearchInput from './table-body/search-input'
 import NewPageNavBar from './table-body/new-page-nav-bar'
 import NewHeaderRow from './table-body/header-row'
 import { useAppContext } from '../../context/app-provider'
-import Rows from './table-body/Rows'
+import Rows from './table-body/rows'
 
 interface AnyObject {
   [key: string]: any

@@ -13,7 +13,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@context/*": ["context/*"],
+      "@types/*": ["types/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -22,7 +31,9 @@
     "context/AppProvider.js",
     "components/image/test-mouse-image.jsx",
     "data/collections/game-object.ts",
-    "styles/styles.ts"
-, "components/blue-print/ui-bottom-navbar.jsx"  ],
+    "styles/styles.ts",
+    "components/blue-print/ui-bottom-navbar.jsx",
+    "hooks/useDoubleClick.jsx"
+  ],
   "exclude": ["node_modules"]
 }

@@ -8,9 +8,8 @@ function UIParent({ pageType }: { pageType: string }) {
   return (
     <div>
       <div className="example">
-      <UISection {...playerBP[pageType]} />
+        <UISection {...playerBP[pageType]} />
       </div>
-
     </div>
   )
 }

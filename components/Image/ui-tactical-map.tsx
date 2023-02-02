@@ -1,10 +1,12 @@
+import { mapImage } from 'data/mapImage'
 import * as React from 'react'
-import { useAppContext } from '../../context/app-provider'
+import { useAppContext } from '@context/app-provider'
 import * as uiTypes from '../../types/blue-print'
 import * as rpgTypes from '../../types/rpg-types'
+import * as utils from '../../utils/utils'
 
 export default function UITacticalMap({ section }: { section: uiTypes.UISectionObj }) {
-  const {images} = useAppContext()
+  const { images, imgConfig } = useAppContext()
   let divRef = React.useRef<HTMLDivElement>(null)
   let imgRef = React.useRef<HTMLImageElement>(null)
   const [imgTop, setImgTop] = React.useState<number>(0)
@@ -23,26 +25,9 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>({
-    img: '',
-    imgTOP: 0,
-    imgLEFT: 0,
-    offsetX: 0,
-    offsetY: 0,
-    isFirstPress: true,
-    isDragging: false,
-    isScaling: false,
-    divHeight: 500,
-    divWidth: 500,
-    topLimit: 0,
-    leftLimit: 0,
-    isLoaded: true,
-    oldMouseX: 0,
-    oldMouseY: 0,
-    touchDist: 0,
-  })
+  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>(utils.deepCopy(imgConfig))
 
-  const setNewImageLimits = () => {
+  const setNewImageLimits = React.useCallback(() => {
     const img = imgRef
     let scaleHeight: number
     let scaleWidth: number
@@ -60,9 +45,9 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
     setSCHeight(scaleHeight)
     setSCWidth(scaleWidth)
     setImgTop(0)
-  }
+  }, [cfg.divHeight, cfg.divWidth, imgScale])
 
-  const handleImageLoad = () => {
+  const handleImageLoad = React.useCallback(() => {
     if (imgRef) {
       const img = imgRef
       let heightLimit: number
@@ -77,20 +62,20 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
       setSCWidth(img.current ? img.current.naturalWidth : 0)
       console.log('Image Loaded with topLimit:' + heightLimit + ' and leftLimit:' + widthLimit)
     }
-  }
+  }, [cfg.divHeight, cfg.divWidth])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     if (imgRef.current?.complete) {
       handleImageLoad()
     }
-  }, [])
+  }, [handleImageLoad])
 
   // TODO: fix the lint error in the state array (second argument)
   React.useEffect(() => {
     setNewImageLimits()
     console.log(`imgScale is: ${imgScale}`)
-  }, [imgScale])
+  }, [imgScale, setNewImageLimits])
 
   function distance(e: any) {
     let zw = e.touches[0].pageX - e.touches[1].pageX
@@ -232,7 +217,7 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
   }
 
   return (
-    <div>
+    <div style={{ padding: '15px' }}>
       <div className="portrait">
         <div
           ref={divRef}
@@ -246,21 +231,26 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
           onMouseLeave={handleMouseLeave}
           onDoubleClick={handleDoubleClick}
         >
-          <img
-            ref={imgRef}
-            src={`data:image/jpeg;base64,${images[0]}`}
-            style={{
-              transform: `translate(${imgLeft}px, ${imgTop}px)`,
-              height: `${scHeight}px`,
-              width: `${scWidth}px)`,
-              transformOrigin: `top left`,
-            }}
-            onLoad={handleImageLoad}
-          />
+          {mapImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              alt="tactical-map"
+              ref={imgRef}
+              src={`data:image/jpeg;base64,${mapImage}`}
+              style={{
+                transform: `translate(${imgLeft}px, ${imgTop}px)`,
+                height: `${scHeight}px`,
+                width: `${scWidth}px)`,
+                transformOrigin: `top left`,
+              }}
+              onLoad={handleImageLoad}
+            />
+          )}
         </div>
       </div>
-      <span>{`imgLeft: ${imgLeft}px `}</span>
+      <span>{`tactical map imgLeft: ${imgLeft}px `}</span>
       <span>{`imgTop: ${imgTop}px  `}</span>
+      <span>{mapImage}</span>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { useAppContext } from '../../../context/app-provider'
 import MyMapTest from '../../Image/my-map-test'
 import * as vars from '../../../data/mapImage'
-import useStomp from '../../../hooks/useStomp'
-import Chat from '../../chat/chat-client-old'
+import Chat from '@components/chat/chat-client-old'
+import { useAppContext } from '@context/app-provider'
+import useStomp from '@hooks/useStomp'
 
 function Login() {
   // Note that reference type must correspond to the HTML element it references, e.g. HTMLInputELement

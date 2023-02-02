@@ -1,6 +1,6 @@
+import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 import InnerPageNav from './inner-page-nav'
-import { useAppContext } from '../../../context/app-provider'
 
 interface InputProps {
   pageNums: number

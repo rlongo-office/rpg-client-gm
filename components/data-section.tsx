@@ -5,9 +5,6 @@ interface AnyObject {
 }
 
 function DataSection({ record }: AnyObject) {
-  React.useEffect(() => {
-    console.log('useEffect called')
-  }, [])
   return (
     <div>
       <h1>{JSON.stringify(record)}</h1>
