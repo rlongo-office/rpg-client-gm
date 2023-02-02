@@ -288,27 +288,29 @@ export default function ImageResponsive(props: ImageProps) {
 
   return (
     <div>
-      {/*eslint-disable-next-line @next/next/no-img-element*/}
-      <img
-        alt="map"
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        onTouchEnd={handleMouseUp}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleMouseDown}
-        onTouchMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onDoubleClick={handleDoubleClick}
-        ref={imgRef}
-        src={`data:image/jpeg;base64,${images.imgStore['world-map']}`}
-        style={{
-          transform: `translate(${imgLeft}px, ${imgTop}px)`,
-          transformOrigin: 'top left',
-          width: `${scWidth}px`,
-          height: `${scHeight}px`,
-        }}
-        onLoad={handleImageLoad}
-      />
+      {images && (
+        /*eslint-disable-next-line @next/next/no-img-element*/
+        <img
+          alt="map"
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          onTouchEnd={handleMouseUp}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleMouseDown}
+          onTouchMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onDoubleClick={handleDoubleClick}
+          ref={imgRef}
+          src={`data:image/jpeg;base64,${images}`}
+          style={{
+            transform: `translate(${imgLeft}px, ${imgTop}px)`,
+            transformOrigin: 'top left',
+            width: `${scWidth}px`,
+            height: `${scHeight}px`,
+          }}
+          onLoad={handleImageLoad}
+        />
+      )}
     </div>
   )
 }

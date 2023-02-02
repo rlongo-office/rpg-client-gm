@@ -4,12 +4,14 @@ import { styleObj } from '../../styles/styles'
 
 import useViewport from '../../hooks/useViewport'
 import GameObjEditor from '../../components/gm-ui/game-obj-editor'
+import { useAppContext } from '@context/app-provider'
 
 function CollapsePage() {
+  const { images } = useAppContext()
   const { devWidth, devHeight } = useViewport()
 
   const imageProps = {
-    imgSource: 'world-map',
+    imgSource: images,
     sourceType: 2,
     accelRate: 1,
     maxPanRate: 5,

@@ -6,7 +6,7 @@ import * as types from '../types/rpg-types'
 import useWSHandler from './useWSHandlers'
 
 const useStomp = (url = 'http://localhost:8080/game-app') => {
-  const { handlerKey, MessageEventHandlers } = useWSHandler()
+  const { MessageEventHandlerService } = useWSHandler()
 
   const {
     account,
@@ -54,9 +54,8 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
     //The STOMP "body" is a stringified object that comprises the game message, so we only
     //so we parse this for game use
     let gameMsg: types.messageType = JSON.parse(message.body)
-    let key: string = gameMsg.type
-    const msgType: number = handlerKey[key as keyof typeof handlerKey] //REALLY?? are they kidding????
-    MessageEventHandlers[msgType].call
+    const { type: key } = gameMsg
+    MessageEventHandlerService[key].call
   }
 
   const sendMessage = (message: types.messageType) => {

@@ -1,7 +1,24 @@
 import * as React from 'react'
 
-export let styleObj: any = {}
+type AllowedStyles = {
+  [key: string]: React.CSSProperties
+}
 
+export const styleObj: AllowedStyles = {
+  ParentDiv: {
+    padding: '2px',
+    width: '100%',
+    backgroundColor: 'gray',
+    textAlign: 'center',
+    font: '16px bolder',
+    justifyContent: 'space-evenly',
+  },
+  flexEvenlySection: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+  },
+}
+/*
 styleObj['ParentDiv'] = {
   padding: '2px',
   width: '100%',
@@ -11,7 +28,7 @@ styleObj['ParentDiv'] = {
   //display: 'flex',
   justifyContent: 'space-evenly',
 } as React.CSSProperties
-
+*/
 styleObj['flexEvenlySection'] = {
   display: 'flex',
   justifyContent: 'space-evenly',
