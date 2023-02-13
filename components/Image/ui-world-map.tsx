@@ -1,9 +1,9 @@
 import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import * as rpgTypes from '../../types/rpg-types'
 import useViewport from '../../hooks/useViewport'
 import * as utils from '../../utils/utils'
 import { mapImage } from 'data/mapImage'
+import { ImageConfigType } from '@apptypes/rpg-types'
 
 export default function UIWorldMap() {
   const { images, imgConfig } = useAppContext()
@@ -27,7 +27,7 @@ export default function UIWorldMap() {
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>(utils.deepCopy(imgConfig))
+  const [cfg, setCfg] = React.useState<ImageConfigType>(utils.deepCopy(imgConfig))
 
   const setNewImageLimits = React.useCallback(() => {
     const img = imgRef

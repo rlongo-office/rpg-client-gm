@@ -2,8 +2,8 @@ import { mapImage } from 'data/mapImage'
 import * as React from 'react'
 import { useAppContext } from '@context/app-provider'
 import * as uiTypes from '../../types/blue-print'
-import * as rpgTypes from '../../types/rpg-types'
 import * as utils from '../../utils/utils'
+import { ImageConfigType } from '@apptypes/rpg-types'
 
 export default function UITacticalMap({ section }: { section: uiTypes.UISectionObj }) {
   const { images, imgConfig } = useAppContext()
@@ -25,7 +25,7 @@ export default function UITacticalMap({ section }: { section: uiTypes.UISectionO
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>(utils.deepCopy(imgConfig))
+  const [cfg, setCfg] = React.useState<ImageConfigType>(utils.deepCopy(imgConfig))
 
   const setNewImageLimits = React.useCallback(() => {
     const img = imgRef

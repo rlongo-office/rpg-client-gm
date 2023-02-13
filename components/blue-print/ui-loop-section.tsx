@@ -9,18 +9,23 @@ interface props {
   section: uiTypes.UISectionObj
 }
 
+type ChildType = uiTypes.UISectionObj | uiTypes.UIDataObj | undefined
+
 function UILoopSection(section: uiTypes.UISectionObj) {
   const { players } = useAppContext()
-  //we need to create new child Data sections based on this loop section parameters
-  let childArray: uiTypes.UISectionObj[] | uiTypes.UIDataObj[] = [] //an array of sections with it's child data elements
-  const list = utils.getObjValue(players[0], section.child[0].data, 0)
+  const firstChild: ChildType = section?.child ? section.child[0] : undefined
+  // we need to create new child Data sections based on this loop section parameters
+
+  // an array of sections with it's child data elements
+  let childArray: uiTypes.UISectionObj[] | uiTypes.UIDataObj[] = []
+  const list = utils.getObjValue(players[0], firstChild ? firstChild.data : '', 0)
 
   list.map((obj: any, index: number) => {
-    let tempListSection = utils.deepCopy(section.child[0])
+    let tempListSection = utils.deepCopy(firstChild)
     let dataSecArray: uiTypes.UIDataObj[] = []
     //Creat an array of data sections...
-    section.child[0].child?.forEach(e => {
-      let dataPath = `${section.child[0].data}[${index}].${e.data}`
+    firstChild?.child?.forEach(e => {
+      let dataPath = `${firstChild ? firstChild.data : ''}[${index}].${e.data}`
       let tempDataSection = { ...e, data: dataPath, type: 'data', id: `${e.id}-${index}` }
       dataSecArray = [...dataSecArray, tempDataSection]
     })
