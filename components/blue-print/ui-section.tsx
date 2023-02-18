@@ -6,13 +6,33 @@ import UIData from './ui-data'
 import UILoopSection from './ui-loop-section'
 import UIChatClient from '../chat/chat-client'
 import UILoreClient from '../lore/lore-client'
+import ImageWrapper from '@components/Image/image-wrapper'
 import UICollapsibleSection from './ui-collapsible-section'
 import UIWorldMap from '../Image/ui-world-map'
 import UITacticalMap from '../Image/ui-tactical-map'
 import UIRegionMap from '../Image/ui-region-map'
 import { debug } from 'console'
+import { useAppContext } from '@context/app-provider'
+
+/*TODO: REMOVE THIS AFTER TEST
+ */
 
 function UISection({ style, label, child }: uiTypes.UISectionObj) {
+  const { images } = useAppContext()
+  //TEST CODE
+  const imageProps = {
+    imgSource: images,
+    sourceType: 2,
+    accelRate: 1,
+    maxPanRate: 5,
+    zoomRate: 0.025,
+    zoomMax: 4,
+    fHeight: 340,
+    fWidth: 340,
+    style: styleObj['imgStyleProp'],
+  }
+  //END OF TEST CODE
+
   return (
     <div style={styleObj[`${style}`]}>
       {label.length > 0 && <div>{label}</div>}
@@ -33,11 +53,9 @@ function UISection({ style, label, child }: uiTypes.UISectionObj) {
             case 'status-bar':
               return <UITopStatusBar {...obj} key={`UI-Top-Status-Bar-${rowIndex}`} />
             case 'world-map':
-              return <UIWorldMap {...obj} key={`UI-world-map-${rowIndex}`} />
             case 'region-map':
-              return <UIRegionMap {...obj} key={`UI-region-map-${rowIndex}`} />
             case 'tactical-map':
-              return <UITacticalMap {...obj} key={`UI-tactical-map-${rowIndex}`} />
+              return <ImageWrapper {...imageProps} key={`UI-map-${rowIndex}`} />
             case 'chat-client':
               return <UIChatClient {...obj} key={`UI-chat-client-${rowIndex}`} />
             case 'lore-client':
