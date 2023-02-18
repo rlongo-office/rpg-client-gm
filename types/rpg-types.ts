@@ -21,10 +21,10 @@ export interface messageBody {
 export interface GameObject {
   id: string
   yearTime: number
-  time: number      //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
+  time: number //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
   players: Actor[]
   campaign: string
-  channels: channel[]  //e.g. gm, bob, michael, etc....
+  channels: channel[] //e.g. gm, bob, michael, etc....
   climate: Climate[]
 }
 
@@ -68,7 +68,7 @@ export interface messageType {
 
 export interface textMessage {
   id: number
-  type:string
+  type: string
   timeStamp: string
   sender: string
   text: string
@@ -95,7 +95,7 @@ export interface ConfigObject {
   [key: string]: TableConfig
 }
 
-export interface ImageConfig {
+export type ImageConfigType = {
   img: string
   imgTOP: number
   imgLEFT: number
@@ -126,25 +126,24 @@ export interface ImageProps {
 }
 
 export interface StatSection {
-  name:string,
-  title:string,
-  position:string,
-  width:number,
-  height:number,
-  style:string,
-  fields:Array<string>,
-  children:Array<StatSection>
+  name: string
+  title: string
+  position: string
+  width: number
+  height: number
+  style: string
+  fields: Array<string>
+  children: Array<StatSection>
 }
 
 export interface Field {
-  label:string,
+  label: string
   path: string
 }
 
 export interface InfoMap {
-  "map-name": string,
-  "rules-set": string,
-  "version": string,
-  "top": Array<StatSection>
+  'map-name': string
+  'rules-set': string
+  version: string
+  top: Array<StatSection>
 }
-  

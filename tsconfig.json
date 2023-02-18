@@ -19,7 +19,7 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@context/*": ["context/*"],
-      "@types/*": ["types/*"],
+      "@apptypes/*": ["types/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
     }

@@ -10,6 +10,7 @@ function CollapsePage() {
   const { images } = useAppContext()
   const { devWidth, devHeight } = useViewport()
 
+  // I PROMISE I will put this in APPCONTEXT
   const imageProps = {
     imgSource: images,
     sourceType: 2,

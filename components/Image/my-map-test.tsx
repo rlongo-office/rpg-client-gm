@@ -1,7 +1,28 @@
 import * as React from 'react'
 import { useAppContext } from '../../context/app-provider'
-import * as rpgTypes from '../../types/rpg-types'
 import useViewport from '../../hooks/useViewport'
+import { ImageConfigType } from '@apptypes/rpg-types'
+
+const defaultImgConfig: ImageConfigType = {
+  img: '',
+  imgTOP: 0,
+  imgLEFT: 0,
+  offsetX: 0,
+  offsetY: 0,
+  isFirstPress: true,
+  isDragging: false,
+  isScaling: false,
+  divHeight: 350,
+  divWidth: 350,
+  topLimit: 0,
+  leftLimit: 0,
+  isLoaded: true,
+  oldMouseX: 0,
+  oldMouseY: 0,
+  touchDist: 0,
+  accLimit: 0,
+  scaleInc: 0,
+}
 
 export default function MyTestMap() {
   const { images } = useAppContext()
@@ -25,24 +46,7 @@ export default function MyTestMap() {
   const [isFirstPress, setIsFirstPress] = React.useState<boolean>(false)
   const [accel, setAccel] = React.useState<number>(1)
   const [touchDist, setTouchDist] = React.useState<number>(0)
-  const [cfg, setCfg] = React.useState<rpgTypes.ImageConfig>({
-    img: '',
-    imgTOP: 0,
-    imgLEFT: 0,
-    offsetX: 0,
-    offsetY: 0,
-    isFirstPress: true,
-    isDragging: false,
-    isScaling: false,
-    divHeight: 350,
-    divWidth: 350,
-    topLimit: 0,
-    leftLimit: 0,
-    isLoaded: true,
-    oldMouseX: 0,
-    oldMouseY: 0,
-    touchDist: 0,
-  })
+  const [cfg, setCfg] = React.useState<ImageConfigType>(defaultImgConfig)
 
   const setNewImageLimits = (scale: number, x: number, y: number) => {
     const img = imgRef

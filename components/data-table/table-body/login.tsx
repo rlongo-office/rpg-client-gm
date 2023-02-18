@@ -28,7 +28,7 @@ function Login() {
       <input type="text" name="userInput" className="" ref={userRef} />
       <input type="text" name="passwordInput" className="" ref={passwordRef} />
       <button onClick={login}>Login</button>
-      <MyMapTest source={vars.bigImage} />
+      <MyMapTest />
       {isConnected && <Chat name={account.name} password={account.password} />}
     </div>
   )
