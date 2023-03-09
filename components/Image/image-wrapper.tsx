@@ -38,8 +38,10 @@ export default function ImageWrapper(props: ImageConfig) {
 
   React.useEffect(() => {}, [])
   return (
-    <div style={style}>
-      <ImageResponsive {...imgProps}></ImageResponsive>
+    <div style={{ padding: '25px' }}>
+      <div style={style}>
+        <ImageResponsive {...imgProps}></ImageResponsive>
+      </div>
     </div>
   )
 }
