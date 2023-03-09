@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from '@emotion/styled'
 import heart from '../images/heart.png'
 
 export const ParentDiv = {

@@ -287,7 +287,7 @@ export default function ImageResponsive(props: ImageProps) {
   }
 
   return (
-    <div>
+    <div style={{ paddingTop: '25px',background:'white' }}>
       {images && (
         /*eslint-disable-next-line @next/next/no-img-element*/
         <img
