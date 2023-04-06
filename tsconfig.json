@@ -34,6 +34,6 @@
     "styles/styles.ts",
     "components/blue-print/ui-bottom-navbar.jsx",
     "hooks/useDoubleClick.jsx"
-  ],
+, "components/WebSocketDemo.jsx"  ],
   "exclude": ["node_modules"]
 }
