@@ -1,12 +1,12 @@
-import { WebSocketDemo } from '@components/WebSocketDemo'
+import { Login } from '@components/login/login'
 import useViewport from '@hooks/useViewport'
-import { styleObj } from '@styles/styles'
 
 function WsTest() {
+  
   const { devWidth, devHeight } = useViewport()
   return (
     <div style={{height: `${devHeight}px`, width: `${devWidth}px` }}>
-      <WebSocketDemo></WebSocketDemo>
+      <Login></Login>
     </div>
   )
 }

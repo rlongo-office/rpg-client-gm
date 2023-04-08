@@ -18,8 +18,9 @@ const useWSHandlers = () => {
   const { setGame } = useAppContext()
   const MessageEventHandlers: Function[] = []
 
-  const processInboundMessage = (inbound: types.messageType) => {
-    const inType: string = inbound.type
+  const processInboundMessage = (inbound: string) => {
+    const inMsg:types.messageType = JSON.parse(inbound)
+    const inType: string = inMsg.type
     return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound)
   }
 

@@ -11,12 +11,8 @@ export const WebSocketDemo = () => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl)
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      setMessageHistory(prev => prev.concat(lastMessage))
-    }
-  }, [lastMessage, setMessageHistory])
+  }, [])
 
-  const handleClickChangeSocketUrl = useCallback(() => setSocketUrl('ws://localhost:8000'), [])
 
   const handleClickSendMessage = useCallback(() => {
     let msgData = JSON.stringify({ name: 'bob', password: 'pa55w0rd' })
