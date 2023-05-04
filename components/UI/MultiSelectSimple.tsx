@@ -8,6 +8,9 @@ export interface Option {
 interface MultiSelectProps {
   options: Option[];
   onChange: (selectedOptions: Option[]) => void;
+  width?:number
+  height?:number
+  title?:string
 }
 
 const MultiSelectSimple: React.FC<MultiSelectProps> = ({ options, onChange }) => {

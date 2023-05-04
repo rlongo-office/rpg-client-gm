@@ -38,6 +38,7 @@ function ChatClient() {
   return (
     <div id="chat-client">
       <MultiSelect options={options} onChange={handleMultiSelectChange} />
+      <p>Recipients: {recipient.map(option => option.label).join(', ')}</p>
       <input type="text" ref={msgRef}></input>
       <button onClick={() => sendChatMessage()}>Login</button>
       <ChatHistory />
