@@ -45,7 +45,59 @@ export interface Actor {
   stats: object
   location: { x: number; y: number; z: number }
   condition: string[]
+  access: DataAccess
 }
+
+export interface DataAccess {
+  collections:string[]  //those collections excluded
+  rarity:string[]       //those documents excluded by rarity level e.g. common, uncommon, rare, very rare, unique, etc.
+  dataTags: string[]    //those tags excluded, this could get large
+  documents:string[]    //list of documents excluded
+  fields:FieldAccess[]  //list of those fields excluded
+}
+
+
+export interface FieldAccess {
+  collection: string
+  id:string
+  fields: { [key: string]: number}[]  //number
+}
+
+const vampireAccess:FieldAccess ={
+  collection:"creatures",
+  id:"61944916ea190d7e283c964a",
+  fields: [
+  {"size":5},
+  {"specials":5}       //description array of string, but let's maken them an array of {desc:string, level: number}
+  ]}                  //so that you can only see those key values that match your value
+
+
+  const vampireExclusion:FieldAccess ={
+    collection:"creatures",
+    id:"61944916ea190d7e283c964a",
+    fields: [
+    {"desc":2},    //I am envisioning levels of access, from say 0 to 5, with 0 no access, and 5 is full access
+    ]}             //so that you can only those string in description that match your value
+
+  const bobTheFarmer:FieldAccess ={
+    collection:"NPC",
+    id:"61944916ea190d7e283c964a",
+    fields: [
+    {"desc":2}       //description array of string, but let's maken them an array of {desc:string, level: number}
+    ]
+    }               //so that you can only those string in description that match your value 
+
+
+const JasonPermissions: DataAccess = {
+  collections:[],  //those collections excluded
+  rarity:["rare","very-rare","unique"],       //those documents excluded by rarity level e.g. common, uncommon, rare, very rare, unique, etc.
+  dataTags: ["dragon","abomination"],    //those tags excluded, this could get large
+  documents:[],    //list of documents excluded
+  fields:[vampireExclusion]  //list of those fields excluded
+}
+
+
+
 export interface location {
   player: string
   coords: object //{x:number,y:number,z:number}

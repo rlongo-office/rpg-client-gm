@@ -19,6 +19,7 @@ const useWSHandlers = () => {
   const MessageEventHandlers: Function[] = []
 
   const processInboundMessage = (inbound: string) => {
+    debugger
     const inMsg:types.messageType = JSON.parse(inbound)
     const inType: string = inMsg.type
     return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound)
@@ -46,6 +47,8 @@ const useWSHandlers = () => {
   environment changes, player locations, conditions in the environment, campaign
   updates, etc*/
   MessageEventHandlers[handlerKey.gameUpdate] = function (msg: types.messageType) {
+    console.log("Received GameUpdate message")
+    console.log(msg.data)
     //update game object in App Provider
   }
 

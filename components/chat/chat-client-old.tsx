@@ -7,7 +7,7 @@ const Chat = (name: any, password: any) => {
   const [outboundMsg, setOutboundMsg] = React.useState('')
   const [recipient, setRecipient] = React.useState('')
   const { account } = useAppContext()
-  const { sendMessage } = useStomp()
+  //const { sendMessage } = useStomp()
 
   const sendChatMessage = () => {
     let msg: types.messageType = {
@@ -18,7 +18,7 @@ const Chat = (name: any, password: any) => {
       data: outboundMsg,
       dest: [recipient],
     }
-    sendMessage(msg)
+    //sendMessage(msg)
   }
 
   return (
