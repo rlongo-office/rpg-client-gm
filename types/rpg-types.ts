@@ -199,3 +199,8 @@ export interface InfoMap {
   version: string
   top: Array<StatSection>
 }
+
+export interface SelectionOption {
+  label: string
+  value: string
+}

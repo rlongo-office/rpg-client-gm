@@ -1,6 +1,7 @@
 import useWSManager from '@hooks/useWSManager'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import * as types from '../../types/rpg-types'
+import MultiSelectSimple from '@components/UI/MultiSelectSimple'
 import MultiSelect from '@components/UI/MultiSelect'
 
 interface Option {
@@ -22,6 +23,11 @@ export const Login = () => {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([])
 
   const handleMultiSelectChange = (selectedOptions: Option[]) => {
+    setSelectedOptions(selectedOptions)
+    console.log(selectedOptions)
+  }
+
+  const handleMultiSelectChange2 = (selectedOptions: Option[]) => {
     setSelectedOptions(selectedOptions)
     console.log(selectedOptions)
   }
@@ -64,7 +70,7 @@ export const Login = () => {
       <input type="text" ref={passRef}></input>
       <button onClick={() => handleClickSendMessage('login')}>Login</button>
       <button onClick={() => handleClickSendMessage('game-update')}>GameUpdate</button>
-      <MultiSelect options={options} onChange={handleMultiSelectChange} />
+      <MultiSelect options={options} onChange={handleMultiSelectChange2} />
       <p>Selected options: {selectedOptions.map(option => option.label).join(', ')}</p>
     </div>
   )
