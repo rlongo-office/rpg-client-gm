@@ -40,45 +40,51 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   }, [selectedOptions, onChange])
 
   return (
-    <div style={{ position: 'relative', width }}>
-      <div
-        onClick={toggleDropdown}
-        style={{
-          backgroundColor: '#EEE',
-          cursor: 'pointer',
-          padding: '10px',
-          border: '1px solid #CCC',
-          borderRadius: '4px',
-          height: toggleHeight,
-        }}
-      >
-        {title}
-      </div>
-      {isDropdownOpen && (
+    <div>
+      <div style={{ position: 'relative', width }}>
         <div
+          onClick={toggleDropdown}
           style={{
-            position: 'absolute',
-            top: toggleHeight,
-            left: 0,
-            backgroundColor: '#FFF',
-            padding: '10px',
+            backgroundColor: '#EEE',
+            cursor: 'pointer',
+            padding: '1px',
             border: '1px solid #CCC',
             borderRadius: '4px',
-            zIndex: 1,
+            height: toggleHeight,
+            textAlign: 'center',
           }}
         >
-          {options.map(option => (
-            <MultiSelectOption
-              key={option.value}
-              option={option}
-              onClick={() => handleOptionClick(option)}
-              isSelected={selectedOptions.some(
-                selectedOption => selectedOption.value === option.value
-              )}
-            />
-          ))}
+          {title}
         </div>
-      )}
+        {isDropdownOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: toggleHeight,
+              left: 0,
+              backgroundColor: '#FFF',
+              padding: '10px',
+              border: '1px solid #CCC',
+              borderRadius: '4px',
+              zIndex: 1,
+            }}
+          >
+            {options.map(option => (
+              <MultiSelectOption
+                key={option.value}
+                option={option}
+                onClick={() => handleOptionClick(option)}
+                isSelected={selectedOptions.some(
+                  selectedOption => selectedOption.value === option.value
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <p style={{ textAlign: 'left' }}>
+        Recipients: {selectedOptions.map(option => option.label).join(', ')}
+      </p>
     </div>
   )
 }
