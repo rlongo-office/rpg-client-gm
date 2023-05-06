@@ -115,7 +115,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
   })
 
-  const reducer = async (type: string, payload: any) => {
+/*   const reducer = async (type: string, payload: any) => {
     let returnObj: types.AnyObject[] = []
     let parsedData: types.AnyObject[] = []
     switch (type) {
@@ -150,7 +150,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       default:
         break
     }
-  }
+  } */
 
   const gblMsgHandler = React.useCallback(
     (message: types.messageType) => {
@@ -194,6 +194,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
   }
 
+  /*Make sure we have a valid window object before we add a window level listener */
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       let mobile = isMobile()
@@ -202,6 +203,10 @@ export function AppProvider({ children }: types.AppProviderProps) {
         return () => window.removeEventListener('resize', handleWindowResize)
       }
     }
+  }, [])
+
+  React.useEffect(() => {
+    //will be adding some initialization function
   }, [])
 
   const value = React.useMemo(

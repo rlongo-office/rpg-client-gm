@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import * as types from '../../types/rpg-types'
 import MultiSelectSimple from '@components/UI/MultiSelectSimple'
 import MultiSelect from '@components/UI/MultiSelect'
+import { useAppContext } from '@context/app-provider'
 
 interface Option {
   label: string
@@ -10,15 +11,17 @@ interface Option {
 }
 
 export const Login = () => {
-  //Public API that will echo messages sent to it back to the client
-  const msgRef = useRef<HTMLInputElement>(null)
+  const { game } = useAppContext()
+  const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
+  const [options, setOptions] = useState<types.SelectionOption[]>([
+    { label: 'Gamemaster', value: 'gm' },
+    { label: 'All', value: 'all' },
+    { label: 'Party', value: 'party' },
+  ])
+
+  const userRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
   const { sendOutboundMessage } = useWSManager('ws://localhost:8000')
-  const [options, setOptions] = useState<Option[]>([
-    { label: 'Bobby', value: 'bobby' },
-    { label: 'Johnny', value: 'johnny' },
-    { label: 'Mikey', value: 'mikey' },
-  ])
 
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([])
 
@@ -27,16 +30,11 @@ export const Login = () => {
     console.log(selectedOptions)
   }
 
-  const handleMultiSelectChange2 = (selectedOptions: Option[]) => {
-    setSelectedOptions(selectedOptions)
-    console.log(selectedOptions)
-  }
-
   const handleClickSendMessage = (msgType: string) => {
     let msg: types.messageType
     switch (msgType) {
       case 'login':
-        const user = msgRef.current.value
+        const user = userRef.current.value
         const pass = passRef.current.value
         const msgData = JSON.stringify({ user: user, password: pass })
         msg = {
@@ -65,12 +63,12 @@ export const Login = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <span>User Name</span>
-      <input type="text" ref={msgRef}></input>
+      <input type="text" ref={userRef}></input>
       <span>Password</span>
       <input type="text" ref={passRef}></input>
       <button onClick={() => handleClickSendMessage('login')}>Login</button>
       <button onClick={() => handleClickSendMessage('game-update')}>GameUpdate</button>
-      <MultiSelect options={options} onChange={handleMultiSelectChange2} />
+      <MultiSelect options={options} onChange={handleMultiSelectChange} />
       <p>Selected options: {selectedOptions.map(option => option.label).join(', ')}</p>
     </div>
   )

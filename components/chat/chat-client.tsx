@@ -17,7 +17,6 @@ function ChatClient() {
     { label: 'Party', value: 'party' },
   ])
 
-
   useEffect(() => {
     if (!game || !game.players) {
       return;
@@ -30,9 +29,7 @@ function ChatClient() {
       console.log(newOptions);
       return [...prevOptions, ...newOptions];
     });
-  }, [options]);
-
-
+  }, [game]);
 
   const sendChatMessage = () => {
     let msg: types.messageType = {
