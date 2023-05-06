@@ -8,7 +8,7 @@ import * as types from '../../types/rpg-types'
 import MultiSelect from '@components/UI/MultiSelect'
 
 function ChatClient() {
-  const { gameObject } = useAppContext()
+  const { game } = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -17,12 +17,20 @@ function ChatClient() {
     { label: 'Party', value: 'party' },
   ])
 
+
   useEffect(() => {
-    const userNames = gameObject?.players?.map(player => player.name) ?? []
-    const newOptions = userNames.map(name => ({ label: name, value: name }))
-      .filter(option => !options.find(o => o.value === option.value)) // Filter out existing options
-    setOptions([...options, ...newOptions])
-  }, [gameObject])
+    if (!game || !game.players) {
+      return;
+    }
+    setOptions(prevOptions => {
+      const newOptions = game.players.map((player) => ({
+        label: player.name,
+        value: player.name,
+      })).filter((option) => !prevOptions.find((o) => o.value === option.value));
+      console.log(newOptions);
+      return [...prevOptions, ...newOptions];
+    });
+  }, [options]);
 
 
 
@@ -38,7 +46,6 @@ function ChatClient() {
   }
   function handleMultiSelectChange(selectedOptions: types.SelectionOption[]): void {
     setRecipient(selectedOptions)
-    console.log(selectedOptions)
   }
   return (
     <div id="chat-client">

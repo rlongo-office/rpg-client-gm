@@ -780,19 +780,22 @@ const actors: types.Actor[] = [
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
     condition: ['healing', 'alert'],
+    access:null
   },
   {
     name: 'bob',
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
     condition: ['sleeping'],
+    access:null
   },
   {
     name: 'frank',
     stats: playerOneData,
     location: { x: 1000, y: 1500, z: 1800 },
     condition: ['poisoned'],
-  },
+    access:null
+  }
 ]
 
 export const gameObject: types.GameObject = {
