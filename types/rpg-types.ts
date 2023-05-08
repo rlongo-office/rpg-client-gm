@@ -42,12 +42,19 @@ export interface Climate {
 
 export interface Actor {
   name: string
-  stats: object
+  template: string //idea here is that this referred to a creature obj if this is an NPC, else obj to player doc
+  stats: object //Could reference the actual document itself, whether player or NPC object
   location: { x: number; y: number; z: number }
   condition: string[]
-  access: DataAccess
+  desc: string[]
+  relationships: ActorRelationship[]
 }
 
+interface ActorRelationship {
+  _id: string //id to item, other actor, etc
+  type: string //owner, father, wive, enemy, protector, etc...
+  state: string //generally a description of emotion, intent, strength, etc of the relationship
+}
 export interface DataAccess {
   collections:string[]  //those collections excluded
   rarity:string[]       //those documents excluded by rarity level e.g. common, uncommon, rare, very rare, unique, etc.

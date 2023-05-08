@@ -6,17 +6,7 @@ import useWSHandlers from './useWSHandlers'
 
 const useWSManager = (url: string) => {
   const { processInboundMessage } = useWSHandlers()
-  const {
-    account,
-    gblMsgHandler,
-    setWSSocket,
-    stompClient,
-    setStompClient,
-    messages,
-    setMessages,
-    isConnected,
-    setIsConnected,
-  } = useAppContext()
+  const { account, gblMsgHandler, setWSSocket } = useAppContext()
   const [socketUrl, setSocketUrl] = React.useState(url)
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     onMessage: event => {
@@ -25,11 +15,11 @@ const useWSManager = (url: string) => {
     },
   })
 
-  const sendOutboundMessage = React.useCallback((msg:string) => {
+  const sendOutboundMessage = React.useCallback((msg: string) => {
     sendMessage(msg)
   }, [])
 
-  return {sendOutboundMessage}
+  return { sendOutboundMessage }
 }
 
 export default useWSManager

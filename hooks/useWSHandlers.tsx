@@ -19,39 +19,39 @@ const useWSHandlers = () => {
   const MessageEventHandlers: Function[] = []
 
   const processInboundMessage = (inbound: string) => {
-    debugger
     const inMsg:types.messageType = JSON.parse(inbound)
     const inType: string = inMsg.type
     return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound)
   }
 
-  MessageEventHandlers[handlerKey.loginAck] = function (msg: types.messageType) {
+  MessageEventHandlers[handlerKey.loginAck] = function (msg: string) {
     //acknowledgement from server after login
+    //A log ack will have the game object as it's data, we could call other handlers from here if needed
     console.log('Successfully logged into to the server')
   }
   /* Jason has recommended we move this into 'Service' for better efficiency and use */
-  MessageEventHandlers[handlerKey.privateText] = function (msg: types.messageType) {
+  MessageEventHandlers[handlerKey.privateText] = function (msg: string) {
     //inbound process of text message sent to multiple party members and GM
   }
-  MessageEventHandlers[handlerKey.groupText] = function (msg: types.messageType) {
+  MessageEventHandlers[handlerKey.groupText] = function (msg: string) {
     //inbound process of text message sent to multiple party members and GM
   }
-  MessageEventHandlers[handlerKey.gameText] = function (msg: types.messageType) {
+  MessageEventHandlers[handlerKey.gameText] = function (msg: string) {
     //inbound process of text message from 'game' entity for all to see
   }
-  MessageEventHandlers[handlerKey.imageExchange] = function (msg: types.messageType) {}
+  MessageEventHandlers[handlerKey.imageExchange] = function (msg: string) {}
 
-  MessageEventHandlers[handlerKey.statUpdate] = function (msg: types.messageType) {}
+  MessageEventHandlers[handlerKey.statUpdate] = function (msg: string) {}
 
   /*Any changes related to game object, which could include but not limited to
   environment changes, player locations, conditions in the environment, campaign
   updates, etc*/
-  MessageEventHandlers[handlerKey.gameUpdate] = function (msg: types.messageType) {
+  MessageEventHandlers[handlerKey.gameUpdate] = function (msg: string) {
     console.log("Received GameUpdate message")
-    console.log(msg.data)
-    //update game object in App Provider
+    console.log(msg)
+    //Unwrap (parse) the entire message first, then unwrap the data that is our game object
+    setGame(JSON.parse(JSON.parse(msg).data))
   }
-
   return { processInboundMessage }
 }
 

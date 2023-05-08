@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
@@ -15,9 +15,11 @@ const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
+
   const [isConnected, setIsConnected] = React.useState(false)
-  const [wsSocket, setWSSocket] = React.useState<any>({})
-  const [stompClient, setStompClient] = React.useState<any>(null)
+  //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
+  //changes, I will check for game object to change here, and update the users only when
+  const [users, setUsers] = useState<string[]>([])
   const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
   //Actors are any entity in the world  whether NPC (GM) or player controlled
   const [actors, setActors] = React.useState<types.AnyObject[]>([])
@@ -115,7 +117,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
   })
 
-/*   const reducer = async (type: string, payload: any) => {
+  /*   const reducer = async (type: string, payload: any) => {
     let returnObj: types.AnyObject[] = []
     let parsedData: types.AnyObject[] = []
     switch (type) {
@@ -205,13 +207,32 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }, [])
 
+  //When  connection changes load necessary data
   React.useEffect(() => {
     //will be adding some initialization function
-  }, [])
+    
+  }, [isConnected])
+
+  //When  game object update user listing needed
+  React.useEffect(() => {
+    //check if user listing has changed
+    if (!game || !game.players) {
+      return
+    }
+    setUsers(prevUsers => {
+      const newUsers = game.players
+        .map(player => player.name)
+        .filter(user => !prevUsers.find(o => o === user))
+      console.log(newUsers)
+      return [...prevUsers, ...newUsers]
+    })
+  }, [game])
 
   const value = React.useMemo(
     () => ({
       game,
+      users,
+      setUsers,
       setGame,
       creatures,
       setCreatures,
@@ -226,9 +247,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setMessages,
       isConnected,
       setIsConnected,
-      stompClient,
-      setWSSocket,
-      setStompClient,
       players,
       playerBP,
       textHistory,
@@ -240,6 +258,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }),
     [
       game,
+      users,
       creatures,
       actors,
       tableConfig,
@@ -247,7 +266,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       account,
       messages,
       isConnected,
-      stompClient,
       players,
       playerBP,
       textHistory,
