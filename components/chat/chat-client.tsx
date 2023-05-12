@@ -8,9 +8,9 @@ import * as types from '../../types/rpg-types'
 import MultiSelect from '@components/UI/MultiSelect'
 
 function ChatClient() {
-  const { game } = useAppContext()
+  const { game,myUser } = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
-  const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
+  const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
     { label: 'Gamemaster', value: 'gm' },
     { label: 'All', value: 'all' },
@@ -32,17 +32,22 @@ function ChatClient() {
   }, [game]);
 
   const sendChatMessage = () => {
+    
     let msg: types.messageType = {
-      id: 0,
-      sender: '',
+      id: 0.1,
+      sender: myUser,
       timeStamp: '',
       type: '',
       data: '',
-      dest: [],
+      dest: recipient,
     }
+
+
   }
+
   function handleMultiSelectChange(selectedOptions: types.SelectionOption[]): void {
-    setRecipient(selectedOptions)
+    const msgRecips = selectedOptions.map(option=>option.value)
+    setRecipient(msgRecips)
   }
   return (
     <div id="chat-client">

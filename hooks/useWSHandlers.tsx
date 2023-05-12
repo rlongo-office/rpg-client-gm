@@ -15,7 +15,7 @@ enum handlerKey {
 }
 
 const useWSHandlers = () => {
-  const { setGame } = useAppContext()
+  const { setGame,setMyUser,myUser} = useAppContext()
   const MessageEventHandlers: Function[] = []
 
   const processInboundMessage = (inbound: string) => {
@@ -27,7 +27,9 @@ const useWSHandlers = () => {
   MessageEventHandlers[handlerKey.loginAck] = function (msg: string) {
     //acknowledgement from server after login
     //A log ack will have the game object as it's data, we could call other handlers from here if needed
-    console.log('Successfully logged into to the server')
+    const inMsg:types.messageType = JSON.parse(msg)
+    setMyUser(inMsg.dest[0])    //on a loginAck the only recipient is the login use, so save it
+    console.log(`Successfully logged into to the server as ${myUser}`)
   }
   /* Jason has recommended we move this into 'Service' for better efficiency and use */
   MessageEventHandlers[handlerKey.privateText] = function (msg: string) {

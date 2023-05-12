@@ -19,22 +19,23 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [isConnected, setIsConnected] = React.useState(false)
   //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
   //changes, I will check for game object to change here, and update the users only when
+  const [myUser, setMyUser] = useState<string>("")
   const [users, setUsers] = useState<string[]>([])
-  const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
+  const [creatures, setCreatures] = useState<types.AnyObject[]>(creaturesCollection)
   //Actors are any entity in the world  whether NPC (GM) or player controlled
-  const [actors, setActors] = React.useState<types.AnyObject[]>([])
-  const [game, setGame] = React.useState<types.GameObject>(gameObject)
-  const [messages, setMessages] = React.useState<types.messageType[]>([])
-  const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
-  const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
+  const [actors, setActors] = useState<types.AnyObject[]>([])
+  const [game, setGame] = useState<types.GameObject>(gameObject)
+  const [messages, setMessages] = useState<types.messageType[]>([])
+  const [players, setPlayers] = useState<types.AnyObject[]>(playersData)
+  const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
   //Those exchanged websocket messages of type group, private, party, or game texts
-  const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [textHistory, setTextHistory] = useState<types.textMessage[]>(textData)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
-  const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
-  const [images, setImages] = React.useState<string>(mapImage)
-  const [devWidth, setDevWidth] = React.useState(375)
-  const [devHeight, setDevHeight] = React.useState(700)
-  const [imgConfig, setImgConfig] = React.useState({
+  const [loreMsgData, setLoreMsgData] = useState<types.textMessage[]>(loreData)
+  const [images, setImages] = useState<string>(mapImage)
+  const [devWidth, setDevWidth] = useState(375)
+  const [devHeight, setDevHeight] = useState(700)
+  const [imgConfig, setImgConfig] = useState({
     img: '',
     imgTOP: 0,
     imgLEFT: 0,
