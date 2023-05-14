@@ -4,7 +4,7 @@ import * as types from '../../types/rpg-types'
 import { useAppContext } from '@context/app-provider'
 
 export const Login = () => {
-  const { game } = useAppContext()
+  const { game, } = useAppContext()
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
     { label: 'Gamemaster', value: 'gm' },

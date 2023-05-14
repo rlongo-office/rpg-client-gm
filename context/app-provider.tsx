@@ -21,6 +21,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   //changes, I will check for game object to change here, and update the users only when
   const [myUser, setMyUser] = useState<string>("")
   const [users, setUsers] = useState<string[]>([])
+  const [serverURL,setServerURL] = useState<string>('ws://localhost:8000')
   const [creatures, setCreatures] = useState<types.AnyObject[]>(creaturesCollection)
   //Actors are any entity in the world  whether NPC (GM) or player controlled
   const [actors, setActors] = useState<types.AnyObject[]>([])
@@ -256,6 +257,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devHeight,
       devWidth,
       imgConfig,
+      serverURL
     }),
     [
       game,
@@ -275,6 +277,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devHeight,
       devWidth,
       imgConfig,
+      serverURL
     ]
   )
 

@@ -774,29 +774,69 @@ const climateArray: types.Climate[] = [
   },
 ]
 
-const actors: types.Actor[] = [
+export const actors: types.Actor[] = [
   {
-    name: 'rollo',
-    stats: playerOneData,
-    location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['healing', 'alert'],
-    access:null
+    "name": "Bob the Farmer",
+    "template": "townsperson",
+    "stats": {},
+    "location": { "x": 100, "y": 100, "z": 100 },
+    "condition": [],
+    "desc": [],
+    "relationships": [
+      {
+        "_id": "",
+        "type": "",
+        "state": ""
+      }
+    ]
   },
   {
-    name: 'bob',
-    stats: playerOneData,
-    location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['sleeping'],
-    access:null
+    "name": "Betty the Farmer's Wife",
+    "template": "common-human-female",
+    "stats": {},
+    "location": { "x": 100, "y": 100, "z": 100 },
+    "condition": [],
+    "desc": [],
+    "relationships": [
+      {
+        "_id": "",
+        "type": "",
+        "state": ""
+      }
+    ]
   },
   {
-    name: 'frank',
-    stats: playerOneData,
-    location: { x: 1000, y: 1500, z: 1800 },
-    condition: ['poisoned'],
-    access:null
+    "name": "Billy Bob",
+    "template": "",
+    "stats": {},
+    "location": { "x": 100, "y": 100, "z": 100 },
+    "condition": [],
+    "desc": [],
+    "relationships": [
+      {
+        "_id": "",
+        "type": "",
+        "state": ""
+      }
+    ]
+  },
+  {
+    "name": "",
+    "template": "",
+    "stats": {},
+    "location": { "x": 100, "y": 100, "z": 100 },
+    "condition": [],
+    "desc": [],
+    "relationships": [
+      {
+        "_id": "",
+        "type": "",
+        "state": ""
+      }
+    ]
   }
 ]
+
 
 export const gameObject: types.GameObject = {
   id: "It begins",

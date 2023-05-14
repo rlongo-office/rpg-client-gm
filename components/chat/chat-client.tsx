@@ -1,14 +1,13 @@
 import { useRef, useEffect, useState } from 'react'
-import ChatRecipients from './chat-recipients'
 import ChatHistory from './chat-history'
-import ChatEntry from './chat-entry'
 import { useAppContext } from '@context/app-provider'
-import useWSManager from '@hooks/useWSManager'
 import * as types from '../../types/rpg-types'
 import MultiSelect from '@components/UI/MultiSelect'
+import { getCurrentTimeString } from '@utils/utils'
+import sendOutboundMessage from "@hooks/useWSManager";
 
 function ChatClient() {
-  const { game,myUser } = useAppContext()
+  const { game, myUser } = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -19,34 +18,36 @@ function ChatClient() {
 
   useEffect(() => {
     if (!game || !game.players) {
-      return;
+      return
     }
     setOptions(prevOptions => {
-      const newOptions = game.players.map((player) => ({
-        label: player.name,
-        value: player.name,
-      })).filter((option) => !prevOptions.find((o) => o.value === option.value));
-      console.log(newOptions);
-      return [...prevOptions, ...newOptions];
-    });
-  }, [game]);
+      const newOptions = game.players
+        .map(player => ({
+          label: player.name,
+          value: player.name,
+        }))
+        .filter(option => !prevOptions.find(o => o.value === option.value))
+      console.log(newOptions)
+      return [...prevOptions, ...newOptions]
+    })
+  }, [game])
 
   const sendChatMessage = () => {
-    
+    const textData = msgRef.current.value
     let msg: types.messageType = {
       id: 0.1,
       sender: myUser,
-      timeStamp: '',
-      type: '',
-      data: '',
+      timeStamp: getCurrentTimeString(),
+      type: 'groupText',
+      data: textData,
       dest: recipient,
     }
-
-
+    
+    sendOutboundMessage(JSON.stringify(msg))
   }
 
   function handleMultiSelectChange(selectedOptions: types.SelectionOption[]): void {
-    const msgRecips = selectedOptions.map(option=>option.value)
+    const msgRecips = selectedOptions.map(option => option.value)
     setRecipient(msgRecips)
   }
   return (
