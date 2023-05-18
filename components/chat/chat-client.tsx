@@ -1,13 +1,15 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState,useCallback } from 'react'
 import ChatHistory from './chat-history'
 import { useAppContext } from '@context/app-provider'
 import * as types from '../../types/rpg-types'
 import MultiSelect from '@components/UI/MultiSelect'
 import { getCurrentTimeString } from '@utils/utils'
-import sendOutboundMessage from "@hooks/useWSManager";
+import useWSManager from "@hooks/useWSManager"
+
 
 function ChatClient() {
-  const { game, myUser } = useAppContext()
+  const { sendOutboundMessage } = useWSManager(); // Use the sendOutboundMessage function from useWSManager
+  const { game, myUser, users } = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -17,20 +19,24 @@ function ChatClient() {
   ])
 
   useEffect(() => {
-    if (!game || !game.players) {
+    console.log(game)
+    console.log(users)
+    if (!users) {
+      console.log(`ChatClient useEffect: No game object loaded yet`)
       return
     }
     setOptions(prevOptions => {
-      const newOptions = game.players
-        .map(player => ({
-          label: player.name,
-          value: player.name,
+      console.log(`ChatClient useEffect: setting Options for multiselect`)
+      const newOptions = users
+        .map(user => ({
+          label: user,
+          value: user,
         }))
         .filter(option => !prevOptions.find(o => o.value === option.value))
-      console.log(newOptions)
+      console.log(`newOptions are ${newOptions}`)
       return [...prevOptions, ...newOptions]
     })
-  }, [game])
+  }, [users])
 
   const sendChatMessage = () => {
     const textData = msgRef.current.value
@@ -46,10 +52,13 @@ function ChatClient() {
     sendOutboundMessage(JSON.stringify(msg))
   }
 
-  function handleMultiSelectChange(selectedOptions: types.SelectionOption[]): void {
-    const msgRecips = selectedOptions.map(option => option.value)
-    setRecipient(msgRecips)
-  }
+  const handleMultiSelectChange = useCallback(
+    (selectedOptions: types.SelectionOption[]) => {
+      const msgRecips = selectedOptions.map(option => option.value);
+      setRecipient(msgRecips);
+    },
+    []
+  );
   return (
     <div id="chat-client">
       <MultiSelect

@@ -15,7 +15,6 @@ const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
-
   const [isConnected, setIsConnected] = React.useState(false)
   //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
   //changes, I will check for game object to change here, and update the users only when
@@ -209,18 +208,14 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }, [])
 
-  //When  connection changes load necessary data
-  React.useEffect(() => {
-    //will be adding some initialization function
-    
-  }, [isConnected])
-
   //When  game object update user listing needed
   React.useEffect(() => {
+    debugger
     //check if user listing has changed
     if (!game || !game.players) {
       return
     }
+    console.log('app-provider: useEffect for game called')
     setUsers(prevUsers => {
       const newUsers = game.players
         .map(player => player.name)
@@ -234,6 +229,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
     () => ({
       game,
       users,
+      myUser,
+      setMyUser,
       setUsers,
       setGame,
       creatures,
@@ -257,7 +254,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devHeight,
       devWidth,
       imgConfig,
-      serverURL
+      serverURL,
     }),
     [
       game,
@@ -277,7 +274,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devHeight,
       devWidth,
       imgConfig,
-      serverURL
+      serverURL,
+      myUser
     ]
   )
 

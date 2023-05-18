@@ -775,8 +775,8 @@ const climateArray: types.Climate[] = [
 ]
 
 export const actors: types.Actor[] = [
-  {
-    "name": "Bob the Farmer",
+/*   {
+    "name": "Bob",
     "template": "townsperson",
     "stats": {},
     "location": { "x": 100, "y": 100, "z": 100 },
@@ -791,7 +791,7 @@ export const actors: types.Actor[] = [
     ]
   },
   {
-    "name": "Betty the Farmer's Wife",
+    "name": "Betty",
     "template": "common-human-female",
     "stats": {},
     "location": { "x": 100, "y": 100, "z": 100 },
@@ -806,7 +806,7 @@ export const actors: types.Actor[] = [
     ]
   },
   {
-    "name": "Billy Bob",
+    "name": "Billy",
     "template": "",
     "stats": {},
     "location": { "x": 100, "y": 100, "z": 100 },
@@ -834,7 +834,7 @@ export const actors: types.Actor[] = [
         "state": ""
       }
     ]
-  }
+  } */
 ]
 
 

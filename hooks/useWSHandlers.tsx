@@ -1,6 +1,7 @@
 import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
 import * as types from '../types/rpg-types'
+import { useRouter } from 'next/router'
 //TYPES
 
 enum handlerKey {
@@ -17,6 +18,7 @@ enum handlerKey {
 const useWSHandlers = () => {
   const { setGame,setMyUser,myUser} = useAppContext()
   const MessageEventHandlers: Function[] = []
+  const router = useRouter()
 
   const processInboundMessage = (inbound: string) => {
     const inMsg:types.messageType = JSON.parse(inbound)
@@ -30,6 +32,7 @@ const useWSHandlers = () => {
     const inMsg:types.messageType = JSON.parse(msg)
     setMyUser(inMsg.dest[0])    //on a loginAck the only recipient is the login use, so save it
     console.log(`Successfully logged into to the server as ${myUser}`)
+    router.push("/chat-page")
   }
   /* Jason has recommended we move this into 'Service' for better efficiency and use */
   MessageEventHandlers[handlerKey.privateText] = function (msg: string) {

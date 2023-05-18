@@ -23,7 +23,8 @@
       "@apptypes/*": ["types/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "sourceMap": true
   },
   "include": [
     "next-env.d.ts",

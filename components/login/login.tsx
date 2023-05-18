@@ -14,7 +14,7 @@ export const Login = () => {
 
   const userRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
-  const { sendOutboundMessage } = useWSManager('ws://localhost:8000')
+  const { sendOutboundMessage } = useWSManager()
 
   const handleClickSendMessage = (msgType: string) => {
     let msg: types.messageType
@@ -23,7 +23,7 @@ export const Login = () => {
     //stringify the data because all data for our msgs must be a string for server side processing
     const msgData = JSON.stringify({ user: user, password: pass })
     msg = {
-      id: 999999,
+      id: 0.1,
       sender: 'bob',
       timeStamp: '',
       type: 'login',
