@@ -1,15 +1,22 @@
-import { useContext, useState } from 'react'
+import { useContext, useState,useEffect } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
-import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
 import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
-import apiUtils from '@utils/game-service'
+import * as types from '../types/rpg-types'
+
+
+interface gameState {
+  game: types.GameObject
+  myUser:string
+  users:string[]
+  messages:types.messageType[]
+}
 
 const AppContext = React.createContext<any | undefined>(undefined)
 
@@ -55,7 +62,12 @@ export function AppProvider({ children }: types.AppProviderProps) {
     accLimit: 4,
     scaleInc: 0.025,
   })
-
+  const [gameStore,setGameStore] = useState<gameState>({
+    game:game,
+    users:users,
+    myUser:myUser,
+    messages:messages
+  })
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
     header: ['Name', 'Type', 'Hit Dice', 'Challenge Rating'],
@@ -197,8 +209,14 @@ export function AppProvider({ children }: types.AppProviderProps) {
     console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
   }
 
+  /* Update local storage when state changes*/
+  useEffect(() => {
+    localStorage.setItem('gameStore', JSON.stringify(gameStore));
+  }, [gameStore]);
+
+
   /*Make sure we have a valid window object before we add a window level listener */
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       let mobile = isMobile()
       if (mobile) {
@@ -208,8 +226,16 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }, [])
 
+  useEffect(()=>{
+    const savedState = localStorage.getItem('gameStore')
+    if (savedState){
+      setGameStore(JSON.parse(savedState))
+    }
+  },[])
+
+
   //When  game object update user listing needed
-  React.useEffect(() => {
+  useEffect(() => {
     debugger
     //check if user listing has changed
     if (!game || !game.players) {
@@ -225,8 +251,20 @@ export function AppProvider({ children }: types.AppProviderProps) {
     })
   }, [game])
 
+  useEffect(() => {
+    setGameStore({
+      game:game,
+      users:users,
+      myUser:myUser,
+      messages:messages
+    })
+
+  }, [game,users,myUser,messages])
+
+
   const value = React.useMemo(
     () => ({
+      gameStore,
       game,
       users,
       myUser,
@@ -257,6 +295,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       serverURL,
     }),
     [
+      gameStore,
       game,
       users,
       creatures,
