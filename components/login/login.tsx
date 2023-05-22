@@ -24,7 +24,7 @@ export const Login = () => {
     const msgData = JSON.stringify({ user: user, password: pass })
     msg = {
       id: 0.1,
-      sender: 'bob',
+      sender: user,
       timeStamp: '',
       type: 'login',
       data: msgData,

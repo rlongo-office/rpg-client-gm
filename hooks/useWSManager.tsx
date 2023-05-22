@@ -2,19 +2,31 @@ import { useAppContext } from '@context/app-provider'
 import {useEffect, useState,useCallback} from 'react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import useWSHandlers from './useWSHandlers'
-import * as rpgTypes from '../types/rpg-types'
-import { getCurrentTimeString } from '@utils/utils'
 
 const useWSManager = () => {
   const { processInboundMessage } = useWSHandlers()
   const {serverURL,myUser } = useAppContext()
   //const [socketUrl, setSocketUrl] = React.useState(url)
-  const { sendMessage, readyState, sendJsonMessage } = useWebSocket(serverURL, {
+  const { sendMessage, readyState, sendJsonMessage } = useWebSocket(serverURL,{
+    share: true,
+    onOpen: event=>{
+      console.log(`Received message: ${event}`)
+    },
     onMessage: event => {
-      console.log(`Received message: ${event.data}`)
+      //console.log(`Received message: ${event.data}`)
       processInboundMessage(event.data)
     },
   })
+
+  const sendOutboundMessage = useCallback((msg: string) => {
+    //In case I need to do things before I use the use react websocket main send function
+    sendMessage(msg)
+  }, [])
+
+  return {sendOutboundMessage }
+}
+
+export default useWSManager
 
 /*   useEffect(() => {
     //define the behavior we want upon window close
@@ -40,14 +52,3 @@ const useWSManager = () => {
       window.removeEventListener('beforeunload', closeWebSocket);
     };
   }, [readyState]); */
-
-
-
-  const sendOutboundMessage = useCallback((msg: string) => {
-    sendMessage(msg)
-  }, [])
-
-  return {sendOutboundMessage }
-}
-
-export default useWSManager

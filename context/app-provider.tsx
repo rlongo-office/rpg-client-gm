@@ -22,7 +22,7 @@ const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
-  const [isConnected, setIsConnected] = React.useState(false)
+  const [isConnected, setIsConnected] = useState(false)
   //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
   //changes, I will check for game object to change here, and update the users only when
   const [myUser, setMyUser] = useState<string>("")
@@ -81,7 +81,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     upperBound: 8,
     selected: [],
   }
-
+  const [socketSend, setSocketSend] = React.useState<any>(null);
   const parsedCreaturesData = parseDataForTable(creatures, sharedTableConfig.filtered)
 
   const [tableConfig, setTableConfig] = React.useState<types.ConfigObject>({
@@ -167,7 +167,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   } */
 
-  const gblMsgHandler = React.useCallback(
+/*   const gblMsgHandler = React.useCallback(
     (message: types.messageType) => {
       switch (message.type) {
         case 'private':
@@ -178,7 +178,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       }
     },
     [messages]
-  )
+  ) */
 
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
@@ -277,7 +277,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setActors,
       tableConfig,
       setTableConfig,
-      gblMsgHandler,
       account,
       setAccount,
       messages,
@@ -293,6 +292,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devWidth,
       imgConfig,
       serverURL,
+      socketSend,
+      setSocketSend
     }),
     [
       gameStore,
@@ -301,7 +302,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       creatures,
       actors,
       tableConfig,
-      gblMsgHandler,
       account,
       messages,
       isConnected,
@@ -314,7 +314,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devWidth,
       imgConfig,
       serverURL,
-      myUser
+      myUser,
+      socketSend
     ]
   )
 
