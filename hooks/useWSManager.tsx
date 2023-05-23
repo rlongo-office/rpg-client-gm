@@ -1,27 +1,34 @@
 import { useAppContext } from '@context/app-provider'
 import {useEffect, useState,useCallback} from 'react'
-import useWebSocket, { ReadyState } from 'react-use-websocket'
 import useWSHandlers from './useWSHandlers'
 
+
+
+
 const useWSManager = () => {
-  const { processInboundMessage } = useWSHandlers()
-  const {serverURL,myUser } = useAppContext()
+  const {serverURL,setAppSocket,appSocket,setIsConnected,isConnected} = useAppContext()
+  const {processInboundMessage} = useWSHandlers()
   //const [socketUrl, setSocketUrl] = React.useState(url)
-  const { sendMessage, readyState, sendJsonMessage } = useWebSocket(serverURL,{
-    share: true,
-    onOpen: event=>{
-      console.log(`Received message: ${event}`)
-    },
-    onMessage: event => {
-      //console.log(`Received message: ${event.data}`)
-      processInboundMessage(event.data)
-    },
-  })
+
+  useEffect(() => {
+    if (!isConnected){
+      const socket = new WebSocket(serverURL);
+      socket.onopen = () => setIsConnected(true);
+      socket.onclose = () => setIsConnected(false);
+      socket.onmessage = (event) => {
+        processInboundMessage(event.data)
+      }
+      setAppSocket(socket)
+    }
+  }, []);
 
   const sendOutboundMessage = useCallback((msg: string) => {
     //In case I need to do things before I use the use react websocket main send function
-    sendMessage(msg)
-  }, [])
+    if (appSocket){
+      appSocket.send(msg)
+    }
+
+  }, [appSocket])
 
   return {sendOutboundMessage }
 }

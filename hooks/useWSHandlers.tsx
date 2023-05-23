@@ -16,7 +16,7 @@ enum handlerKey {
 }
 
 const useWSHandlers = () => {
-  const { setGame,setMyUser,myUser} = useAppContext()
+  const {setMyUser,setGame,myUser} = useAppContext()
   const MessageEventHandlers: Function[] = []
   const router = useRouter()
 

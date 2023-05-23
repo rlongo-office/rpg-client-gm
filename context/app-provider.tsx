@@ -1,4 +1,4 @@
-import { useContext, useState,useEffect } from 'react'
+import { useContext, useState,useEffect,useRef } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
@@ -10,7 +10,6 @@ import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
 import * as types from '../types/rpg-types'
 
-
 interface gameState {
   game: types.GameObject
   myUser:string
@@ -18,20 +17,23 @@ interface gameState {
   messages:types.messageType[]
 }
 
-const AppContext = React.createContext<any | undefined>(undefined)
+export const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
+  //useRef apparently doesn't cause a rerender like changes in useState values
+  const [appSocket,setAppSocket] = useState<WebSocket>(null);
+  const [myUser, setMyUser] = useState<string>("")
+  const [users, setUsers] = useState<string[]>([])
+  const [serverURL,setServerURL] = useState<string>('ws://localhost:8000')
+  const [game, setGame] = useState<types.GameObject>(gameObject)
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
   const [isConnected, setIsConnected] = useState(false)
   //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
   //changes, I will check for game object to change here, and update the users only when
-  const [myUser, setMyUser] = useState<string>("")
-  const [users, setUsers] = useState<string[]>([])
-  const [serverURL,setServerURL] = useState<string>('ws://localhost:8000')
   const [creatures, setCreatures] = useState<types.AnyObject[]>(creaturesCollection)
   //Actors are any entity in the world  whether NPC (GM) or player controlled
   const [actors, setActors] = useState<types.AnyObject[]>([])
-  const [game, setGame] = useState<types.GameObject>(gameObject)
+
   const [messages, setMessages] = useState<types.messageType[]>([])
   const [players, setPlayers] = useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
@@ -81,7 +83,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     upperBound: 8,
     selected: [],
   }
-  const [socketSend, setSocketSend] = React.useState<any>(null);
   const parsedCreaturesData = parseDataForTable(creatures, sharedTableConfig.filtered)
 
   const [tableConfig, setTableConfig] = React.useState<types.ConfigObject>({
@@ -182,7 +183,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
 
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
-
   const isMobile = () => {
     var result = false
     if (window.PointerEvent && 'maxTouchPoints' in navigator) {
@@ -221,7 +221,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       let mobile = isMobile()
       if (mobile) {
         window.addEventListener('resize', handleWindowResize)
-        return () => window.removeEventListener('resize', handleWindowResize)
+        return () => {
+          window.removeEventListener('resize', handleWindowResize)
+      }
       }
     }
   }, [])
@@ -232,7 +234,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setGameStore(JSON.parse(savedState))
     }
   },[])
-
 
   //When  game object update user listing needed
   useEffect(() => {
@@ -292,8 +293,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       devWidth,
       imgConfig,
       serverURL,
-      socketSend,
-      setSocketSend
+      appSocket,
+      setAppSocket
     }),
     [
       gameStore,
@@ -315,7 +316,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       imgConfig,
       serverURL,
       myUser,
-      socketSend
+      appSocket
     ]
   )
 
@@ -331,3 +332,55 @@ export function useAppContext() {
 }
 
 export default { AppProvider, useAppContext }
+
+
+
+  /*   const reducer = async (type: string, payload: any) => {
+    let returnObj: types.AnyObject[] = []
+    let parsedData: types.AnyObject[] = []
+    switch (type) {
+      case 'addActor':
+        const newActors: types.AnyObject[] = [...actors, createObjID(actors, payload)]
+        setActors(newActors)
+        parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
+        setTableConfig({
+          ...tableConfig,
+          actorConfig: { ...tableConfig.actorConfig, data: parsedData, filteredData: parsedData },
+        })
+        break
+      case 'getGameObject':
+        returnObj = await apiUtils.getGameObject()
+        console.log(returnObj)
+        setCreatures(returnObj)
+        //before parsing we need to parse the array of strings
+        parsedData = parseDataForTable(returnObj, sharedTableConfig.filtered)
+        setTableConfig({
+          ...tableConfig,
+          creatureConfig: {
+            ...tableConfig.creatureConfig,
+            data: parsedData,
+            filteredData: parsedData,
+          },
+        })
+        break
+      case 'setGameObject':
+        returnObj = await apiUtils.setGameObject(payload)
+        break
+
+      default:
+        break
+    }
+  } */
+
+/*   const gblMsgHandler = React.useCallback(
+    (message: types.messageType) => {
+      switch (message.type) {
+        case 'private':
+          setMessages([...messages, message])
+          break
+        default:
+          break
+      }
+    },
+    [messages]
+  ) */

@@ -8,9 +8,8 @@ import useWSManager from "@hooks/useWSManager"
 
 
 function ChatClient() {
-  debugger
-  const { sendOutboundMessage } = useWSManager(/*you need to pass url maybe*/); // Use the sendOutboundMessage function from useWSManager
-  const { game, myUser, users } = useAppContext()
+  const {sendOutboundMessage} = useWSManager()
+  const { game, myUser, users,appWebSocket } = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([

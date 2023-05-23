@@ -1,20 +1,20 @@
-import useWSManager from '@hooks/useWSManager'
+
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import * as types from '../../types/rpg-types'
 import { useAppContext } from '@context/app-provider'
+import useWSManager from '@hooks/useWSManager'
 
 export const Login = () => {
-  const { game, } = useAppContext()
+  const { game,appWebSocket} = useAppContext()
+  const {sendOutboundMessage} = useWSManager()
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
     { label: 'Gamemaster', value: 'gm' },
     { label: 'All', value: 'all' },
     { label: 'Party', value: 'party' },
   ])
-
   const userRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
-  const { sendOutboundMessage } = useWSManager()
 
   const handleClickSendMessage = (msgType: string) => {
     let msg: types.messageType
