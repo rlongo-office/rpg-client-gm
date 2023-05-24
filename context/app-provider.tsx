@@ -237,7 +237,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
 
   //When  game object update user listing needed
   useEffect(() => {
-    debugger
     //check if user listing has changed
     if (!game || !game.players) {
       return

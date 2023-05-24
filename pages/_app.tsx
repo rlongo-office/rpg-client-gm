@@ -4,11 +4,6 @@ import * as React from 'react'
 import type { AppProps } from 'next/app'
 import { AppProvider } from '../context/app-provider'
 
-interface InitialStateType {
-  creatures: Array<Object>
-  actors: Array<string>
-  testMessage: Array<string>
-}
 /*
 interface AppContextType{
   state:InitialStateType,

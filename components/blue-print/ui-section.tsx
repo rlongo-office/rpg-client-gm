@@ -38,8 +38,6 @@ function UISection({ style, label, child }: uiTypes.UISectionObj) {
       {label.length > 0 && <div>{label}</div>}
       {child?.map((obj: any, rowIndex: number) => {
         if (obj && obj.type) {
-          console.log(`Index ${rowIndex} > `, JSON.stringify(obj))
-
           switch (obj.type) {
             case 'section':
               // debugger

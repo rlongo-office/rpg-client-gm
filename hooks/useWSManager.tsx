@@ -2,9 +2,6 @@ import { useAppContext } from '@context/app-provider'
 import {useEffect, useState,useCallback} from 'react'
 import useWSHandlers from './useWSHandlers'
 
-
-
-
 const useWSManager = () => {
   const {serverURL,setAppSocket,appSocket,setIsConnected,isConnected} = useAppContext()
   const {processInboundMessage} = useWSHandlers()
@@ -15,8 +12,8 @@ const useWSManager = () => {
       const socket = new WebSocket(serverURL);
       socket.onopen = () => setIsConnected(true);
       socket.onclose = () => setIsConnected(false);
-      socket.onmessage = (event) => {
-        processInboundMessage(event.data)
+      socket.onmessage = async (event) => {
+        await processInboundMessage(event.data)
       }
       setAppSocket(socket)
     }

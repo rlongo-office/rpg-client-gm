@@ -3,16 +3,18 @@ import React, { useState, useCallback, useEffect, useRef } from 'react'
 import * as types from '../../types/rpg-types'
 import { useAppContext } from '@context/app-provider'
 import useWSManager from '@hooks/useWSManager'
+import { useRouter } from 'next/router'
 
 export const Login = () => {
-  const { game,appWebSocket} = useAppContext()
   const {sendOutboundMessage} = useWSManager()
+  const router = useRouter()
+/* //Thinking of giving a list to the players and they will choose a login from the available players, or it's the GM
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
     { label: 'Gamemaster', value: 'gm' },
     { label: 'All', value: 'all' },
     { label: 'Party', value: 'party' },
-  ])
+  ]) */
   const userRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
 
