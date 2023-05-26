@@ -67,6 +67,8 @@ function ChatClient() {
         width={150}
         toggleHeight={20}
         title="Choose Recipients"
+        fontSize="12px"
+        grow={true}
       />
       <textarea
         style={{
