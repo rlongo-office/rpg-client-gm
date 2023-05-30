@@ -1,7 +1,10 @@
 import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
+import {useEffect} from 'react'
+import * as rpgTypes from '../types/rpg-types'
 import * as types from '../types/rpg-types'
 import { useRouter } from 'next/router'
+import {sender2TextType} from '../utils/utils'
 //TYPES
 
 enum handlerKey {
@@ -13,10 +16,18 @@ enum handlerKey {
   statUpdate,
   gameUpdate,
   loreText,
+  textUpdate
 }
 
 const useWSHandlers = () => {
-  const {setMyUser,setGame,myUser} = useAppContext()
+  const {game,setMyUser,setGame,myUser,users,setTextHistory,textHistory} = useAppContext()
+
+  useEffect(() => {
+    // context values weren't updating on change, needed a useEffect hook
+  }, [myUser, users, setMyUser, setGame, setTextHistory, textHistory]);
+
+
+
   const MessageEventHandlers: Function[] = []
   const router = useRouter()
 
@@ -37,7 +48,7 @@ const useWSHandlers = () => {
     if (loginData.user != 'gm') {
       router.push(`/player-sheet`)
     } else {
-      router.push(`/game-obj-page`)
+      router.push(`/player-sheet`)
     }
     return "logged in"
   }
@@ -48,9 +59,20 @@ const useWSHandlers = () => {
   }
   MessageEventHandlers[handlerKey.groupText] = function (msg: string) {
     //inbound process of text message sent to multiple party members and GM
-    debugger
     const msgObj = JSON.parse(msg)
-    console.log(`Received msg: ${msgObj.data} from ${msgObj.sender}`)
+    console.log(`From Handler: sender: ${msgObj.sender}  users: ${users}`)
+    const textType = sender2TextType(msgObj.sender,users)
+    const textMsg:rpgTypes.TextMessage = {
+      id: msgObj.id,
+      type: textType,
+      timeStamp: msgObj.timeStamp,
+      sender: msgObj.sender,
+      text: msgObj.data,
+      dest: msgObj.dest
+    }
+    console.log(textMsg)
+    setTextHistory([...textHistory, textMsg])
+    console.log(`Received msg: ${textMsg.text} from ${textMsg.sender}`)
     return 1
   }
   MessageEventHandlers[handlerKey.gameText] = function (msg: string) {
@@ -75,8 +97,18 @@ const useWSHandlers = () => {
     return 1
   }
 
+  //Periodic changes to text history, after archiving older text message on the server
+  MessageEventHandlers[handlerKey.textUpdate] = function (msg: string) {
+    console.log("Received text History message")
+    //Unwrap (parse) the entire message first, then unwrap the data that is our game object
+    setTextHistory(JSON.parse(JSON.parse(msg).data))
+    return 1
+  }
+
+
 
   return { processInboundMessage }
 }
 
 export default useWSHandlers
+

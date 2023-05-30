@@ -2,7 +2,7 @@ import { styleObj } from '@styles/styles'
 import * as React from 'react'
 import * as gameTypes from '../../types/rpg-types'
 
-function ChatMessage(textMessage: gameTypes.textMessage) {
+function ChatMessage(textMessage: gameTypes.TextMessage) {
   const formattedMText = `[${textMessage.sender}]: ${textMessage.text}`
 
   return (

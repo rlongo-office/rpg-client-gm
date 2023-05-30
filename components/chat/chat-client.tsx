@@ -43,7 +43,7 @@ function ChatClient() {
     let msg: types.messageType = {
       id: 0.1,
       sender: myUser,
-      timeStamp: getCurrentTimeString(),
+      timeStamp: getCurrentTimeString(),  //Add Linux epoch time here instead
       type: 'groupText',
       data: textData,
       dest: recipient,

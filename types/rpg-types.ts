@@ -1,3 +1,5 @@
+import * as dataTypes from './data-types'
+
 export const ADD_ACTOR: string = 'ADD_ACTOR'
 export const ADD_CREATURE: string = 'ADD_CREATURE'
 export const SET_CREATURE_ID: string = 'SET_CREATURE_ID'
@@ -24,9 +26,21 @@ export interface GameObject {
   time: number //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
   players: Actor[]
   campaign: string
-  channels: channel[] //e.g. gm, bob, michael, etc....
+  channels: Channel[] //e.g. gm, bob, michael, etc....
   climate: Climate[]
 }
+
+export interface GameObjectInputMap {
+  id: dataTypes.StringInputConfig;
+  yearTime: dataTypes.NumberInputConfig;
+  time: dataTypes.NumberInputConfig;
+  players: dataTypes.DropdownInputConfig;
+  campaign: dataTypes.StringInputConfig;
+  channels: dataTypes.DropdownInputConfig;
+  climate: dataTypes.StringInputConfig;
+}
+
+
 
 export interface Climate {
   coords: { x: number; y: number; z: number }
@@ -110,7 +124,7 @@ export interface location {
   coords: object //{x:number,y:number,z:number}
 }
 
-export interface channel {
+export interface Channel {
   name: string
   type: string //private, global, group
   target: string[] //list of all recipients of the message
@@ -125,7 +139,7 @@ export interface messageType {
   dest: string[]
 }
 
-export interface textMessage {
+export interface TextMessage {
   id: number
   type: string
   timeStamp: string
@@ -211,3 +225,4 @@ export interface SelectionOption {
   label: string
   value: string
 }
+

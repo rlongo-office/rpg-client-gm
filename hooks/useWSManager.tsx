@@ -3,20 +3,35 @@ import {useEffect, useState,useCallback} from 'react'
 import useWSHandlers from './useWSHandlers'
 
 const useWSManager = () => {
-  const {serverURL,setAppSocket,appSocket,setIsConnected,isConnected} = useAppContext()
+  const {serverURL,setAppSocket,appSocket,setIsConnected,isConnected,users} = useAppContext()
   const {processInboundMessage} = useWSHandlers()
   //const [socketUrl, setSocketUrl] = React.useState(url)
 
   useEffect(() => {
-    if (!isConnected){
+    const handleMessage = async (event) => {
+      console.log(`Here are the users right now: ${users}`);
+      await processInboundMessage(event.data);
+    };
+
+    if (!appSocket){
       const socket = new WebSocket(serverURL);
       socket.onopen = () => setIsConnected(true);
       socket.onclose = () => setIsConnected(false);
-      socket.onmessage = async (event) => {
-        await processInboundMessage(event.data)
+      socket.onmessage = handleMessage
+/*       socket.onmessage = async (event) => {
+        console.log(`Here are the users right now: ${users}`)
+        await processInboundMessage(event.data) */
+        setAppSocket(socket)  // this will rerender hook
+      } else {
+        if (appSocket) {
+          /*REMOVE THE EXISTING ONMESSAGE HANDLER, BUT TEST IF IT EXISTS */
+          if (appSocket.onmessage) {
+            appSocket.onmessage = null; // Remove the existing onmessage handler
+          }
+          appSocket.onmessage = handleMessage;
+        }
       }
-      setAppSocket(socket)
-    }
+
   }, []);
 
   const sendOutboundMessage = useCallback((msg: string) => {

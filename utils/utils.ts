@@ -204,6 +204,71 @@ const getCurrentTimeString = (): string => {
   return currentTimeString;
 };
 
+const getNodeType = (obj: object) => {
+  if (Array.isArray(obj)) {
+    return 'array'
+  } else {
+    if (typeof obj === 'object') {
+      return 'object'
+    } else return 'value'
+  }
+}
+
+/* The follow grabs the subVal and subPath string for each child entry in an object, if the val is of
+array or object. In the object editor component, we are using this function parse out the next level
+of children for rendering the tree for an object */
+const getChildNodes = (parent: string, val: any) => {
+  let childNodeArray = []
+  let parentPath = parent === '' ? '' : parent
+  if (Array.isArray(val)) {
+    let index = 0
+    if (val.length === 0) {
+      childNodeArray.push(parent)
+    }
+    val.forEach((subVal: any) => {
+      let arrayIndex = '[' + index + ']'
+      childNodeArray.push({
+        label: index,
+        value: subVal,
+        subPath: `${parentPath}${arrayIndex}`,
+        type: getNodeType(subVal),
+      })
+      index += 1
+    })
+  } else {
+    let dotOrNot = parentPath === '' ? '' : '.'
+    if (typeof val === 'object') {
+      Object.keys(val).forEach(key => {
+        let subVal = val[key]
+        if (subVal === null) {
+          subVal = 'null'
+        }
+        childNodeArray.push({
+          label: key,
+          value: subVal,
+          subPath: `${parentPath}${dotOrNot}${key}`,
+          type: getNodeType(subVal),
+        })
+      })
+    }
+  }
+  return childNodeArray
+}
+
+function sender2TextType(sender: string, users: string[]) {
+  console.log(`sender: ${sender}  users: ${users}`)
+  if (users.includes(sender)) {
+    return 'playerText';
+  } else {
+    switch (sender) {
+      case 'gm': return 'gmText';
+      case 'game': return 'gameText';
+      case 'alert': return 'alertText';
+      case 'lore': return 'loreText';
+      default: return "baseText";
+    }
+  }
+}
 
 export {
   addIndexColumn,
@@ -215,5 +280,8 @@ export {
   setObjValue,
   deepCopy,
   createObjID,
-  getCurrentTimeString
+  getCurrentTimeString,
+  getNodeType,
+  getChildNodes,
+  sender2TextType
 }

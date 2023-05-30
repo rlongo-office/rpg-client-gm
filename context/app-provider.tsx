@@ -38,9 +38,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [players, setPlayers] = useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
   //Those exchanged websocket messages of type group, private, party, or game texts
-  const [textHistory, setTextHistory] = useState<types.textMessage[]>(textData)
+  const [textHistory, setTextHistory] = useState<types.TextMessage[]>(textData)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
-  const [loreMsgData, setLoreMsgData] = useState<types.textMessage[]>(loreData)
+  const [loreMsgData, setLoreMsgData] = useState<types.TextMessage[]>(loreData)
   const [images, setImages] = useState<string>(mapImage)
   const [devWidth, setDevWidth] = useState(375)
   const [devHeight, setDevHeight] = useState(700)
@@ -209,10 +209,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
   }
 
-  /* Update local storage when state changes*/
-  useEffect(() => {
-    localStorage.setItem('gameStore', JSON.stringify(gameStore));
-  }, [gameStore]);
+
 
 
   /*Make sure we have a valid window object before we add a window level listener */
@@ -293,7 +290,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       imgConfig,
       serverURL,
       appSocket,
-      setAppSocket
+      setAppSocket,
+      setTextHistory
     }),
     [
       gameStore,
@@ -383,3 +381,9 @@ export default { AppProvider, useAppContext }
     },
     [messages]
   ) */
+
+
+  /*   //* Update local storage when state changes
+  useEffect(() => {
+    localStorage.setItem('gameStore', JSON.stringify(gameStore));
+  }, [gameStore]); */
