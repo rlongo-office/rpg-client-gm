@@ -1,8 +1,8 @@
+import * as types from '../types/rpg-types'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '@context/app-provider'
 import * as React from 'react'
-import {useEffect} from 'react'
 import * as rpgTypes from '../types/rpg-types'
-import * as types from '../types/rpg-types'
 import { useRouter } from 'next/router'
 import {sender2TextType} from '../utils/utils'
 //TYPES
@@ -19,26 +19,50 @@ enum handlerKey {
   textUpdate
 }
 
-const useWSHandlers = () => {
-  const {game,setMyUser,setGame,myUser,users,setTextHistory,textHistory,nextSocketMsg} = useAppContext()
+export const AppEventContext = createContext<any | undefined>(undefined)
+
+export function AppEventProvider({ children }: types.AppProviderProps) {
+  const {game,setMyUser,setGame,myUser,users,setTextHistory,textHistory,nextSocketMsg,outSocketMsg,appSocket} = useAppContext()
+
+  //const [nextSocketMsg, setNextSocketMsg] = useState<string>('')
 
   useEffect(() => {
     // context values weren't updating on change, needed a useEffect hook
-  }, [myUser, users, setMyUser, setGame, setTextHistory, textHistory,nextSocketMsg]);
+  }, [myUser,users,game,textHistory,appSocket]);
+
+  useEffect(()=>{
+    processInboundMessage(nextSocketMsg)
+  },[nextSocketMsg])
+
+  useEffect(()=>{
+    sendOutboundMessage(outSocketMsg)
+  },[outSocketMsg])
 
   const MessageEventHandlers: Function[] = []
   const router = useRouter()
 
+  const sendOutboundMessage = useCallback((outbound: string) => {
+    //must be valid socket saved in app context and outbound cannot be blank
+    if (appSocket && outbound.trim() != ""){
+      appSocket.send(outbound)
+    } else {
+      console.log(`Empty message passed to sendOutboundMessage`)
+    }
+  }, [appSocket])
+
   const processInboundMessage = (inbound: string):string | number => {
-    const inMsg:types.messageType = JSON.parse(inbound)
-    const inType: string = inMsg.type
-    return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound)
+    if (inbound.trim() != "") {
+      const inMsg:types.messageType = JSON.parse(inbound)
+      const inType: string = inMsg.type
+      return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound)
+    } else {
+      console.log(`Empty message passed to processInboundMesage`)
+    }
   }
 
   MessageEventHandlers[handlerKey.loginAck] = function (msg: string) {
     //acknowledgement from server after login
     //A log ack will have the game object as it's data, we could call other handlers from here if needed
-    debugger
     const inMsg:types.messageType = JSON.parse(msg)
     const loginData: {user: string, password: string} = JSON.parse(inMsg.data)
     setMyUser(loginData.user)    //on a loginAck the only recipient is the login use, so save it
@@ -48,17 +72,36 @@ const useWSHandlers = () => {
     } else {
       router.push(`/player-sheet`)
     }
+    let gameUpateMsg: types.messageType = {
+      id: -1,
+      sender: myUser,
+      timeStamp: '',
+      type: 'gameUpdate',
+      data: 'gameUpdate',
+      dest: ['server']
+    }
+    sendOutboundMessage(JSON.stringify(gameUpateMsg))
+    let textUpdateMsg: types.messageType = {
+      id: -1,
+      sender: myUser,
+      timeStamp: '',
+      type: 'textUpdate',
+      data: 'textUpdate',
+      dest: ['server']
+    }
+    sendOutboundMessage(JSON.stringify(textUpdateMsg))
+
+
     return true
   }
-  /* Jason has recommended we move this into 'Service' for better efficiency and use */
+
+
   MessageEventHandlers[handlerKey.privateText] = function (msg: string) {
-    //inbound process of text message sent to multiple party members and GM
     return 1
   }
+
   MessageEventHandlers[handlerKey.groupText] = function (msg: string) {
-    //inbound process of text message sent to multiple party members and GM
     const msgObj = JSON.parse(msg)
-    console.log(`From Handler: sender: ${msgObj.sender}  users: ${users}`)
     const textType = sender2TextType(msgObj.sender,users)
     const textMsg:rpgTypes.TextMessage = {
       id: msgObj.id,
@@ -73,10 +116,11 @@ const useWSHandlers = () => {
     console.log(`Received msg: ${textMsg.text} from ${textMsg.sender}`)
     return 1
   }
+
   MessageEventHandlers[handlerKey.gameText] = function (msg: string) {
-    //inbound process of text message from 'game' entity for all to see
     return 1
   }
+
   MessageEventHandlers[handlerKey.imageExchange] = function (msg: string) {
     return 1
   }
@@ -85,28 +129,32 @@ const useWSHandlers = () => {
     return 1
   }
 
-  /*Any changes related to game object, which could include but not limited to
-  environment changes, player locations, conditions in the environment, campaign
-  updates, etc*/
   MessageEventHandlers[handlerKey.gameUpdate] = function (msg: string) {
     console.log("Received GameUpdate message")
-    //Unwrap (parse) the entire message first, then unwrap the data that is our game object
     setGame(JSON.parse(JSON.parse(msg).data))
     return 1
   }
 
-  //Periodic changes to text history, after archiving older text message on the server
+
   MessageEventHandlers[handlerKey.textUpdate] = function (msg: string) {
     console.log("Received text History message")
-    //Unwrap (parse) the entire message first, then unwrap the data that is our game object
     setTextHistory(JSON.parse(JSON.parse(msg).data))
     return 1
   }
 
-
-
-  return { processInboundMessage }
+  const value = useMemo(() => ({}), [])
+  
+  return <AppEventContext.Provider value={value}>{children}</AppEventContext.Provider>
 }
 
-export default useWSHandlers
+export function useAppEventContext() {
+  const store = useContext(AppEventContext)
+  if (!store) {
+    throw new Error('Store is not defined')
+  }
+  return store
+}
+
+export default { AppEventProvider, useAppEventContext }
+
 

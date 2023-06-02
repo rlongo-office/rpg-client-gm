@@ -1,30 +1,33 @@
-import { useContext, useState,useEffect,useRef } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
-import textData from '../data/collections/textMessages.json'
+//import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
 import gameObject from '../data/collections/game-object'
 import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
 import * as types from '../types/rpg-types'
+import useWSHandlers from '../hooks/useWSHandlers'
 
 interface gameState {
   game: types.GameObject
-  myUser:string
-  users:string[]
-  messages:types.messageType[]
+  myUser: string
+  users: string[]
+  messages: types.messageType[]
 }
 
 export const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
-  //useRef apparently doesn't cause a rerender like changes in useState values
-  const [appSocket,setAppSocket] = useState<WebSocket>(null);
-  const [myUser, setMyUser] = useState<string>("")
+  
+  const [nextSocketMsg, setNextSocketMsg] = useState<string>('')
+  const [outSocketMsg, setOutSocketMsg] = useState<string>('')
+  const [appSocket, setAppSocket] = useState<WebSocket>(null)
+  const [myUser, setMyUser] = useState<string>('')
   const [users, setUsers] = useState<string[]>([])
-  const [serverURL,setServerURL] = useState<string>('ws://localhost:8000')
+  const [serverURL, setServerURL] = useState<string>('ws://localhost:8000')
   const [game, setGame] = useState<types.GameObject>(gameObject)
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
   const [isConnected, setIsConnected] = useState(false)
@@ -38,7 +41,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [players, setPlayers] = useState<types.AnyObject[]>(playersData)
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
   //Those exchanged websocket messages of type group, private, party, or game texts
-  const [textHistory, setTextHistory] = useState<types.TextMessage[]>(textData)
+  const [textHistory, setTextHistory] = useState<types.TextMessage[]>([])
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = useState<types.TextMessage[]>(loreData)
   const [images, setImages] = useState<string>(mapImage)
@@ -64,11 +67,11 @@ export function AppProvider({ children }: types.AppProviderProps) {
     accLimit: 4,
     scaleInc: 0.025,
   })
-  const [gameStore,setGameStore] = useState<gameState>({
-    game:game,
-    users:users,
-    myUser:myUser,
-    messages:messages
+  const [gameStore, setGameStore] = useState<gameState>({
+    game: game,
+    users: users,
+    myUser: myUser,
+    messages: messages,
   })
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -168,7 +171,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   } */
 
-/*   const gblMsgHandler = React.useCallback(
+  /*   const gblMsgHandler = React.useCallback(
     (message: types.messageType) => {
       switch (message.type) {
         case 'private':
@@ -180,7 +183,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
     [messages]
   ) */
-
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
   const isMobile = () => {
@@ -209,9 +211,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
   }
 
-
-
-
   /*Make sure we have a valid window object before we add a window level listener */
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -220,17 +219,17 @@ export function AppProvider({ children }: types.AppProviderProps) {
         window.addEventListener('resize', handleWindowResize)
         return () => {
           window.removeEventListener('resize', handleWindowResize)
-      }
+        }
       }
     }
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     const savedState = localStorage.getItem('gameStore')
-    if (savedState){
+    if (savedState) {
       setGameStore(JSON.parse(savedState))
     }
-  },[])
+  }, [])
 
   //When  game object update user listing needed
   useEffect(() => {
@@ -250,14 +249,12 @@ export function AppProvider({ children }: types.AppProviderProps) {
 
   useEffect(() => {
     setGameStore({
-      game:game,
-      users:users,
-      myUser:myUser,
-      messages:messages
+      game: game,
+      users: users,
+      myUser: myUser,
+      messages: messages,
     })
-
-  }, [game,users,myUser,messages])
-
+  }, [game, users, myUser, messages])
 
   const value = React.useMemo(
     () => ({
@@ -291,10 +288,16 @@ export function AppProvider({ children }: types.AppProviderProps) {
       serverURL,
       appSocket,
       setAppSocket,
-      setTextHistory
+      setTextHistory,
+      nextSocketMsg,
+      setNextSocketMsg,
+      outSocketMsg,
+      setOutSocketMsg
     }),
     [
       gameStore,
+      nextSocketMsg,
+      outSocketMsg,
       game,
       users,
       creatures,
@@ -313,7 +316,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       imgConfig,
       serverURL,
       myUser,
-      appSocket
+      appSocket,
     ]
   )
 
@@ -323,16 +326,14 @@ export function AppProvider({ children }: types.AppProviderProps) {
 export function useAppContext() {
   const store = useContext(AppContext)
   if (!store) {
-    throw 'Store is not defined'
+    throw new Error('Store is not defined')
   }
   return store
 }
 
 export default { AppProvider, useAppContext }
 
-
-
-  /*   const reducer = async (type: string, payload: any) => {
+/*   const reducer = async (type: string, payload: any) => {
     let returnObj: types.AnyObject[] = []
     let parsedData: types.AnyObject[] = []
     switch (type) {
@@ -382,8 +383,7 @@ export default { AppProvider, useAppContext }
     [messages]
   ) */
 
-
-  /*   //* Update local storage when state changes
+/*   //* Update local storage when state changes
   useEffect(() => {
     localStorage.setItem('gameStore', JSON.stringify(gameStore));
   }, [gameStore]); */
