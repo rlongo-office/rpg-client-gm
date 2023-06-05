@@ -12,8 +12,8 @@ function ChatHistory() {
       msg.sender === myUser ||  //display msgs I sent...
       msg.sender === 'game' ||  //...those from the game...
       msg.dest.includes(myUser) ||  //..where i was included in the recipients list
-      msg.dest === 'party' || //...or they were destined for the party...
-      msg.dest === 'all'      //...or everyone
+      msg.dest.includes('party') || //...or they were destined for the party...
+      msg.dest.includes('all')     //...or everyone
     );
   
     setMyTextHistory(myUpdatedTexts);
@@ -21,7 +21,7 @@ function ChatHistory() {
 
   return (
     <div style={{ borderColor: 'blue', overflowY: 'auto', height: '200px', width: '370px' }}>
-      {textHistory.map((row: any, rowIndex: number) => (
+      {myTextHistory.map((row: any, rowIndex: number) => (
         <div id={`row-id-${rowIndex}`} key={`row-key-${rowIndex}`}>
           <ChatMessage {...row} />
         </div>
