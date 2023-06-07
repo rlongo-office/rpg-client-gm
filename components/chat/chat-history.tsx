@@ -4,7 +4,7 @@ import ChatMessage from './chat-message'
 import * as rpgTypes from '../../types/rpg-types'
 
 function ChatHistory() {
-  const { textHistory,myUser } = useAppContext()
+  const { textHistory,myUser} = useAppContext()
   const [myTextHistory,setMyTextHistory] = useState<rpgTypes.TextMessage[]>(textHistory)
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function ChatHistory() {
   
     setMyTextHistory(myUpdatedTexts);
   }, [textHistory]);
-
+  
   return (
     <div style={{ borderColor: 'blue', overflowY: 'auto', height: '200px', width: '370px' }}>
       {myTextHistory.map((row: any, rowIndex: number) => (

@@ -95,7 +95,6 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     return true
   }
 
-
   MessageEventHandlers[handlerKey.privateText] = function (msg: string) {
     return 1
   }

@@ -77,6 +77,30 @@ function deepCopy(obj: any): any {
   )
 }
 
+const constructPathMap = (val: any, parentPath = '') => {
+  let pathMap: any = {};
+
+  if (Array.isArray(val)) {
+    val.forEach((subVal: any, index: number) => {
+      const arrayIndex = `[${index}]`;
+      const newPath = parentPath ? `${parentPath}.${arrayIndex}` : arrayIndex;
+      const subPathMap = constructPathMap(subVal, newPath);
+      pathMap = { ...pathMap, ...subPathMap };
+    });
+  } else if (typeof val === 'object' && val !== null) {
+    Object.entries(val).forEach(([key, value]) => {
+      const newPath = parentPath ? `${parentPath}.${key}` : key;
+      const subPathMap = constructPathMap(value, newPath);
+      pathMap = { ...pathMap, ...subPathMap };
+    });
+  } else {
+    pathMap[parentPath] = parentPath;
+  }
+
+  return pathMap;
+};
+
+
 const iterateObjEntries = (parent: string, val: any, objPath: Array<string>) => {
   let parentPath = parent === '' ? '' : parent
   if (Array.isArray(val)) {
@@ -275,6 +299,7 @@ export {
   sortColumn,
   parseDataForTable,
   propertiesToArray,
+  constructPathMap,
   iterateObjEntries,
   getObjValue,
   setObjValue,

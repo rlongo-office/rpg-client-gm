@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useContext, useState, useEffect, useReducer } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
 import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
@@ -9,19 +9,15 @@ import gameObject from '../data/collections/game-object'
 import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
 import * as types from '../types/rpg-types'
+import * as dataTypes from '../types/data-types'
 import useWSHandlers from '../hooks/useWSHandlers'
+import { gameReducer } from 'services/game-reducer'
+import { isNull } from 'util'
 
-interface gameState {
-  game: types.GameObject
-  myUser: string
-  users: string[]
-  messages: types.messageType[]
-}
 
 export const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
-  
   const [nextSocketMsg, setNextSocketMsg] = useState<string>('')
   const [outSocketMsg, setOutSocketMsg] = useState<string>('')
   const [appSocket, setAppSocket] = useState<WebSocket>(null)
@@ -38,7 +34,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [actors, setActors] = useState<types.AnyObject[]>([])
 
   const [messages, setMessages] = useState<types.messageType[]>([])
-  const [players, setPlayers] = useState<types.AnyObject[]>(playersData)
+  const [players, setPlayers] = useState<dataTypes.Character[]>(playersData)
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
   //Those exchanged websocket messages of type group, private, party, or game texts
   const [textHistory, setTextHistory] = useState<types.TextMessage[]>([])
@@ -66,12 +62,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     touchDist: 0,
     accLimit: 4,
     scaleInc: 0.025,
-  })
-  const [gameStore, setGameStore] = useState<gameState>({
-    game: game,
-    users: users,
-    myUser: myUser,
-    messages: messages,
   })
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
@@ -134,55 +124,18 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
   })
 
-  /*   const reducer = async (type: string, payload: any) => {
-    let returnObj: types.AnyObject[] = []
-    let parsedData: types.AnyObject[] = []
-    switch (type) {
-      case 'addActor':
-        const newActors: types.AnyObject[] = [...actors, createObjID(actors, payload)]
-        setActors(newActors)
-        parsedData = parseDataForTable(newActors, sharedTableConfig.filtered)
-        setTableConfig({
-          ...tableConfig,
-          actorConfig: { ...tableConfig.actorConfig, data: parsedData, filteredData: parsedData },
-        })
-        break
-      case 'getGameObject':
-        returnObj = await apiUtils.getGameObject()
-        console.log(returnObj)
-        setCreatures(returnObj)
-        //before parsing we need to parse the array of strings
-        parsedData = parseDataForTable(returnObj, sharedTableConfig.filtered)
-        setTableConfig({
-          ...tableConfig,
-          creatureConfig: {
-            ...tableConfig.creatureConfig,
-            data: parsedData,
-            filteredData: parsedData,
-          },
-        })
-        break
-      case 'setGameObject':
-        returnObj = await apiUtils.setGameObject(payload)
-        break
+  const initGame:types.GameObject = {
+    id: '',
+    yearTime: 0,
+    time: 0,
+    players: [],
+    campaign: '',
+    channels: [],
+    climate: []
+  }
+  const initState: types.GameState = { id: '', game: initGame, players: [], textHistory: [] }
+  const [gameState, dispatch] = useReducer(gameReducer, initState)
 
-      default:
-        break
-    }
-  } */
-
-  /*   const gblMsgHandler = React.useCallback(
-    (message: types.messageType) => {
-      switch (message.type) {
-        case 'private':
-          setMessages([...messages, message])
-          break
-        default:
-          break
-      }
-    },
-    [messages]
-  ) */
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
   const isMobile = () => {
@@ -292,10 +245,12 @@ export function AppProvider({ children }: types.AppProviderProps) {
       nextSocketMsg,
       setNextSocketMsg,
       outSocketMsg,
-      setOutSocketMsg
+      setOutSocketMsg,
+      gameState,
+      dispatch,
     }),
     [
-      gameStore,
+      gameState,
       nextSocketMsg,
       outSocketMsg,
       game,

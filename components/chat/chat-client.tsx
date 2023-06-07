@@ -7,7 +7,7 @@ import { getCurrentTimeString } from '@utils/utils'
 import useWSManager from '@hooks/useWSManager'
 
 function ChatClient() {
-  const { game, myUser, users, setOutSocketMsg } = useAppContext()
+  const { game, myUser, users, setOutSocketMsg} = useAppContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([

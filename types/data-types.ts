@@ -213,11 +213,6 @@ export type DamageType = {
     description: string
     components: string[]
     schools: string[]
-    traits: string[]
-    weapons: Weapon[]
-    defenses: Defense[]
-    specials: Special[]
-    inventories: Inventory[]
   }
 
   export type Special = {

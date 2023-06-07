@@ -58,7 +58,7 @@
       "classHitDice": "1d6"
     }
   ],
-  "senses": [],
+  "senses": {},
   "auras": [],
   "purse": {
     "platinum": 0,
@@ -852,7 +852,7 @@
       "classHitDice": "1d8"
     }
   ],
-  "senses": [],
+  "senses": {},
   "auras": [],
   "purse": {
     "platinum": 0,
@@ -1181,7 +1181,7 @@
       "description": "The GM might ask you to make a Wisdom (Survival) check to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards."
     }
   ],
-  "allsaves": [
+  "allSaves": [
     {
       "name": "Fey Ancestry: Advantage vs. being charmed",
       "type": "Advantage vs. being charmed",
@@ -1218,7 +1218,8 @@
       "weight": 5,
       "cost": 2,
       "gearType": "adventuring gear",
-      "description": "Bag for holding inventories being carried"
+      "description": "Bag for holding inventories being carried",
+      "location": "worn"
     },
     {
       "name": "Rope, hempen (50 feet)",
@@ -1226,7 +1227,8 @@
       "weight": 4,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Plain 'ole travelling robes"
+      "description": "Plain 'ole travelling robes",
+      "location": "Backpack"
     },
     {
       "name": "Ball bearings (bag of 1,000)",
@@ -1234,7 +1236,8 @@
       "weight": 2,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side. A creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone. A creature moving through the area at half speed doesn't need to make the save."
+      "description": "As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side. A creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone. A creature moving through the area at half speed doesn't need to make the save.",
+      "location": "Backpack"
     },
     {
       "name": "waterskin",
@@ -1242,7 +1245,8 @@
       "weight": 5,
       "cost": 0.2,
       "gearType": "adventuring gear",
-      "description": "Leather bladder for holding water"
+      "description": "Leather bladder for holding water",
+      "location": "Backpack"
     },
     {
       "name": "torch",
@@ -1250,7 +1254,8 @@
       "weight": 10,
       "cost": 0.1,
       "gearType": "adventuring gear",
-      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
+      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
+      "location": "Backpack"
     },
     {
       "name": "bell",
@@ -1258,7 +1263,8 @@
       "weight": 0.25,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": ""
+      "description": "",
+      "location": "Backpack"
     },
     {
       "name": "candle",
@@ -1266,7 +1272,8 @@
       "weight": 0.05,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
+      "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
+      "location": "Backpack"
     },
     {
       "name": "Crowbar",
@@ -1274,7 +1281,8 @@
       "weight": 5,
       "cost": 2,
       "gearType": "adventuring gear",
-      "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied."
+      "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+      "location": "Backpack"
     },
     {
       "name": "hammer",
@@ -1282,7 +1290,8 @@
       "weight": 3,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Tool: Hammer"
+      "description": "Tool: Hammer",
+      "location": "Backpack"
     },
     {
       "name": "Lantern, hooded",
@@ -1290,7 +1299,8 @@
       "weight": 2,
       "cost": 5,
       "gearType": "adventuring gear",
-      "description": "A hooded lantern casts bright light in a 30-.foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius."
+      "description": "A hooded lantern casts bright light in a 30-.foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius.",
+      "location": "Backpack"
     },
     {
       "name": "Leather",
@@ -1298,7 +1308,8 @@
       "weight": 10,
       "cost": 10,
       "gearType": "armor",
-      "description": "The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials."
+      "description": "The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.",
+      "location": "worn"
     },
     {
       "name": "Oil (flask)",
@@ -1306,7 +1317,8 @@
       "weight": 2,
       "cost": 0.2,
       "gearType": "adventuring gear",
-      "description": "Oil usually comes in a clay flask that holds 1 pint. As an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5-foot-square area, provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn."
+      "description": "Oil usually comes in a clay flask that holds 1 pint. As an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5-foot-square area, provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn.",
+      "location": "Backpack"
     },
     {
       "name": "piton",
@@ -1314,7 +1326,8 @@
       "weight": 2.5,
       "cost": 0.5,
       "gearType": "adventuring gear",
-      "description": "metal spike that is driven into a crack or seam in the climbing surface with a climbing hammer"
+      "description": "metal spike that is driven into a crack or seam in the climbing surface with a climbing hammer",
+      "location": "Backpack"
     },
     {
       "name": "rations",
@@ -1322,7 +1335,8 @@
       "weight": 20,
       "cost": 5,
       "gearType": "adventuring gear",
-      "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts."
+      "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts.",
+      "location": "Backpack"
     },
     {
       "name": "Rope, hempen (50 feet)",
@@ -1330,7 +1344,8 @@
       "weight": 4,
       "cost": 1,
       "gearType": "adventuring gear",
-      "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check."
+      "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check.",
+      "location": "Backpack"
     },
     {
       "name": "Shortbow",
@@ -1338,7 +1353,8 @@
       "weight": 2,
       "cost": 25,
       "gearType": "weapon",
-      "description": "Shortbow"
+      "description": "Shortbow",
+      "location": "worn"
     },
     {
       "name": "Shortsword",
@@ -1346,7 +1362,8 @@
       "weight": 2,
       "cost": 10,
       "gearType": "weapon",
-      "description": "Shortsword"
+      "description": "Shortsword",
+      "location": "belt"
     },
     {
       "name": "Thieves' tools (+4)",
@@ -1354,7 +1371,8 @@
       "weight": 1,
       "cost": 25,
       "gearType": "weapon",
-      "description": "This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks."
+      "description": "This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.",
+      "location": "Backpack"
     },
     {
       "name": "Thieves' tools (+4)",
@@ -1362,7 +1380,8 @@
       "weight": 1,
       "cost": 25,
       "gearType": "weapon",
-      "description": "This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks."
+      "description": "This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.",
+      "location": "Backpack"
     },
     {
       "name": "Tinderbox",
@@ -1370,7 +1389,8 @@
       "weight": 1,
       "cost": 0.5,
       "gearType": "adventuring gear",
-      "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch - or anything else with abundant, exposed fuel - takes an action. Lighting any other fire takes 1 minute."
+      "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch - or anything else with abundant, exposed fuel - takes an action. Lighting any other fire takes 1 minute.",
+      "location": "Backpack"
     },
     {
       "name": "Waterskin",
@@ -1378,7 +1398,8 @@
       "weight": 5,
       "cost": 0.2,
       "gearType": "adventuring gear",
-      "description": "Animal skin bag used for carrying common liquids, usually water"
+      "description": "Animal skin bag used for carrying common liquids, usually water",
+      "location": "Backpack"
     }
   ],
   "spells": [],
