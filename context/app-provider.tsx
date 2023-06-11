@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useReducer } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
-import playersData from '../data/collections/players.json'
+import { playersData} from '../data/collections/players'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 //import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
@@ -12,7 +12,6 @@ import * as types from '../types/rpg-types'
 import * as dataTypes from '../types/data-types'
 import useWSHandlers from '../hooks/useWSHandlers'
 import { gameReducer } from 'services/game-reducer'
-import { isNull } from 'util'
 
 
 export const AppContext = React.createContext<any | undefined>(undefined)
@@ -128,13 +127,13 @@ export function AppProvider({ children }: types.AppProviderProps) {
     id: '',
     yearTime: 0,
     time: 0,
-    players: [],
+    actors: [],
     campaign: '',
     channels: [],
     climate: []
   }
   const initState: types.GameState = { id: '', game: initGame, players: [], textHistory: [] }
-  const [gameState, dispatch] = useReducer(gameReducer, initState)
+  const [gameState, gameDispatch] = useReducer(gameReducer, initState)
 
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
@@ -177,22 +176,15 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }
   }, [])
 
-  useEffect(() => {
-    const savedState = localStorage.getItem('gameStore')
-    if (savedState) {
-      setGameStore(JSON.parse(savedState))
-    }
-  }, [])
-
   //When  game object update user listing needed
   useEffect(() => {
     //check if user listing has changed
-    if (!game || !game.players) {
+    if (!game || !game.actors) {
       return
     }
     console.log('app-provider: useEffect for game called')
     setUsers(prevUsers => {
-      const newUsers = game.players
+      const newUsers = game.actors
         .map(player => player.name)
         .filter(user => !prevUsers.find(o => o === user))
       console.log(newUsers)
@@ -200,18 +192,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
     })
   }, [game])
 
-  useEffect(() => {
-    setGameStore({
-      game: game,
-      users: users,
-      myUser: myUser,
-      messages: messages,
-    })
-  }, [game, users, myUser, messages])
-
   const value = React.useMemo(
     () => ({
-      gameStore,
       game,
       users,
       myUser,
@@ -247,7 +229,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       outSocketMsg,
       setOutSocketMsg,
       gameState,
-      dispatch,
+      gameDispatch,
     }),
     [
       gameState,

@@ -67,16 +67,70 @@ function propertiesToArray(obj: object) {
   return paths(obj)
 }
 
-function deepCopy(obj: any): any {
+function oldDeepCopy(obj: any): any {
   return Object.keys(obj).reduce(
     (v, d) =>
       Object.assign(v, {
-        [d]: obj[d].constructor === Object ? deepCopy(obj[d]) : obj[d],
+        [d]: obj[d].constructor === Object ? oldDeepCopy(obj[d]) : obj[d],
       }),
     {}
   )
 }
 
+function deepCopy(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(deepCopy);
+  }
+
+  if (typeof obj === 'object' && obj !== null) {
+    const copy: any = {};
+
+    for (const key in obj) {
+      copy[key] = deepCopy(obj[key]);
+    }
+
+    return copy;
+  }
+
+  return obj;
+}
+
+
+//expandedDeepCopy untested, may have some application in the future to overcome the limitations of deepCopy above
+//For example, apparently nested arrays will only be shallow. This copy will potentially work even if the object 
+//has accessor function properties
+function expandedDeepCopy(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(expandedDeepCopy);
+  }
+
+  if (obj && typeof obj === 'object') {
+    const copy: any = {};
+    const descriptors = Object.getOwnPropertyDescriptors(obj);
+
+    for (const key in descriptors) {
+      if (descriptors.hasOwnProperty(key)) {
+        const descriptor = descriptors[key];
+        if ('value' in descriptor) {
+          copy[key] = expandedDeepCopy(descriptor.value);
+        } else if ('get' in descriptor) {
+          Object.defineProperty(copy, key, {
+            get: () => expandedDeepCopy(obj[key]),
+            enumerable: descriptor.enumerable,
+            configurable: descriptor.configurable,
+          });
+        }
+      }
+    }
+
+    return copy;
+  }
+
+  return obj;
+}
+
+
+//constructPathMap untested, may have some application in the future
 const constructPathMap = (val: any, parentPath = '') => {
   let pathMap: any = {};
 
@@ -308,5 +362,6 @@ export {
   getCurrentTimeString,
   getNodeType,
   getChildNodes,
-  sender2TextType
+  sender2TextType,
+  oldDeepCopy
 }

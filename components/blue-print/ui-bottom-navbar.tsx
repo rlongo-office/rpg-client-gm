@@ -6,13 +6,19 @@ import { styleObj } from '../../styles/styles'
 import { useViewportScroll } from 'framer-motion'
 import useViewport from '../../hooks/useViewport'
 import { usePageSwitching } from '../../hooks/usePageSwitching'
+import { useRouter } from 'next/router'
 
 const UIBottomNavbar = () => {
   const { devWidth, devHeight } = useViewport()
+  const router = useRouter()
 
-  const navigateToPage = (path) => {
-    router.push(path);
-  };
+  /*   const navigateToPage = (path: String) => {
+    router.push(path)
+  }
+ */
+  const navigateToPage =(path: string)=> {
+    router.push(path)
+  }
 
   return (
     <div style={{ ...styleObj[`TopFlexPage`], height: `${devHeight}px`, width: `${devWidth}px` }}>
@@ -29,22 +35,22 @@ const UIBottomNavbar = () => {
           bottom: '0',
         }}
       >
-        <button onClick={() => usePageSwitching('/player-sheet')}>
+        <button onClick={() => navigateToPage('/player-sheet')}>
           <img src="/nav/player.png" alt="Player" />
         </button>
-        <button onClick={() => usePageSwitching('/skills-page')}>
+        <button onClick={() => navigateToPage('/skills-page')}>
           <img src="/nav/skills.png" alt="Skills" />
         </button>
-        <button onClick={() => usePageSwitching('/inventory-page')}>
+        <button onClick={() => navigateToPage('/inventory-page')}>
           <img src="/nav/inventory.png" alt="Inventory" />
         </button>
-        <button onClick={() => usePageSwitching('/chat-page')}>
+        <button onClick={() => navigateToPage('/chat-page')}>
           <img src="/nav/chat.png" alt="Chat" />
         </button>
-        <button onClick={() => usePageSwitching('/map-page')}>
+        <button onClick={() => navigateToPage('/map-page')}>
           <img src="/nav/map.png" alt="Map" />
         </button>
-        <button onClick={() => usePageSwitching('/lore-page')}>
+        <button onClick={() => navigateToPage('/lore-page')}>
           <img src="/nav/lore.png" alt="Lore" />
         </button>
       </div>

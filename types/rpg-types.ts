@@ -38,7 +38,7 @@ export interface GameObject {
   id: string
   yearTime: number
   time: number //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
-  players: Actor[]
+  actors: Actor[]
   campaign: string
   channels: Channel[] //e.g. gm, bob, michael, etc....
   climate: Climate[]

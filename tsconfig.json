@@ -34,7 +34,7 @@
     "components/image/test-mouse-image.jsx",
     "data/collections/game-object.ts",
     "styles/styles.ts",
-    "components/blue-print/ui-bottom-navbar.jsx",
+    "components/blue-print/ui-bottom-navbar.tsx",
     "hooks/useDoubleClick.jsx",
     "components/WebSocketDemo.jsx"
 , "components/animation/rollable-die.tsx", "components/animation/rollable-die.tsx"  ],

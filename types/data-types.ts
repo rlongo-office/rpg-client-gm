@@ -105,25 +105,25 @@ export type DamageType = {
     actions: Action[]
   }
 
-  export type Stat = {
+  type Stat = {
     raw: number
     adj: number
   }
 
-  export type Language = {
+  type Language = {
     name: string
     type: string
     stat: Stat
   }
 
- export  type Skill = {
+  type Skill = {
     name: string
     stat: Stat
     passive: number
     description: string
   }
 
-  export type PlayerClass = {
+  type PlayerClass = {
     level: number
     name: string
     spells: string
@@ -135,7 +135,7 @@ export type DamageType = {
     classHitDice: string
   }
 
-  export type CoinPurse = {
+  type CoinPurse = {
     platinum: number
     gold: number
     electrum: number
@@ -143,7 +143,7 @@ export type DamageType = {
     copper: number
   }
 
-  export type Ability = {
+  type Ability = {
     name: string
     type: string
     stat: Stat
@@ -179,7 +179,7 @@ export type DamageType = {
     reach: number
     hitpoint: Stat
     damage: number
-    diety: string[]
+    deity: string[]
     experience: Stat
     classes: PlayerClass[]
     languages: Language[]
@@ -187,6 +187,9 @@ export type DamageType = {
     abilityMods: Ability[]
     skills: Skill[]
     allSaves: Ability[]
+    toolProfs:string[]
+    weaponProfs:string[]
+    armorProfs:string[]
     senses: GenericStat
     auras: string[]
     purse: CoinPurse
@@ -197,6 +200,9 @@ export type DamageType = {
     carriedWeight: Stat
     inventories: Inventory[]
     spells: PlayerSpell[]
+    specials:Special[]
+    defenses:DefenseElement[]
+    weapons:Weapon[]
   }
 
   export type PlayerSpell = {
@@ -213,9 +219,10 @@ export type DamageType = {
     description: string
     components: string[]
     schools: string[]
+    traits?: string[]
   }
 
-  export type Special = {
+  type Special = {
     name: string
     type: string
     source: string
@@ -246,9 +253,19 @@ export type DamageType = {
     attack: number
     damage: string
     proficient: boolean
-    range: Range
-    special?: string
+    range: Stat
+    special: string
   }
+
+  export type DefenseElement = {
+    name: string
+    category: string[]
+    type: string[]
+    ac: number
+    damage: string
+    proficient: boolean
+    special: string
+}
 
   export type Defense = {
     armor: {

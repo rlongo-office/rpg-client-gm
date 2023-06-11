@@ -762,7 +762,8 @@ const playerOneData = {
 
 const climateArray: types.Climate[] = [
   {
-    coords: { x: 1000, y: 1500, z: 1800 },
+    location: { x: 1000, y: 1500, z: 1800 },
+    radius:5,
     highTemp: 60,
     lowTemp: 30,
     windSpeed: 8,
@@ -842,7 +843,7 @@ export const gameObject: types.GameObject = {
   id: "It begins",
   yearTime: 10500000000,
   time: 6393600000, //March 15 in a non leap year
-  players: actors,
+  actors: actors,
   campaign: 'Rise of the Buttnuts',
   channels: [],
   climate: climateArray,

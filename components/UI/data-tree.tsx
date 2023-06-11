@@ -62,6 +62,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ data, path, onChange, inputRefs }) 
 const CollapsibleTree: React.FC<CollapsibleTreeProps> = ({ data, onChange }) => {
   const [treeData, setTreeData] = useState<object>(data);
   const inputRefs = useRef<{ [path: string]: React.RefObject<HTMLInputElement> }>({});
+  const emptyRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setTreeData(data);
@@ -70,7 +71,7 @@ const CollapsibleTree: React.FC<CollapsibleTreeProps> = ({ data, onChange }) => 
 
   const updateInputRefs = (data: any, path: string[]) => {
     if (typeof data !== 'object' || data === null) {
-      inputRefs.current[path.join('.')] = inputRefs.current[path.join('.')] || useRef<HTMLInputElement>(null);
+      inputRefs.current[path.join('.')] = inputRefs.current[path.join('.')] || emptyRef
     } else {
       Object.entries(data).forEach(([key, value]) => {
         updateInputRefs(value, [...path, key]);

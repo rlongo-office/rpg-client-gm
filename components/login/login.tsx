@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, {useEffect, useRef } from 'react'
 import * as types from '../../types/rpg-types'
-import { useAppContext } from '@context/app-provider'
 import useWSManager from '@hooks/useWSManager'
-import { useRouter } from 'next/router'
+import { useAppEventContext } from '../../context/app-event-provider'
 
 export const Login = () => {
-  const { sendOutboundMessage } = useWSManager()
-  const router = useRouter()
+  const {addToOutboundQueue} = useAppEventContext()
+  const { init, testFunc } = useWSManager()
+  testFunc()
   /* //Thinking of giving a list to the players and they will choose a login from the available players, or it's the GM
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -17,7 +17,7 @@ export const Login = () => {
   const userRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
 
-  const handleClickSendMessage = (msgType: string) => {
+  const handleLoginClick = () => {
     let msg: types.messageType
     const user = userRef.current.value
     const pass = passRef.current.value
@@ -32,7 +32,8 @@ export const Login = () => {
       dest: ['server'],
     }
     //Then we stringify the entire message and call the send to the Server
-    sendOutboundMessage(JSON.stringify(msg))
+    addToOutboundQueue(JSON.stringify(msg))
+    //sendOutboundMessage(JSON.stringify(msg))
   }
 
   return (
@@ -41,7 +42,7 @@ export const Login = () => {
       <input type="text" ref={userRef}></input>
       <span>Password</span>
       <input type="text" ref={passRef}></input>
-      <button onClick={() => handleClickSendMessage('login')}>Login</button>
+      <button onClick={() => handleLoginClick()}>Login</button>
     </div>
   )
 }

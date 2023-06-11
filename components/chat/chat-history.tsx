@@ -4,10 +4,12 @@ import ChatMessage from './chat-message'
 import * as rpgTypes from '../../types/rpg-types'
 
 function ChatHistory() {
-  const { textHistory,myUser} = useAppContext()
-  const [myTextHistory,setMyTextHistory] = useState<rpgTypes.TextMessage[]>(textHistory)
+  const { textHistory,myUser,gameState} = useAppContext()
 
-  useEffect(() => {
+  console.log(`gameState.textHistory is ${gameState.textHistory}`)
+  const [myTextHistory,setMyTextHistory] = useState<rpgTypes.TextMessage[]>(gameState.textHistory)
+
+/*   useEffect(() => {
     const myUpdatedTexts = textHistory.filter(msg =>
       msg.sender === myUser ||  //display msgs I sent...
       msg.sender === 'game' ||  //...those from the game...
@@ -17,7 +19,21 @@ function ChatHistory() {
     );
   
     setMyTextHistory(myUpdatedTexts);
-  }, [textHistory]);
+  }, [textHistory]); */
+
+  useEffect(() => {
+    const myUpdatedTexts = gameState.textHistory.filter(msg =>
+      msg.sender === myUser ||  //display msgs I sent...
+      msg.sender === 'game' ||  //...those from the game...
+      msg.dest.includes(myUser) ||  //..where i was included in the recipients list
+      msg.dest.includes('party') || //...or they were destined for the party...
+      msg.dest.includes('all')     //...or everyone
+    );
+  
+    setMyTextHistory(myUpdatedTexts);
+  }, [gameState.textHistory]);
+
+
   
   return (
     <div style={{ borderColor: 'blue', overflowY: 'auto', height: '200px', width: '370px' }}>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import * as types from '../types/rpg-types'
 import { useAppContext } from '../context/app-provider'
-import useWSHandler from './use-ws-handlers'
 import { iterateObjEntries, getObjValue, setObjValue, deepCopy, getNodeType } from '../utils/utils'
 import { waitForDebugger } from 'inspector'
 
