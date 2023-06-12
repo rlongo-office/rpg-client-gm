@@ -1514,4 +1514,1002 @@ export const playersData: dataTypes.Character[] = [
         },
       ],
     },
+    {
+      _id: { $oid: "1234567890" },
+      name: "Amaryllis",
+      active: true,
+      role: "Player",
+      backStory: "Amaryllis grew up in a small village and discovered her divine calling at a young age.",
+      player: "John Doe",
+      gender: "Female",
+      age: { raw: 25, adj: 25 },
+      race: {
+        Human: 1.0,
+      },
+      alignment: "Lawful Good",
+      hair: "Blonde",
+      eyes: "Blue",
+      skin: "Fair",
+      height: { raw: 165, adj: 165 },
+      weight: { raw: 60, adj: 60 },
+      size: { raw: 0, adj: 0 },
+      reach: 5,
+      hitpoint: { raw: 8, adj: 8 },
+      damage: 0,
+      deity: ["Pelor"],
+      experience: { raw: 0, adj: 0 },
+      classes: [
+        {
+          level: 1,
+          name: "Cleric",
+          spells: "Cleric Spells",
+          castLevel: 1,
+          spellAttack: 3,
+          spellSave: 13,
+          castSource: "Wisdom",
+          spellAbility: "Wisdom",
+          classHitDice: "1d8",
+        },
+      ],
+      languages: [
+        {
+          name: "Common",
+          type: "Standard",
+          stat: { raw: 0, adj: 0 },
+        },
+        {
+          name: "Celestial",
+          type: "Exotic",
+          stat: { raw: 0, adj: 0 },
+        },
+      ],
+      abilities: [
+        {
+          name: "Strength",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Dexterity",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+        {
+          name: "Constitution",
+          type: "Ability",
+          stat: { raw: 14, adj: 14 },
+        },
+        {
+          name: "Intelligence",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Wisdom",
+          type: "Ability",
+          stat: { raw: 16, adj: 16 },
+        },
+        {
+          name: "Charisma",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+      ],
+      abilityMods: [
+        {
+          name: "Strength",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Dexterity",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+        {
+          name: "Constitution",
+          type: "Ability",
+          stat: { raw: 14, adj: 14 },
+        },
+        {
+          name: "Intelligence",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Wisdom",
+          type: "Ability",
+          stat: { raw: 16, adj: 16 },
+        },
+        {
+          name: "Charisma",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+      ],
+      skills:[
+        {
+          name: 'Acrobatics',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck.",
+        },
+        {
+          name: 'Animal Handling',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+          passive: 13,
+          description: "When there is any question whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions, the GM might call for a Wisdom (Animal Handling) check. You also make a Wisdom (Animal Handling) check to control your mount when you attempt a risky maneuver.",
+        },
+        {
+          name: 'Arcana',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Arcana) check measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes.",
+        },
+        {
+          name: 'Athletics',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming. It also covers brute strength, such as smashing down a door or grappling a foe.",
+        },
+        {
+          name: 'Deception',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "Your Charisma (Deception) check determines whether you can convincingly hide the truth, either verbally or through your actions. This deception can encompass everything from misleading others through ambiguity to telling outright lies. Typical situations include trying to fast-talk a guard, con a merchant, earn money through gambling, pass yourself off in a disguise, dull someone's suspicions with false assurances, or maintain a straight face while telling a blatant lie.",
+        },
+        {
+          name: 'History',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (History) check measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations.",
+        },
+        {
+          name: 'Insight',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+          passive: 13,
+          description: "Your Wisdom (Insight) check decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move. Doing so involves gleaning clues from body language, speech habits, and changes in mannerisms.",
+        },
+        {
+          name: 'Intimidation',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "When you attempt to influence someone through overt threats, hostile actions, and physical violence, the GM might ask you to make a Charisma (Intimidation) check. Examples include trying to pry information out of a prisoner, convincing street thugs to back down from a confrontation, or using the edge of a broken bottle to convince a sneering vizier to reconsider a decision.",
+        },
+        {
+          name: 'Investigation',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "When you look around for clues and make deductions based on those clues, you make an Intelligence (Investigation) check. You might deduce the location of a hidden object, discern from the appearance of a wound what kind of weapon dealt it, or determine the weakest point in a tunnel that could cause it to collapse. Poring through ancient scrolls in search of a hidden fragment of knowledge or unearthing the entrance to a long-forgotten tomb might also call for an Intelligence (Investigation) check.",
+        },
+        {
+          name: 'Medicine',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+          passive: 13,
+          description: "A Wisdom (Medicine) check lets you try to stabilize a dying companion or diagnose an illness.",
+        },
+        {
+          name: 'Nature',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Nature) check measures your ability to recall lore about terrain, plants and animals, the weather, and natural cycles.",
+        },
+        {
+          name: 'Perception',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+          passive: 13,
+          description: "Your Wisdom (Perception) check lets you spot, hear, or otherwise detect the presence of something. It measures your general awareness of your surroundings and the keenness of your senses. For example, you might try to hear a conversation through a closed door, eavesdrop under an open window, or hear monsters moving stealthily in the forest. Or you might try to spot things that are obscured or easy to miss, whether they are orcs lying in ambush on a road, thugs hiding in the shadows of an alley, or candlelight under a closed secret door.",
+        },
+        {
+          name: 'Performance',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "Your Charisma (Performance) check determines how well you can delight an audience with music, dance, acting, storytelling, or some other form of entertainment.",
+        },
+        {
+          name: 'Persuasion',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "When you attempt to influence someone or a group of people with tact, social graces, or good nature, the GM might ask you to make a Charisma (Persuasion) check. Typically, you use persuasion when acting in good faith, to foster friendships, make cordial requests, or exhibit proper etiquette. Examples of persuading others include convincing a chamberlain to let your party see the king, negotiating peace between warring tribes, or inspiring a crowd of townsfolk.",
+        },
+        {
+          name: 'Religion',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Religion) check measures your ability to recall lore about deities, rites and prayers, religious hierarchies, holy symbols, and the practices of secret cults.",
+        },
+        {
+          name: 'Sleight of Hand',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Whenever you attempt an act of legerdemain or manual trickery, such as planting something on someone else or concealing an object on your person, make a Dexterity (Sleight of Hand) check. The GM might also call for a Dexterity (Sleight of Hand) check to determine whether you can lift a coin purse off another person or slip something out of another person's pocket.",
+        },
+        {
+          name: 'Stealth',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Make a Dexterity (Stealth) check when you attempt to conceal yourself from enemies, slink past guards, slip away without being noticed, or sneak up on someone without being seen or heard.",
+        },
+        {
+          name: 'Survival',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+          passive: 13,
+          description: "The GM might ask you to make a Wisdom (Survival) check to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards.",
+        },
+      ],
+      allSaves: [
+        {
+          name: "Strength",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Dexterity",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+        {
+          name: "Constitution",
+          type: "Ability",
+          stat: { raw: 14, adj: 14 },
+        },
+        {
+          name: "Intelligence",
+          type: "Ability",
+          stat: { raw: 10, adj: 10 },
+        },
+        {
+          name: "Wisdom",
+          type: "Ability",
+          stat: { raw: 16, adj: 16 },
+        },
+        {
+          name: "Charisma",
+          type: "Ability",
+          stat: { raw: 12, adj: 12 },
+        },
+      ],
+      toolProfs: ["Herbalism Kit"],
+      weaponProfs: ["Simple Weapons"],
+      armorProfs: ["Light Armor", "Medium Armor", "Shields"],
+      senses: {},
+      auras: ["Aura of Protection"],
+      purse: {
+        platinum: 0,
+        gold: 100,
+        electrum: 0,
+        silver: 20,
+        copper: 50,
+      },
+      armorClass: { raw: 14, adj: 14 },
+      initiative: { raw: 1, adj: 1 },
+      speed: { raw: 30, adj: 30 },
+      encumbrance: { raw: 0, adj: 0 },
+      carriedWeight: { raw: 0, adj: 0 },
+      inventories: [
+        {
+          name: "Mace",
+          quantity: 1,
+          weight: 4,
+          cost: 5,
+          gearType: "Weapon",
+          description: "A simple bludgeoning weapon.",
+          location: "Backpack",
+        },
+        {
+          name: "Shield",
+          quantity: 1,
+          weight: 6,
+          cost: 10,
+          gearType: "Armor",
+          description: "A wooden shield for extra defense.",
+          location: "Equipped",
+        },
+        {
+          name: "Healing Potion",
+          quantity: 2,
+          weight: 0.5,
+          cost: 50,
+          gearType: "Consumable",
+          description: "Restores a small amount of hit points when consumed.",
+          location: "Backpack",
+        },
+        {
+          name: 'Backpack (empty)',
+          quantity: 1,
+          weight: 5,
+          cost: 2,
+          gearType: 'adventuring gear',
+          description: 'Bag for holding inventories being carried',
+          location: 'worn',
+        },
+        {
+          name: 'Rope, hempen (50 feet)',
+          quantity: 1,
+          weight: 4,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description: "Plain 'ole travelling robes",
+          location: 'Backpack',
+        },
+        {
+          name: 'Ball bearings (bag of 1,000)',
+          quantity: 1,
+          weight: 2,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description:
+            "As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side. A creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone. A creature moving through the area at half speed doesn't need to make the save.",
+          location: 'Backpack',
+        },
+        {
+          name: 'waterskin',
+          quantity: 1,
+          weight: 5,
+          cost: 0.2,
+          gearType: 'adventuring gear',
+          description: 'Leather bladder for holding water',
+          location: 'Backpack',
+        },
+        {
+          name: 'torch',
+          quantity: 10,
+          weight: 10,
+          cost: 0.1,
+          gearType: 'adventuring gear',
+          description:
+            'A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.',
+          location: 'Backpack',
+        },
+        {
+          name: 'bell',
+          quantity: 1,
+          weight: 0.25,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description: '',
+          location: 'Backpack',
+        },
+        {
+          name: 'candle',
+          quantity: 3,
+          weight: 0.05,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description:
+            'A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.',
+          location: 'Backpack',
+        },
+        {
+          name: 'Crowbar',
+          quantity: 1,
+          weight: 5,
+          cost: 2,
+          gearType: 'adventuring gear',
+          description:
+            "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied.",
+          location: 'Backpack',
+        },
+        {
+          name: 'hammer',
+          quantity: 1,
+          weight: 3,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description: 'Tool: Hammer',
+          location: 'Backpack',
+        }
+      ],
+      spells: [
+        {
+          name: "Cure Wounds",
+          type: "Spell",
+          level: 1,
+          castTime: "1 action",
+          range: 30,
+          duration: "Instantaneous",
+          dc: 13,
+          casterLevel: 1,
+          castsLeft: 3,
+          unlimited: false,
+          description: "Heals a target for 1d8 + spellcasting modifier hit points.",
+          components: ["V", "S"],
+          schools: ["Evocation"],
+        },
+        {
+          name: "Bless",
+          type: "Spell",
+          level: 1,
+          castTime: "1 action",
+          range: 30,
+          duration: "1 minute",
+          dc: 13,
+          casterLevel: 1,
+          castsLeft: 2,
+          unlimited: false,
+          description: "Blesses up to three creatures, granting them a bonus on attack rolls and saving throws.",
+          components: ["V", "S", "M"],
+          schools: ["Enchantment"],
+        },
+      ],
+      specials: [
+        {
+          name: "Channel Divinity",
+          type: "Special",
+          source: "Cleric",
+          description: "Once per short rest, can use Channel Divinity to turn undead or perform other special actions.",
+        },
+        {
+          name: "Divine Domain",
+          type: "Special",
+          source: "Cleric",
+          description: "Belongs to the Life domain, granting additional spells and abilities related to healing.",
+        },
+      ],
+      defenses: [
+        {
+          name: "Unarmored Defense",
+          category: ["Armor"],
+          type: ["Natural"],
+          ac: 10,
+          damage: "",
+          proficient: false,
+          special: "",
+        },
+        {
+          name: "Shield",
+          category: ["Armor"],
+          type: ["Shield"],
+          ac: 2,
+          damage: "",
+          proficient: true,
+          special: "Can be equipped to increase armor class.",
+        },
+      ],
+      weapons: [
+        {
+          name: "Mace",
+          category: ["Simple Melee"],
+          type: ["Melee"],
+          attack: 4,
+          damage: "1d6 + 2 bludgeoning",
+          proficient: true,
+          range: { raw: 5, adj: 5 },
+          special: "",
+        },
+      ],
+    },
+    {
+      _id: { $oid: 'character-id' },
+      name: 'Grommash',
+      active: true,
+      role: 'fighter',
+      backStory: 'A brave warrior ready for adventure',
+      player: 'Player Name',
+      gender: 'Male',
+      age: {
+        raw: 20,
+        adj: 20,
+      },
+      race: {
+        human: 1.0,
+        },
+      alignment: 'Neutral Good',
+      hair: 'Black',
+      eyes: 'Brown',
+      skin: 'Fair',
+      height: {
+        raw: 74,
+        adj: 74,
+      },
+      weight: {
+        raw: 230,
+        adj: 230,
+      },
+      size: {
+        raw: 0,
+        adj: 0,
+      },
+      reach: 5,
+      hitpoint: {
+        raw: 10,
+        adj: 10,
+      },
+      damage: 0,
+      deity: [],
+      experience: {
+        raw: 0,
+        adj: 0,
+      },
+      classes: [
+        {
+          level: 1,
+          name: 'Fighter',
+          spells: '',
+          castLevel: 0,
+          spellAttack: 0,
+          spellSave: 0,
+          castSource: '',
+          spellAbility: '',
+          classHitDice: '1d10',
+        },
+      ],
+      languages: [
+        {
+          name: 'Common',
+          type: 'generic',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+        },
+      ],
+      abilities: [
+        {
+          name: 'strength',
+          type: 'ability',
+          stat: {
+            raw: 18,
+            adj: 18,
+          },
+        },
+        {
+          name: 'dexterity',
+          type: 'ability',
+          stat: {
+            raw: 14,
+            adj: 14,
+          },
+        },
+        {
+          name: 'constitution',
+          type: 'ability',
+          stat: {
+            raw: 16,
+            adj: 16,
+          },
+        },
+        {
+          name: 'intelligence',
+          type: 'ability',
+          stat: {
+            raw: 10,
+            adj: 10,
+          },
+        },
+        {
+          name: 'wisdom',
+          type: 'ability',
+          stat: {
+            raw: 12,
+            adj: 12,
+          },
+        },
+        {
+          name: 'charisma',
+          type: 'ability',
+          stat: {
+            raw: 10,
+            adj: 10,
+          },
+        },
+      ],
+      abilityMods: [
+        {
+          name: 'strength',
+          type: 'abilityMod',
+          stat: {
+            raw: 4,
+            adj: 4,
+          },
+        },
+        {
+          name: 'dexterity',
+          type: 'abilityMod',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+        },
+        {
+          name: 'constitution',
+          type: 'abilityMod',
+          stat: {
+            raw: 3,
+            adj: 3,
+          },
+        },
+        {
+          name: 'intelligence',
+          type: 'abilityMod',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+        },
+        {
+          name: 'wisdom',
+          type: 'abilityMod',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+        },
+        {
+          name: 'charisma',
+          type: 'abilityMod',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+        },
+      ],
+      skills: [
+        {
+          name: 'Acrobatics',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Your Dexterity (Acrobatics) check covers your attempt to stay on your feet in a tricky situation, such as when you're trying to run across a sheet of ice, balance on a tightrope, or stay upright on a rocking ship's deck. The GM might also call for a Dexterity (Acrobatics) check to see if you can perform acrobatic stunts, including dives, rolls, somersaults, and flips.",
+        },
+        {
+          name: 'Animal Handling',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "When there is any question whether you can calm down a domesticated animal, keep a mount from getting spooked, or intuit an animal's intentions, the GM might call for a Wisdom (Animal Handling) check. You also make a Wisdom (Animal Handling) check to control your mount when you attempt a risky maneuver.",
+        },
+        {
+          name: 'Arcana',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Arcana) check measures your ability to recall lore about spells, magic items, eldritch symbols, magical traditions, the planes of existence, and the inhabitants of those planes.",
+        },
+        {
+          name: 'Athletics',
+          stat: {
+            raw: 4,
+            adj: 4,
+          },
+          passive: 14,
+          description: "Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming. Examples include the following activities:\n\n• You attempt to climb a sheer or slippery cliff, avoid hazards while scaling a wall, or cling to a surface while something is trying to knock you off.\n• You try to jump an unusually long distance or pull off a stunt mid-jump.\n• You struggle to swim or stay afloat in treacherous currents, storm-tossed waves, or areas of thick seaweed. Or another creature tries to push or pull you underwater or otherwise interfere with your swimming.",
+        },
+        {
+          name: 'Deception',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Charisma (Deception) check determines whether you can convincingly hide the truth, either verbally or through your actions. This deception can encompass everything from misleading others through ambiguity to telling outright lies. Typical situations include trying to fast-talk a guard, con a merchant, earn money through gambling, pass yourself off in a disguise, dull someone's suspicions with false assurances, or maintain a straight face while telling a blatant lie.",
+        },
+        {
+          name: 'History',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (History) check measures your ability to recall lore about historical events, legendary people, ancient kingdoms, past disputes, recent wars, and lost civilizations.",
+        },
+        {
+          name: 'Insight',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "Your Wisdom (Insight) check decides whether you can determine the true intentions of a creature, such as when searching out a lie or predicting someone's next move. Doing so involves gleaning clues from body language, speech habits, and changes in mannerisms.",
+        },
+        {
+          name: 'Intimidation',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "When you attempt to influence someone through overt threats, hostile actions, and physical violence, the GM might ask you to make a Charisma (Intimidation) check. Examples include trying to pry information out of a prisoner, convincing street thugs to back down from a confrontation, or using the edge of a broken bottle to convince a sneering vizier to reconsider a decision.",
+        },
+        {
+          name: 'Investigation',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "When you look around for clues and make deductions based on those clues, you make an Intelligence (Investigation) check. You might deduce the location of a hidden object, discern from the appearance of a wound what kind of weapon dealt it, or determine the weakest point in a tunnel that could cause it to collapse. Poring through ancient scrolls in search of a hidden fragment of knowledge might also call for an Intelligence (Investigation) check.",
+        },
+        {
+          name: 'Medicine',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "A Wisdom (Medicine) check lets you try to stabilize a dying companion or diagnose an illness.",
+        },
+        {
+          name: 'Nature',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Nature) check measures your ability to recall lore about terrain, plants and animals, the weather, and natural cycles.",
+        },
+        {
+          name: 'Perception',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "Your Wisdom (Perception) check lets you spot, hear, or otherwise detect the presence of something. It measures your general awareness of your surroundings and the keenness of your senses. For example, you might try to hear a conversation through a closed door, eavesdrop under an open window, or hear monsters moving stealthily in the forest. Or you might try to spot things that are obscured or easy to miss, whether they are orcs lying in ambush on a road, thugs hiding in the shadows of an alley, or candlelight under a closed secret door.",
+        },
+        {
+          name: 'Performance',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Charisma (Performance) check determines how well you can delight an audience with music, dance, acting, storytelling, or some other form of entertainment.",
+        },
+        {
+          name: 'Persuasion',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "When you attempt to influence someone or a group of people with tact, social graces, or good nature, the GM might ask you to make a Charisma (Persuasion) check. Typically, you use persuasion when acting in good faith, to foster friendships, make cordial requests, or exhibit proper etiquette. Examples of persuading others include convincing a chamberlain to let your party see the king, negotiating peace between warring tribes, or inspiring a crowd of townsfolk.",
+        },
+        {
+          name: 'Religion',
+          stat: {
+            raw: 0,
+            adj: 0,
+          },
+          passive: 10,
+          description: "Your Intelligence (Religion) check measures your ability to recall lore about deities, rites and prayers, religious hierarchies, holy symbols, and the practices of secret cults.",
+        },
+        {
+          name: 'Sleight of Hand',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Whenever you attempt an act of legerdemain or manual trickery, such as planting something on someone else or concealing an object on your person, make a Dexterity (Sleight of Hand) check. The GM might also call for a Dexterity (Sleight of Hand) check to determine whether you can lift a coin purse off another person or slip something out of another person's pocket.",
+        },
+        {
+          name: 'Stealth',
+          stat: {
+            raw: 2,
+            adj: 2,
+          },
+          passive: 12,
+          description: "Make a Dexterity (Stealth) check when you attempt to conceal yourself from enemies, slink past guards, slip away without being noticed, or sneak up on someone without being seen or heard.",
+        },
+        {
+          name: 'Survival',
+          stat: {
+            raw: 1,
+            adj: 1,
+          },
+          passive: 11,
+          description: "The GM might ask you to make a Wisdom (Survival) check to follow tracks, hunt wild game, guide your group through frozen wastelands, identify signs that owlbears live nearby, predict the weather, or avoid quicksand and other natural hazards.",
+        },
+      ],  
+      allSaves: [],
+      toolProfs: [],
+      weaponProfs: ['Simple weapons', 'Martial weapons'],
+      armorProfs: ['Light armor', 'Medium armor', 'Heavy armor', 'Shields'],
+      senses: {},
+      auras: [],
+      purse: {
+        platinum: 0,
+        gold: 4,
+        electrum: 0,
+        silver: 6,
+        copper: 20,
+      },
+      armorClass: {
+        raw: 18,
+        adj: 18,
+      },
+      initiative: {
+        raw: 2,
+        adj: 2,
+      },
+      speed: {
+        raw: 30,
+        adj: 30,
+      },
+      encumbrance: {
+        raw: 0,
+        adj: 0,
+      },
+      carriedWeight: {
+        raw: 0,
+        adj: 0,
+      },
+      inventories: [
+        {
+          name: 'Chain Mail',
+          quantity: 1,
+          weight: 55,
+          cost: 75,
+          gearType: 'armor',
+          description: 'Heavy armor made of interlocking metal rings',
+          location: 'worn',
+        },
+        {
+          name: 'Shield',
+          quantity: 1,
+          weight: 6,
+          cost: 10,
+          gearType: 'armor',
+          description: 'A large shield made of wood or metal',
+          location: 'worn',
+        },
+        {
+          name: 'Longsword',
+          quantity: 1,
+          weight: 3,
+          cost: 15,
+          gearType: 'weapon',
+          description: 'Versatile melee weapon',
+          location: 'wielded',
+        },
+        {
+          name: 'Light Crossbow',
+          quantity: 1,
+          weight: 5,
+          cost: 25,
+          gearType: 'weapon',
+          description: 'One-handed ranged weapon',
+          location: 'back',
+        },
+        {
+          name: 'Bolts',
+          quantity: 20,
+          weight: 2,
+          cost: 1,
+          gearType: 'ammunition',
+          description: 'Ammunition for crossbows',
+          location: 'Backpack',
+        },
+        {
+          name: 'Backpack (empty)',
+          quantity: 1,
+          weight: 5,
+          cost: 2,
+          gearType: 'adventuring gear',
+          description: 'Bag for holding inventories being carried',
+          location: 'worn',
+        },
+        {
+          name: 'Bedroll',
+          quantity: 1,
+          weight: 7,
+          cost: 1,
+          gearType: 'adventuring gear',
+          description: 'A portable bed for resting during adventures',
+          location: 'Backpack',
+        },
+        // Add more inventories here as needed
+      ],
+      spells: [],
+      specials: [],
+      defenses: [
+        {
+          name: 'Chainmail',
+          category: ['Armor'],
+          type: ['Heavy'],
+          ac: 16, // Adjust this value based on Grommash's AC calculation
+          damage: '',
+          proficient: true,
+          special: '',
+        },
+        {
+          name: 'Shield',
+          category: ['Armor'],
+          type: ['Shield'],
+          ac: 2,
+          damage: '',
+          proficient: true,
+          special: 'Can be equipped to increase armor class.',
+        },
+      ],
+      weapons: [
+        {
+          name: 'Longsword',
+          category: ['Melee'],
+          type: ['Slashing'],
+          attack: 5, // Adjust this value based on Grommash's attack bonus
+          damage: '1d8+3', // Adjust this value based on Grommash's damage bonus
+          proficient: true,
+          range: {
+            raw: 0,
+            adj: 0,
+          },
+          special: '',
+        },
+        {
+          name: 'Light Crossbow',
+          category: ['Projectile'],
+          type: ['Piercing'],
+          attack: 5, // Adjust this value based on Grommash's attack bonus
+          damage: '1d8+3', // Adjust this value based on Grommash's damage bonus
+          proficient: true,
+          range: {
+            raw: 80,
+            adj: 320,
+          },
+          special: '',
+        },
+      ],
+    }
   ]
