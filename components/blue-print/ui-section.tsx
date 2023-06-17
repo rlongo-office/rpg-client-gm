@@ -8,10 +8,6 @@ import UIChatClient from '../chat/chat-client'
 import UILoreClient from '../lore/lore-client'
 import ImageWrapper from '@components/Image/image-wrapper'
 import UICollapsibleSection from './ui-collapsible-section'
-import UIWorldMap from '../Image/ui-world-map'
-import UITacticalMap from '../Image/ui-tactical-map'
-import UIRegionMap from '../Image/ui-region-map'
-import { debug } from 'console'
 import { useAppContext } from '@context/app-provider'
 
 /*TODO: REMOVE THIS AFTER TEST

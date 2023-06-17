@@ -5,7 +5,7 @@ import { useAppEventContext } from '../../context/app-event-provider'
 
 export const Login = () => {
   const {addToOutboundQueue} = useAppEventContext()
-  const { init, testFunc } = useWSManager()
+  const { init,testFunc } = useWSManager()
   testFunc()
   /* //Thinking of giving a list to the players and they will choose a login from the available players, or it's the GM
   const [recipient, setRecipient] = useState<types.SelectionOption[]>([])

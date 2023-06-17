@@ -9,21 +9,9 @@ function ChatHistory() {
   console.log(`gameState.textHistory is ${gameState.textHistory}`)
   const [myTextHistory,setMyTextHistory] = useState<rpgTypes.TextMessage[]>(gameState.textHistory)
 
-/*   useEffect(() => {
-    const myUpdatedTexts = textHistory.filter(msg =>
-      msg.sender === myUser ||  //display msgs I sent...
-      msg.sender === 'game' ||  //...those from the game...
-      msg.dest.includes(myUser) ||  //..where i was included in the recipients list
-      msg.dest.includes('party') || //...or they were destined for the party...
-      msg.dest.includes('all')     //...or everyone
-    );
-  
-    setMyTextHistory(myUpdatedTexts);
-  }, [textHistory]); */
-
   useEffect(() => {
     const myUpdatedTexts = gameState.textHistory.filter(msg =>
-      msg.sender === myUser ||  //display msgs I sent...
+      (msg.sender === myUser || myUser === "GM") ||  //display msgs I sent...
       msg.sender === 'game' ||  //...those from the game...
       msg.dest.includes(myUser) ||  //..where i was included in the recipients list
       msg.dest.includes('party') || //...or they were destined for the party...
@@ -47,3 +35,15 @@ function ChatHistory() {
 }
 
 export default ChatHistory
+
+/*   useEffect(() => {
+    const myUpdatedTexts = textHistory.filter(msg =>
+      msg.sender === myUser ||  //display msgs I sent...
+      msg.sender === 'game' ||  //...those from the game...
+      msg.dest.includes(myUser) ||  //..where i was included in the recipients list
+      msg.dest.includes('party') || //...or they were destined for the party...
+      msg.dest.includes('all')     //...or everyone
+    );
+  
+    setMyTextHistory(myUpdatedTexts);
+  }, [textHistory]); */

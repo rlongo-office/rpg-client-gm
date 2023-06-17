@@ -27,9 +27,6 @@ const useWSManager = () => {
       socket.onopen = () => setIsConnected(true)
       socket.onclose = () => setIsConnected(false)
       socket.onmessage = event => addToInboundQueue(event.data)
-      /*       socket.onmessage = async (event) => {
-            console.log(`Here are the users right now: ${users}`)
-            await processInboundMessage(event.data) */
       setAppSocket(socket) // this will rerender hook
     } else {
       if (appSocket) {

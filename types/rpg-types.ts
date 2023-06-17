@@ -25,16 +25,24 @@ export interface messageBody {
   recipient: string
 }
 
+export interface GMState {
+  creatures: string[]
+  actors: string[]
+  items: string[]
+}
+
 export interface GameState {
   id:string
   game:GameObject
-  players: {user:string, base:dataTypes.Character, current:dataTypes.Character}[]
+  players: {user:string, name:string, currentStats:dataTypes.Character | null }[]
+  characters: dataTypes.Character[]
   textHistory:TextMessage[]
 }
 
 
 //Consider using BigInt wrapper for the WorldTime
 export interface GameObject {
+  _id: { $oid: string }
   id: string
   yearTime: number
   time: number //This the current time from the start of the current year, as milliseconds 31.536 x 10^9 per year
@@ -75,7 +83,7 @@ export interface Location {
 
 export interface Actor {
   name: string
-  template: string //idea here is that this referred to a creature obj if this is an NPC, else obj to player doc
+  templateID: string //idea here is that this referred to a creature obj if this is an NPC, else obj to player doc
   stats: object //Could reference the actual document itself, whether player or NPC object
   location: Location
   condition: string[]

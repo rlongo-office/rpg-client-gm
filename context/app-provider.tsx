@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect, useReducer } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
-import { playersData} from '../data/collections/players'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
 //import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
@@ -10,9 +9,8 @@ import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
 import * as types from '../types/rpg-types'
 import * as dataTypes from '../types/data-types'
-import useWSHandlers from '../hooks/useWSHandlers'
 import { gameReducer } from 'services/game-reducer'
-
+import { gmReducer } from 'services/gm-reducer'
 
 export const AppContext = React.createContext<any | undefined>(undefined)
 
@@ -29,14 +27,19 @@ export function AppProvider({ children }: types.AppProviderProps) {
   //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
   //changes, I will check for game object to change here, and update the users only when
   const [creatures, setCreatures] = useState<types.AnyObject[]>(creaturesCollection)
+  const [collectionLists, setCollectionLists] = useState<{
+    creatures: string[]
+    actors: string[]
+    items: string[]
+  }>({
+    creatures: [],
+    actors: [],
+    items: [],
+  })
   //Actors are any entity in the world  whether NPC (GM) or player controlled
-  const [actors, setActors] = useState<types.AnyObject[]>([])
-
   const [messages, setMessages] = useState<types.messageType[]>([])
-  const [players, setPlayers] = useState<dataTypes.Character[]>(playersData)
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
-  //Those exchanged websocket messages of type group, private, party, or game texts
-  const [textHistory, setTextHistory] = useState<types.TextMessage[]>([])
+  const [myStats, setMyStats] = useState<dataTypes.Character>(null)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = useState<types.TextMessage[]>(loreData)
   const [images, setImages] = useState<string>(mapImage)
@@ -123,17 +126,34 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
   })
 
-  const initGame:types.GameObject = {
+  const initGame: types.GameObject = {
+    _id: { $oid: '' },
     id: '',
     yearTime: 0,
     time: 0,
     actors: [],
     campaign: '',
     channels: [],
-    climate: []
+    climate: [],
   }
-  const initState: types.GameState = { id: '', game: initGame, players: [], textHistory: [] }
+  const initState: types.GameState = {
+    id: '',
+    game: initGame,
+    players: [],
+    characters: [],
+    textHistory: [],
+  }
+
+  const initGMState:types.GMState = {
+    creatures: [],
+    actors: [],
+    items: []
+  }
+
+
   const [gameState, gameDispatch] = useReducer(gameReducer, initState)
+
+  const [gmState, gmDispatch] = useReducer(gmReducer, initGMState)
 
   //The following function and useEffect added to address responsive layout needs across
   //different devices.  I needed both width and length of window to plan component layout
@@ -179,18 +199,21 @@ export function AppProvider({ children }: types.AppProviderProps) {
   //When  game object update user listing needed
   useEffect(() => {
     //check if user listing has changed
-    if (!game || !game.actors) {
+    if (!gameState.players) {
       return
     }
-    console.log('app-provider: useEffect for game called')
+    //users store is accessed in chat client for recipients/destination of chat messages
     setUsers(prevUsers => {
-      const newUsers = game.actors
-        .map(player => player.name)
+      const newUsers = gameState.players
+        .map(player => player.user)
         .filter(user => !prevUsers.find(o => o === user))
       console.log(newUsers)
       return [...prevUsers, ...newUsers]
     })
-  }, [game])
+    //current stats is a react side store that the various child comps can watch in case stats change
+    //hopefully this will reduce rerenders
+    setMyStats(gameState.players.filter(p => myUser === p.user).map(p => p.currentStats)[0])
+  }, [gameState.players])
 
   const value = React.useMemo(
     () => ({
@@ -202,8 +225,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setGame,
       creatures,
       setCreatures,
-      actors,
-      setActors,
       tableConfig,
       setTableConfig,
       account,
@@ -212,9 +233,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setMessages,
       isConnected,
       setIsConnected,
-      players,
       playerBP,
-      textHistory,
       loreMsgData,
       images,
       devHeight,
@@ -223,29 +242,30 @@ export function AppProvider({ children }: types.AppProviderProps) {
       serverURL,
       appSocket,
       setAppSocket,
-      setTextHistory,
       nextSocketMsg,
       setNextSocketMsg,
       outSocketMsg,
       setOutSocketMsg,
       gameState,
       gameDispatch,
+      myStats,
+      setMyStats,
+      collectionLists,
+      setCollectionLists,
     }),
     [
       gameState,
+      collectionLists,
       nextSocketMsg,
       outSocketMsg,
       game,
       users,
       creatures,
-      actors,
       tableConfig,
       account,
       messages,
       isConnected,
-      players,
       playerBP,
-      textHistory,
       loreMsgData,
       images,
       devHeight,
@@ -254,6 +274,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       serverURL,
       myUser,
       appSocket,
+      myStats,
     ]
   )
 

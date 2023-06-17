@@ -16,6 +16,7 @@ enum handlerKey {
   statUpdate,
   gameUpdate,
   loreText,
+  collectionList,
   textUpdate
 }
 
@@ -38,7 +39,8 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     outboundQueue.push(message);
   };
 
-  const flushEvents =() => {
+  const flushEvents =() => { 
+
     processInboundMessages();
     sendOutboundMessages();
   };
@@ -183,6 +185,14 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     //setGame(JSON.parse(JSON.parse(msg).data))
     return 1
   }
+
+  MessageEventHandlers[handlerKey.collectionList] = function (msg: string) {
+    console.log("Received collectionList message")
+    gameDispatch({ type: 'collectList', payload: JSON.parse(JSON.parse(msg).data), path: '' });
+    //setGame(JSON.parse(JSON.parse(msg).data))
+    return 1
+  }
+
 
   MessageEventHandlers[handlerKey.textUpdate] = function (msg: string) {
     console.log("Received text History message")

@@ -4,10 +4,11 @@ import { useAppContext } from '@context/app-provider'
 import * as types from '../../types/rpg-types'
 import MultiSelect from '@components/UI/MultiSelect'
 import { getCurrentTimeString } from '@utils/utils'
-import useWSManager from '@hooks/useWSManager'
+import { useAppEventContext } from '@context/app-event-provider'
 
 function ChatClient() {
-  const { game, myUser, users, setOutSocketMsg} = useAppContext()
+  const { game, myUser, users} = useAppContext()
+  const {addToOutboundQueue} = useAppEventContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -46,8 +47,7 @@ function ChatClient() {
       data: textData,
       dest: recipient,
     }
-
-    setOutSocketMsg(JSON.stringify(msg))
+    addToOutboundQueue(JSON.stringify(msg))
   }
 
   const handleMultiSelectChange = useCallback((selectedOptions: types.SelectionOption[]) => {

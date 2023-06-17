@@ -5,7 +5,7 @@
     "timeStamp": "2019-10-11T13:33:05.673",
     "sender": "game",
     "text": "The bandit you met in the local town square is leaving the tavern",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Jason", "Michael", "Marcus", "Giovanni", "GM"]
   },
   {
     "id": 10001,
@@ -13,7 +13,7 @@
     "timeStamp": "2019-10-11T13:33:05.673",
     "sender": "GM",
     "text": "I think it will be a mistake to run after that bandit",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Jason", "Michael", "Marcus", "Giovanni", "GM"]
   },
   {
     "id": 10002,
@@ -21,7 +21,7 @@
     "timeStamp": "2019-10-11T13:34:05.673",
     "sender": "Michael",
     "text": "I still think we should follow him, just don't let him see us",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Jason", "Michael", "Marcus", "Giovanni", "GM"]
   },
   {
     "id": 10003,
@@ -29,7 +29,7 @@
     "timeStamp": "2019-10-11T13:33:05.673",
     "sender": "Marcus",
     "text": "Ok Michael, why don't you sneak on him? We will hang back",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Michael", "Marcus", "GM"]
   },
   {
     "id": 10004,
@@ -53,7 +53,7 @@
     "timeStamp": "2019-10-11T13:33:05.673",
     "sender": "Game",
     "text": "The bandit doesn't seem to notice you as you follow him",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Jason", "Michael", "Marcus", "Giovanni", "GM"]
   },
   {
     "id": 10007,
@@ -61,6 +61,6 @@
     "timeStamp": "2019-10-11T13:33:05.673",
     "sender": "Game",
     "text": "The sky suddenly turns red and brimstone starts raining down on your location",
-    "dest": ["bob", "Michael", "Marcus", "Giovanni", "Shane", "GM"]
+    "dest": ["Jason", "Michael", "Marcus", "Giovanni", "GM"]
   }
 ]
