@@ -4,6 +4,12 @@ export const ADD_ACTOR: string = 'ADD_ACTOR'
 export const ADD_CREATURE: string = 'ADD_CREATURE'
 export const SET_CREATURE_ID: string = 'SET_CREATURE_ID'
 
+
+export interface ListOption {
+  label: string
+  value: string
+}
+
 export interface Action {
   type: string
   payload: any
@@ -26,9 +32,9 @@ export interface messageBody {
 }
 
 export interface GMState {
-  creatures: string[]
-  actors: string[]
-  items: string[]
+  creatures: ListOption[]
+  actors: ListOption[]
+  items: ListOption[]
 }
 
 export interface GameState {

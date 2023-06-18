@@ -248,6 +248,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setOutSocketMsg,
       gameState,
       gameDispatch,
+      gmState,
+      gmDispatch,
       myStats,
       setMyStats,
       collectionLists,
@@ -255,6 +257,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
     }),
     [
       gameState,
+      gmState,
       collectionLists,
       nextSocketMsg,
       outSocketMsg,

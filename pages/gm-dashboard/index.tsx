@@ -7,11 +7,12 @@ import UiObjTreeEditor from '@components/gm-ui/ui-obj-tree-editor'
 import MappedGameObjectEditor from '@components/gm-ui/mapped-obj-editor'
 import MultiSelect, { Option } from '@components/UI/MultiSelect'
 import { useAppEventContext } from '@context/app-event-provider'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 function GMDashboard() {
-  const { creaturesList } = useAppContext()
+  const { gmState } = useAppContext()
   const { addToOutboundQueue } = useAppEventContext()
+  const [creaturesList,setCreatuesList] = useState<Option[]>()
 
   useEffect(() => {
     const msg = {
@@ -22,9 +23,12 @@ function GMDashboard() {
       data: JSON.stringify({ collection: 'creatures', projection: { _id: 1, name: 1 } }),
       dest: ['server'],
     }
-
     addToOutboundQueue(JSON.stringify(msg))
   }, [])
+
+  useEffect(() => {
+  }, [gmState.creatures])
+
 
   return (
     <>
