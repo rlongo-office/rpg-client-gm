@@ -1,23 +1,21 @@
 import * as React from 'react'
-import ImageWrapper from '../../components/Image/image-wrapper'
-import { styleObj } from '../../styles/styles'
-import GameObjEditor from '../../components/gm-ui/game-obj-editor'
 import { useAppContext } from '@context/app-provider'
-import UiObjTreeEditor from '@components/gm-ui/ui-obj-tree-editor'
-import MappedGameObjectEditor from '@components/gm-ui/mapped-obj-editor'
 import MultiSelect, { Option } from '@components/UI/MultiSelect'
 import { useAppEventContext } from '@context/app-event-provider'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import * as rpgTypes from 'types/rpg-types'
 
 function GMDashboard() {
-  const { gmState } = useAppContext()
+  const { gmState} = useAppContext()
   const { addToOutboundQueue } = useAppEventContext()
   const [creaturesList,setCreatuesList] = useState<Option[]>()
+  const [pageClick,setPageClick] = useState<boolean>(false)
+  
 
   useEffect(() => {
     const msg = {
       id: 0.1,
-      sender: 'gm',
+      sender: 'GM',
       timeStamp: '',
       type: 'collectionList',
       data: JSON.stringify({ collection: 'creatures', projection: { _id: 1, name: 1 } }),
@@ -27,19 +25,28 @@ function GMDashboard() {
   }, [])
 
   useEffect(() => {
+    setCreatuesList(gmState.creatures)
   }, [gmState.creatures])
 
 
+  const handleMultiSelectChange = useCallback((selectedOptions: rpgTypes.SelectionOption[]) => {
+    const selectedIDs:string[] = selectedOptions.map(o=>o.value) 
+    console.log(`Here are your selected options: ${selectedIDs}`)
+  }, [])
+  
+    function handlePageClick(event: React.MouseEvent<HTMLDivElement>): void {
+        setPageClick((prevState) => !prevState);
+    }
+
   return (
     <>
-      <div>
+      <div  onClick={handlePageClick}>
         <MultiSelect
-          options={[]}
-          onChange={function (selectedOptions: Option[]): void {
-            throw new Error('Function not implemented.')
-          }}
+          options={creaturesList}
+          onChange={handleMultiSelectChange}
           fontSize={''}
           grow={false}
+          parentClick={pageClick}
         ></MultiSelect>
       </div>
     </>

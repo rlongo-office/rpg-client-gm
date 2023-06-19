@@ -10,7 +10,6 @@ export const UPDATE_GAME = 'UPDATE_GAME'
 export const gameReducer = (state: rpgTypes.GameState, action: rpgTypes.Action) => {
   let absPath: string
   let newState: rpgTypes.GameState // New state object
-  debugger
   switch (action.type) {
     case UPDATE_VALUE:
       newState = deepCopy(state) // Create a new copy of the state

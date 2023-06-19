@@ -54,6 +54,7 @@ function ChatClient() {
     const msgRecips = selectedOptions.map(option => option.value)
     setRecipient(msgRecips)
   }, [])
+
   return (
     <div id="chat-client">
       <MultiSelect
@@ -64,6 +65,7 @@ function ChatClient() {
         title="Choose Recipients"
         fontSize="12px"
         grow={true}
+        parentClick={false}
       />
       <textarea
         style={{

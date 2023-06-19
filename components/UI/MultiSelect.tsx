@@ -13,6 +13,7 @@ interface MultiSelectProps {
   title?: string
   fontSize: string
   grow:boolean
+  parentClick: boolean 
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -22,7 +23,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   toggleHeight = 40,
   title = 'Choose an Option',
   fontSize,
-  grow=false
+  grow=false,
+  parentClick=false
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([])
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
@@ -97,6 +99,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
               border: '1px solid #CCC',
               borderRadius: '4px',
               zIndex: 1,
+              maxHeight: '300px', // Adjust the max height as needed
+              overflow: 'auto'
             }}
           >
             {options.map(option => (

@@ -40,6 +40,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const [messages, setMessages] = useState<types.messageType[]>([])
   const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
   const [myStats, setMyStats] = useState<dataTypes.Character>(null)
+  const [pageClick,setPageClick] = useState(false)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
   const [loreMsgData, setLoreMsgData] = useState<types.TextMessage[]>(loreData)
   const [images, setImages] = useState<string>(mapImage)
@@ -254,6 +255,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
       setMyStats,
       collectionLists,
       setCollectionLists,
+      pageClick,
+      setPageClick
     }),
     [
       gameState,
@@ -261,6 +264,7 @@ export function AppProvider({ children }: types.AppProviderProps) {
       collectionLists,
       nextSocketMsg,
       outSocketMsg,
+      pageClick,
       game,
       users,
       creatures,

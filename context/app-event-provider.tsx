@@ -23,19 +23,19 @@ enum handlerKey {
 export const AppEventContext = createContext<any | undefined>(undefined)
 
 export function AppEventProvider({ children }: types.AppProviderProps) {
-  const { game, setMyUser, setGame, myUser, users, setTextHistory, textHistory, appSocket, gameDispatch } = useAppContext()
+  const { game, setMyUser, myUser, users, setTextHistory, textHistory, appSocket, gameDispatch,gmDispatch } = useAppContext()
   const router = useRouter();
 
   const inboundQueue = useMemo(() => [], []);
   const outboundQueue = useMemo(() => [], []);
 
   const addToInboundQueue = (message) => {
-    console.log('Inbound message queued:' + message);
+    console.log('Inbound message queued');
     inboundQueue.push(message);
   };
 
   const addToOutboundQueue = (message) => {
-    console.log('Outbound message queued:' + message);
+    console.log('Outbound message queued');
     outboundQueue.push(message);
   };
 
@@ -49,7 +49,7 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
   const processInboundMessages = () => {
     while (inboundQueue.length > 0) {
       const message = inboundQueue.shift();
-      console.log('Inbound message processed:' + message);
+      console.log('Inbound message processed');
       processInboundMessage(message);
     }
   };
@@ -57,7 +57,7 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
   const sendOutboundMessages = () => {
     while (outboundQueue.length > 0) {
       const message = outboundQueue.shift();
-      console.log('Outbound message processed:' + message);
+      console.log('Outbound message processed');
       sendOutboundMessage(message);
     }
   };
@@ -102,8 +102,6 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     if (inbound.trim() !== "") {
       const inMsg: types.messageType = JSON.parse(inbound);
       const inType: string = inMsg.type;
-      debugger
-      console.log(`Inbound type is  ${inType}`)
       return MessageEventHandlers[handlerKey[inType as keyof typeof handlerKey]](inbound);
     } else {
       console.log(`Empty message passed to processInboundMesage`);
@@ -117,8 +115,8 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     const loginData: { user: string; password: string } = JSON.parse(inMsg.data);
     setMyUser(loginData.user); //on a loginAck the only recipient is the login use, so save it
     console.log(`Successfully logged into to the server as ${loginData.user}`);
-    if (loginData.user !== "gm") {
-      router.push(`/player-sheet`);
+    if (loginData.user === "GM") {
+      router.push(`/gm-dashboard`);
     } else {
       router.push(`/player-sheet`);
     }
@@ -145,6 +143,24 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     return true;
   };
 
+  MessageEventHandlers[handlerKey.gameUpdate] = function (msg: string) {
+    gameDispatch({ type: 'UPDATE_GAME', payload: JSON.parse(JSON.parse(msg).data), path: '' });
+    //setGame(JSON.parse(JSON.parse(msg).data))
+    return 1
+  }
+
+  MessageEventHandlers[handlerKey.collectionList] = function (msg: string) {
+    console.log("Received collectionList message")
+    gmDispatch({ type: 'UPDATE_LISTS', payload: JSON.parse(JSON.parse(msg).data), path: '' });
+    //setGame(JSON.parse(JSON.parse(msg).data))
+    return 1
+  }
+
+  MessageEventHandlers[handlerKey.textUpdate] = function (msg: string) {
+    gameDispatch({ type: 'UPDATE_TEXTS', payload: JSON.parse(JSON.parse(msg).data), path: '' });
+    //setTextHistory(JSON.parse(JSON.parse(msg).data))
+    return 1
+  }
 
   MessageEventHandlers[handlerKey.privateText] = function (msg: string) {
     return 1
@@ -163,7 +179,6 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     }
     console.log(textMsg)
     setTextHistory([...textHistory, textMsg])
-    console.log(`Received msg: ${textMsg.text} from ${textMsg.sender}`)
     return 1
   }
 
@@ -179,27 +194,7 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     return 1
   }
 
-  MessageEventHandlers[handlerKey.gameUpdate] = function (msg: string) {
-    console.log("Received GameUpdate message")
-    gameDispatch({ type: 'UPDATE_GAME', payload: JSON.parse(JSON.parse(msg).data), path: '' });
-    //setGame(JSON.parse(JSON.parse(msg).data))
-    return 1
-  }
 
-  MessageEventHandlers[handlerKey.collectionList] = function (msg: string) {
-    console.log("Received collectionList message")
-    gameDispatch({ type: 'collectList', payload: JSON.parse(JSON.parse(msg).data), path: '' });
-    //setGame(JSON.parse(JSON.parse(msg).data))
-    return 1
-  }
-
-
-  MessageEventHandlers[handlerKey.textUpdate] = function (msg: string) {
-    console.log("Received text History message")
-    gameDispatch({ type: 'UPDATE_TEXTS', payload: JSON.parse(JSON.parse(msg).data), path: '' });
-    //setTextHistory(JSON.parse(JSON.parse(msg).data))
-    return 1
-  }
 
   const value = useMemo(() => ({
     addToInboundQueue,
