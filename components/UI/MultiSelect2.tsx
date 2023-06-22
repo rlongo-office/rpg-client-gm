@@ -1,4 +1,3 @@
-import { getStringWidth } from '@utils/utils'
 import React, { useState, useRef, useEffect } from 'react'
 
 export interface Option {
@@ -17,7 +16,7 @@ interface MultiSelectProps {
   parentClick: boolean
 }
 
-const MultiSelect: React.FC<MultiSelectProps> = ({
+const MultiSelect2: React.FC<MultiSelectProps> = ({
   options,
   onChange,
   width = 200,
@@ -31,11 +30,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [calculatedWidth, setCalculatedWidth] = useState<number>(width)
 
-  // Remove "px" characters from the fontSize prop and parse it as an integer
   const parsedFontSize = parseInt(fontSize.replace('px', ''), 10)
 
   const handleOptionClick = (selectedOption: Option) => {
-    console.log('handleOptionClick was fired')
     if (selectedOptions.some(option => option.value === selectedOption.value)) {
       setSelectedOptions(selectedOptions.filter(option => option.value !== selectedOption.value))
     } else {
@@ -43,10 +40,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     }
   }
 
-  const toggleDropdown = (event: React.MouseEvent<HTMLDivElement,MouseEvent>) => {
-    console.log(`ToggleDropdown clicked`)
-   event.stopPropagation()
+  const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      setIsDropdownOpen(false)
+    }
   }
 
   useEffect(() => {
@@ -67,18 +70,23 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
       const averageFontWidth = 0.6 * parsedFontSize // Assuming an average font width of 7 pixels (adjust as needed)
       const extraSpace = 5 // Additional space for left and right side padding
-      const font = `${fontSize} Arial`
-      //const calculatedWidth = seedLength * averageFontWidth + extraSpace
-      let calculatedWidth = getStringWidth(longestLabel, font);
+
+      const calculatedWidth = seedLength * averageFontWidth + extraSpace
       setCalculatedWidth(calculatedWidth)
     }
   }, [options, grow])
 
+  useEffect(() => {
+    window.addEventListener('click', handleClickOutside)
+    return () => {
+      window.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <div id="MultiSelect Level 0 Div" style={{ position: 'relative', width: grow ? calculatedWidth : width }}>
-      <div id="MultiSelect Level 1  Div">
+    <div>
+      <div ref={wrapperRef} style={{ position: 'relative', width: grow ? calculatedWidth : width }}>
         <div
-          id="MultiSelect div button"
           onClick={toggleDropdown}
           style={{
             backgroundColor: '#EEE',
@@ -94,7 +102,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
           {title}
         </div>
         {isDropdownOpen && (
-          <div id="List Div"
+          <div
             style={{
               position: 'absolute',
               top: toggleHeight,
@@ -142,7 +150,7 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
   isSelected,
   fontSize,
 }) => {
-  function onClickHandler(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
+  const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     onChange()
   }
@@ -155,7 +163,6 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
         padding: '2px',
         cursor: 'pointer',
         fontSize: `${fontSize}`,
-        fontFamily: 'Arial',
       }}
     >
       {option.label}
@@ -163,4 +170,4 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
   )
 }
 
-export default MultiSelect
+export default MultiSelect2

@@ -348,6 +348,13 @@ function sender2TextType(sender: string, users: string[]) {
   }
 }
 
+function getStringWidth(text, font) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = font;
+  return context.measureText(text).width;
+}
+
 export {
   addIndexColumn,
   sortColumn,
@@ -363,5 +370,6 @@ export {
   getNodeType,
   getChildNodes,
   sender2TextType,
-  oldDeepCopy
+  oldDeepCopy,
+  getStringWidth
 }

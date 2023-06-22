@@ -140,6 +140,22 @@ export function AppEventProvider({ children }: types.AppProviderProps) {
     };
     addToOutboundQueue(JSON.stringify(textUpdateMsg));
 
+    let colUpdateMsg: types.messageType = {
+      id: 0.1,
+      sender: 'GM',
+      timeStamp: '',
+      type: 'collectionList',
+      data: JSON.stringify({ collection: 'creatures', projection: { _id: 1, name: 1 } }),
+      dest: ['server'],
+    }
+    addToOutboundQueue(JSON.stringify(colUpdateMsg));
+
+    colUpdateMsg.data = JSON.stringify({ collection: 'actors', projection: { _id: 1, name: 1 } }),
+    addToOutboundQueue(JSON.stringify(colUpdateMsg));
+
+    colUpdateMsg.data = JSON.stringify({ collection: 'items', projection: { _id: 1, name: 1 } })
+    addToOutboundQueue(JSON.stringify(colUpdateMsg));
+
     return true;
   };
 

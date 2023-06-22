@@ -35,6 +35,7 @@ export interface GMState {
   creatures: ListOption[]
   actors: ListOption[]
   items: ListOption[]
+  storyLines: ListOption[]
 }
 
 export interface GameState {

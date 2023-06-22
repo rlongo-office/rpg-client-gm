@@ -148,7 +148,8 @@ export function AppProvider({ children }: types.AppProviderProps) {
   const initGMState:types.GMState = {
     creatures: [],
     actors: [],
-    items: []
+    items: [],
+    storyLines:[]
   }
 
 
