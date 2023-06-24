@@ -58,7 +58,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   }, [selectedOptions, onChange])
 
   useEffect(() => {
-    if (grow) {
+    if (grow && options) {
+      debugger
       let seedLength: number
       const longestLabel = options.reduce((longest, option) => {
         return option.label.length > longest.length ? option.label : longest
@@ -75,7 +76,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   }, [options, grow])
 
   return (
-    <div id="MultiSelect Level 0 Div" style={{ position: 'relative', width: grow ? calculatedWidth : width }}>
+    <div id="MultiSelect Level 0 Div" style={{ backgroundColor:'blue',position: 'relative', width: grow ? calculatedWidth : width }}>
       <div id="MultiSelect Level 1  Div">
         <div
           id="MultiSelect div button"

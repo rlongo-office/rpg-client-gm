@@ -81,7 +81,7 @@ function GMDashboard() {
             options={creaturesList}
             onChange={handleMultiSelectChange}
             fontSize={''}
-            grow={false}
+            grow={true}
             parentClick={pageClick}
           ></MultiSelect>
         </div>
@@ -90,7 +90,7 @@ function GMDashboard() {
             options={itemsList}
             onChange={handleMultiSelectChangeTest}
             fontSize={''}
-            grow={false}
+            grow={true}
             parentClick={pageClick}
           ></MultiSelect>
         </div>
