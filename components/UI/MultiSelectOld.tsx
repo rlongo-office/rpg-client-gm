@@ -1,3 +1,4 @@
+import { getStringWidth } from '@utils/utils'
 import React, { useState, useRef, useEffect } from 'react'
 
 export interface Option {
@@ -7,6 +8,7 @@ export interface Option {
 
 interface MultiSelectProps {
   options: Option[]
+  multiSelect: boolean
   onChange: (selectedOptions: Option[]) => void
   width?: number
   toggleHeight?: number
@@ -16,8 +18,9 @@ interface MultiSelectProps {
   parentClick: boolean
 }
 
-const MultiSelect2: React.FC<MultiSelectProps> = ({
+const MultiSelect: React.FC<MultiSelectProps> = ({
   options,
+  multiSelect = true,
   onChange,
   width = 200,
   toggleHeight = 40,
@@ -30,26 +33,24 @@ const MultiSelect2: React.FC<MultiSelectProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [calculatedWidth, setCalculatedWidth] = useState<number>(width)
 
+  // Remove "px" characters from the fontSize prop and parse it as an integer
   const parsedFontSize = parseInt(fontSize.replace('px', ''), 10)
 
   const handleOptionClick = (selectedOption: Option) => {
-    if (selectedOptions.some(option => option.value === selectedOption.value)) {
+    if (!multiSelect) {
+      if (selectedOptions.length === 0 || selectedOptions[0].value !== selectedOption.value) {
+        setSelectedOptions([selectedOption])
+      }
+    }  else if (selectedOptions.some(option => option.value === selectedOption.value)) {
       setSelectedOptions(selectedOptions.filter(option => option.value !== selectedOption.value))
     } else {
       setSelectedOptions([...selectedOptions, selectedOption])
     }
   }
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation()
     setIsDropdownOpen(!isDropdownOpen)
-  }
-
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-      setIsDropdownOpen(false)
-    }
   }
 
   useEffect(() => {
@@ -61,7 +62,8 @@ const MultiSelect2: React.FC<MultiSelectProps> = ({
   }, [selectedOptions, onChange])
 
   useEffect(() => {
-    if (grow) {
+    if (grow && options) {
+      debugger
       let seedLength: number
       const longestLabel = options.reduce((longest, option) => {
         return option.label.length > longest.length ? option.label : longest
@@ -70,23 +72,25 @@ const MultiSelect2: React.FC<MultiSelectProps> = ({
 
       const averageFontWidth = 0.6 * parsedFontSize // Assuming an average font width of 7 pixels (adjust as needed)
       const extraSpace = 5 // Additional space for left and right side padding
-
-      const calculatedWidth = seedLength * averageFontWidth + extraSpace
+      const font = `${fontSize} Arial`
+      //const calculatedWidth = seedLength * averageFontWidth + extraSpace
+      let calculatedWidth = getStringWidth(longestLabel, font)
       setCalculatedWidth(calculatedWidth)
     }
   }, [options, grow])
 
-  useEffect(() => {
-    window.addEventListener('click', handleClickOutside)
-    return () => {
-      window.removeEventListener('click', handleClickOutside)
-    }
-  }, [])
-
   return (
-    <div>
-      <div ref={wrapperRef} style={{ position: 'relative', width: grow ? calculatedWidth : width }}>
+    <div
+      id="MultiSelect Level 0 Div"
+      style={{
+        backgroundColor: 'blue',
+        position: 'relative',
+        width: grow ? calculatedWidth : width,
+      }}
+    >
+      <div id="MultiSelect Level 1  Div">
         <div
+          id="MultiSelect div button"
           onClick={toggleDropdown}
           style={{
             backgroundColor: '#EEE',
@@ -103,6 +107,7 @@ const MultiSelect2: React.FC<MultiSelectProps> = ({
         </div>
         {isDropdownOpen && (
           <div
+            id="List Div"
             style={{
               position: 'absolute',
               top: toggleHeight,
@@ -150,7 +155,7 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
   isSelected,
   fontSize,
 }) => {
-  const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+  function onClickHandler(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
     event.stopPropagation()
     onChange()
   }
@@ -163,6 +168,7 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
         padding: '2px',
         cursor: 'pointer',
         fontSize: `${fontSize}`,
+        fontFamily: 'Arial',
       }}
     >
       {option.label}
@@ -170,4 +176,4 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
   )
 }
 
-export default MultiSelect2
+export default MultiSelect

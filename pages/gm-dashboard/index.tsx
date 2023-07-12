@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { useAppContext } from '@context/app-provider'
-import MultiSelect, { Option } from '@components/UI/MultiSelect'
+//import MultiSelect, { Option } from '@components/UI/MultiSelect'
+import MultiSelect2, { Option } from '@components/UI/MultiSelect'
 import { useAppEventContext } from '@context/app-event-provider'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { styleObj } from '../../styles/styles'
 import * as rpgTypes from 'types/rpg-types'
+import GMLeftMenu from '@components/gm-ui/gm-left-menu'
 
 function GMDashboard() {
   const { gmState } = useAppContext()
@@ -14,38 +17,32 @@ function GMDashboard() {
   const pageClickRef = useRef<boolean>(false)
   const multiSelectRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const handleDocumentClick = (event: MouseEvent) => {
-      console.log('handleDocumentClick was fired')
-      const clickedElement = event.target as HTMLDivElement
-      console.log('Clicked element id:', clickedElement.id)
-      console.log('multiSelectRef.current:', multiSelectRef.current)
-      //if (multiSelectRef.current && !multiSelectRef.current.contains(event.target as Node)) {
-      if (multiSelectRef.current && clickedElement.id ==="topPageDiv" ) {
-        console.log(`page was clicked outside of MultiSelect`)
-        setPageClick(prevState => !prevState)
-        pageClickRef.current = !pageClickRef.current // Toggle between true and false
-      }
-    }
+  useEffect(() => {}, [])
 
-    document.addEventListener('click', handleDocumentClick)
+  return (
+    <>
+      <div id="topGMPage" style={{ height: '50px' }}>BunBoyBonanza</div>
+      <div id="topDashboardDiv" style={styleObj[`TopGMPage`]} ref={multiSelectRef}>
+        <div id="pageColOne" style={{ width: '10%' }}>
+          <GMLeftMenu/>
+        </div>
+        <div id="pageColTwo" style={{ width: '30%' }}>
+          Col 2
+        </div>
+        <div id="pageColThree" style={{ width: '30%' }}>
+          Col 3
+        </div>
+        <div id="pageColThree" style={{ width: '30%' }}>
+          Col 3
+        </div>
+      </div>
+    </>
+  )
+}
 
-    return () => {
-      document.removeEventListener('click', handleDocumentClick)
-    }
-  }, [])
+export default GMDashboard
 
-  useEffect(() => {
-/*     const msg = {
-      id: 0.1,
-      sender: 'GM',
-      timeStamp: '',
-      type: 'collectionList',
-      data: JSON.stringify({ collection: 'creatures', projection: { _id: 1, name: 1 } }),
-      dest: ['server'],
-    }
-    addToOutboundQueue(JSON.stringify(msg)) */
-  }, [])
+/* 
 
   useEffect(() => {
     setCreatuesList(gmState.creatures)
@@ -65,38 +62,23 @@ function GMDashboard() {
     console.log(`Here are your selected ITEMS options: ${selectedIDs}`)
   }, [])
 
-  const handlePageClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log('handlePageClick was fired')
-    if (!event.currentTarget.contains(event.target as Node)) {
-      console.log(`page was clicked outside of MultiSelect`)
-      pageClickRef.current = !pageClickRef.current // Toggle between true and false
-    }
-  }
 
-  return (
-    <>
-      <div id="topPageDiv" ref={multiSelectRef}>
         <div style={{ width: '400px' }}>
-          <MultiSelect
+          <MultiSelect2
             options={creaturesList}
             onChange={handleMultiSelectChange}
             fontSize={''}
             grow={true}
             parentClick={pageClick}
-          ></MultiSelect>
+          ></MultiSelect2>
         </div>
         <div style={{ width: '400px' }}>
-          <MultiSelect
+          <MultiSelect2
             options={itemsList}
             onChange={handleMultiSelectChangeTest}
             fontSize={''}
             grow={true}
             parentClick={pageClick}
-          ></MultiSelect>
+          ></MultiSelect2>
         </div>
-      </div>
-    </>
-  )
-}
-
-export default GMDashboard
+*/

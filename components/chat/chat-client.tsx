@@ -7,8 +7,8 @@ import { getCurrentTimeString } from '@utils/utils'
 import { useAppEventContext } from '@context/app-event-provider'
 
 function ChatClient() {
-  const { game, myUser, users} = useAppContext()
-  const {addToOutboundQueue} = useAppEventContext()
+  const { game, myUser, users } = useAppContext()
+  const { addToOutboundQueue } = useAppEventContext()
   const msgRef = useRef<HTMLTextAreaElement>(null)
   const [recipient, setRecipient] = useState<string[]>([])
   const [options, setOptions] = useState<types.SelectionOption[]>([
@@ -59,6 +59,7 @@ function ChatClient() {
     <div id="chat-client">
       <MultiSelect
         options={options}
+        multiSelect={false}
         onChange={handleMultiSelectChange}
         width={150}
         toggleHeight={20}

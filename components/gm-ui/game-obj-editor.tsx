@@ -4,12 +4,12 @@ import useViewport from '../../hooks/useViewport'
 import { useAppContext } from '../../context/app-provider'
 import GMUIObjEditor from './gm-ui-obj-editor'
 
-function GameObjEditor() {
+
+function GameObjEditor(obj:object) {
   const { devWidth, devHeight } = useViewport()
-  const { game, setGame } = useAppContext()
   return (
-      <div style={{ ...styleObj[`VStack`]}}>
-        <GMUIObjEditor source={game} subObject={{}} />
+      <div style={{ ...styleObj[`HSTACK`]}}>
+        <GMUIObjEditor source={obj} subObject={{}} />
       </div>
 
   )

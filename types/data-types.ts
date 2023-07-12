@@ -1,3 +1,4 @@
+
 export type DamageType = { 
   index: string; 
   name: string; 

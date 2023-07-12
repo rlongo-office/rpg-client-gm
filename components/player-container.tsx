@@ -1,28 +1,23 @@
-import * as React from 'react'
-import playerData from '../data/collections/players.json'
-import Map from '../data/collections/maps/player-main.-stats-test.json'
-import { InfoMap } from '../types/rpg-types'
-import Section from './Section'
-//This is a no-no so we need a type of Creature. So refactor this with a Creature type
-interface AnyObject {
-  [key: string]: any
-}
+import { useRef, useEffect, useState, useCallback } from 'react'
+import * as types from '../types/rpg-types'
+import { useAppContext } from '@context/app-provider'
 
-interface Props {
-  map: InfoMap
-  data: object
-}
+function PlayerContainer() {
+  const {gameState} = useAppContext()
+  const [selected,setSelected] = useState<string[]>([])
+  const [players,setPlayers] = useState<string[]>([])
 
-function PlayerContainer({ map, data }: Props) {
-  const [playerStats, setPlayerStats] = React.useState<AnyObject>(playerData[0])
-  const [statMap, setStatMap] = React.useState<AnyObject>(Map)
+  useEffect(() => {
+    setPlayers(gameState.players.map((p)=>p.name))
+  }, [gameState])
 
-  React.useEffect(() => {}, [])
+  const handleMultiSelectChange = useCallback((selectedOptions: types.SelectionOption[]) => {
+    const msgRecips = selectedOptions.map(option => option.value)
+    setSelected(msgRecips)
+  }, [])
+
   return (
     <>
-      {statMap.top.sections.map((row: any, rowIndex: number) => (
-        <Section key={rowIndex} section={row} record={playerStats} />
-      ))}
     </>
   )
 }

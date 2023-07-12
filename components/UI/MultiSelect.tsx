@@ -8,6 +8,7 @@ export interface Option {
 
 interface MultiSelectProps {
   options: Option[]
+  multiSelect: boolean
   onChange: (selectedOptions: Option[]) => void
   width?: number
   toggleHeight?: number
@@ -19,6 +20,7 @@ interface MultiSelectProps {
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
   options,
+  multiSelect = true,
   onChange,
   width = 200,
   toggleHeight = 40,
@@ -29,25 +31,38 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([])
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+  const [isDropdownListOpen, setIsDropdownListOpen] = useState<boolean>(false)
   const [calculatedWidth, setCalculatedWidth] = useState<number>(width)
 
   // Remove "px" characters from the fontSize prop and parse it as an integer
   const parsedFontSize = parseInt(fontSize.replace('px', ''), 10)
 
   const handleOptionClick = (selectedOption: Option) => {
-    console.log('handleOptionClick was fired')
-    if (selectedOptions.some(option => option.value === selectedOption.value)) {
+    if (!multiSelect) {
+      if (selectedOptions.length === 0 || selectedOptions[0].value !== selectedOption.value) {
+        setSelectedOptions([selectedOption])
+      }
+    }  else if (selectedOptions.some(option => option.value === selectedOption.value)) {
       setSelectedOptions(selectedOptions.filter(option => option.value !== selectedOption.value))
     } else {
       setSelectedOptions([...selectedOptions, selectedOption])
     }
   }
+  
+  const toggleDropdownList = () => {
+    setIsDropdownListOpen(!isDropdownListOpen)
+    //We dont want to toggle the parent div on a mouse leave, so we need the 
+    //child "List Div" to tell the parent it's going to close
 
-  const toggleDropdown = (event: React.MouseEvent<HTMLDivElement,MouseEvent>) => {
-    console.log(`ToggleDropdown clicked`)
-   event.stopPropagation()
+    if (!isDropdownListOpen){
+      setIsDropdownOpen(false)
+    }
+  }
+
+  const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
+
 
   useEffect(() => {
     setIsDropdownOpen(false)
@@ -80,7 +95,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       <div id="MultiSelect Level 1  Div">
         <div
           id="MultiSelect div button"
-          onClick={toggleDropdown}
+          onMouseEnter={toggleDropdown}
           style={{
             backgroundColor: '#EEE',
             cursor: 'pointer',
@@ -96,6 +111,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         </div>
         {isDropdownOpen && (
           <div id="List Div"
+          onMouseEnter={toggleDropdownList}
+          onMouseLeave={toggleDropdownList}
             style={{
               position: 'absolute',
               top: toggleHeight,
@@ -165,3 +182,4 @@ const MultiSelectOption: React.FC<MultiSelectOptionProps> = ({
 }
 
 export default MultiSelect
+

@@ -38,6 +38,10 @@ styleObj['vertStack'] = {
   width: '100%',
 } as React.CSSProperties
 
+styleObj['hStack'] = {
+  alignment: 'center',
+} as React.CSSProperties
+
 styleObj['abilityBox'] = {
   padding: '5px',
   border: '2px solid',
@@ -67,9 +71,7 @@ styleObj['topStatBox'] = {
   width: '300px',
 } as React.CSSProperties
 
-styleObj['hStack'] = {
-  alignment: 'center',
-} as React.CSSProperties
+
 
 styleObj['abilityStat'] = {
   margin: '3px',
@@ -367,6 +369,16 @@ styleObj['TopFlexPage'] = {
   flexDirection: 'column',
   justifyContent: 'stretch',
 } as React.CSSProperties
+
+styleObj['TopGMPage'] = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'stretch',
+} as React.CSSProperties
+
+
+
+
 
 styleObj['SectionButton'] = {
   backgroundColor: 'Indigo',
