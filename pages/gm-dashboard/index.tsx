@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { styleObj } from '../../styles/styles'
 import * as rpgTypes from 'types/rpg-types'
 import GMLeftMenu from '@components/gm-ui/gm-left-menu'
+import GameObjEditor from '@components/gm-ui/game-obj-editor'
 
 function GMDashboard() {
   const { gmState } = useAppContext()
@@ -36,6 +37,7 @@ function GMDashboard() {
           Col 3
         </div>
       </div>
+      <GameObjEditor obj={gmState}/>
     </>
   )
 }

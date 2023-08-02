@@ -8,6 +8,7 @@ import {
 } from '../../utils/utils'
 import UiObjTreeNode from './ui-obj-tree-node'
 import useObjReducer from '../../hooks/use-obj-reducer'
+import data from 'data/collections/players'
 
 interface AnyObject {
   [key: string]: any
@@ -38,11 +39,16 @@ function UiObjTreeEditor({ source }: props) {
     setClonedObj(sourceObj)
   }, [])
 
+/*   React.useEffect(() => {
+    const sourceObj = loadSource()
+    setClonedObj(sourceObj)
+  }, []) */
+
   return (
     <>
       <UiObjTreeNode
         label={source}
-        subSource={clonedObj}
+        subSource={data}
         path={``}
         callRootEdit={storeInput}
         nodeType={getNodeType(clonedObj)}

@@ -22,7 +22,7 @@ function PlayerEditor() {
       sender: 'GM',
       timeStamp: getCurrentTimeString(), //Add Linux epoch time here instead
       type: 'gameUpdate',
-      data: textData,           //Needs to be the value that has been changed
+      data: "",           //Needs to be the value that has been changed
       dest: ["all"],            //Most game object changes will be sent to everyone
     }
     addToOutboundQueue(JSON.stringify(msg))
@@ -33,7 +33,7 @@ function PlayerEditor() {
     setSelected(msgRecips)
   }, [])
 
-  return (
+/*   return (
     <div id="chat-client">
       <MultiSelect
         options={options}
@@ -56,6 +56,7 @@ function PlayerEditor() {
       ></textarea>
       <button onClick={() => sendUpdateMessage()}>Commit</button>
     </div>
-  )
+  ) */
+  return <div></div>
 }
 export default PlayerEditor

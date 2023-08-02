@@ -111,15 +111,21 @@ export type DamageType = {
     adj: number
   }
 
+  type Range = {
+    normal: number
+    long: number
+  }
+
+
   type Language = {
     name: string
     type: string
-    stat: Stat
+    stat: number
   }
 
   type Skill = {
     name: string
-    stat: Stat
+    stat: number
     passive: number
     description: string
   }
@@ -147,7 +153,7 @@ export type DamageType = {
   type Ability = {
     name: string
     type: string
-    stat: Stat
+    stat: number
   }
 
   type Inventory = {
@@ -168,20 +174,20 @@ export type DamageType = {
     backStory: string
     player: string
     gender: string
-    age: Stat
+    age: number
     race: GenericStat
     alignment: string
     hair: string
     eyes: string
     skin: string
-    height: Stat
-    weight: Stat
-    size: Stat
+    height: number
+    weight: number
+    size: number
     reach: number
-    hitpoint: Stat
+    hitpoint: number
     damage: number
     deity: string[]
-    experience: Stat
+    experience: number
     classes: PlayerClass[]
     languages: Language[]
     abilities: Ability[]
@@ -194,11 +200,11 @@ export type DamageType = {
     senses: GenericStat
     auras: string[]
     purse: CoinPurse
-    armorClass: Stat
-    initiative: Stat
-    speed: Stat
-    encumbrance: Stat
-    carriedWeight: Stat
+    armorClass: number
+    initiative: number
+    speed: number
+    encumbrance: number
+    carriedWeight: number
     inventories: Inventory[]
     spells: PlayerSpell[]
     specials:Special[]
@@ -211,7 +217,7 @@ export type DamageType = {
     type: string
     level: number
     castTime: string
-    range: number
+    range: Range
     duration: string
     dc: number
     casterLevel: number
@@ -254,7 +260,7 @@ export type DamageType = {
     attack: number
     damage: string
     proficient: boolean
-    range: Stat
+    range: Range
     special: string
   }
 
@@ -303,7 +309,7 @@ export interface Spell extends Access {
     name: string
     recordType: string
     desc: string[]
-    range: string
+    range: Range
     components: string[]
     material: string
     ritual: boolean
