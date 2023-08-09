@@ -10,10 +10,10 @@ import * as dataTypes from '../../types/player-types'
     "player": "Russell Longo",
     "gender": "male",
     "age": 30,
-    "race": {
-      "Elf": 0.5,
-      "Human": 0.5
-    },
+    "race": [
+      { "Elf": 0.5 },
+      { "Human": 0.5 }
+    ],
     "alignment": "Neutral Good",
     "hair": "brown",
     "eyes": "gray",
@@ -605,10 +605,10 @@ import * as dataTypes from '../../types/player-types'
     "player": "Michael",
     "gender": "male",
     "age": 50,
-    "race": {
-      "Elf": 0.5,
-      "Human": 0.5
-    },
+    "race": [
+      { "Elf": 0.5 },
+      { "Human": 0.5 }
+    ],
     "alignment": "Chaotic Neutral",
     "hair": "black",
     "eyes": "blue",
@@ -1164,9 +1164,10 @@ import * as dataTypes from '../../types/player-types'
     "player": "John Doe",
     "gender": "Female",
     "age": 25,
-    "race": {
-      "Human": 1
-    },
+    "race": [
+      { "Elf": 0.5 },
+      { "Human": 0.5 }
+    ],
     "alignment": "Lawful Good",
     "hair": "Blonde",
     "eyes": "Blue",
@@ -1628,9 +1629,10 @@ import * as dataTypes from '../../types/player-types'
     "player": "Giovanni",
     "gender": "Male",
     "age": 25,
-    "race": {
-      "Human": 1
-    },
+    "race": [
+      { "Elf": 0.5 },
+      { "Human": 0.5 }
+    ],
     "alignment": "Neutral Good",
     "hair": "Black",
     "eyes": "Brown",

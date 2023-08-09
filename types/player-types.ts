@@ -7,7 +7,7 @@ export interface Character {
     player: string;
     gender: string;
     age: number;
-    race: GenericStat;
+    race: GenericStat[];
     alignment: string;
     hair: string;
     eyes: string;
