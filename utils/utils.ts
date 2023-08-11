@@ -67,15 +67,93 @@ function propertiesToArray(obj: object) {
   return paths(obj)
 }
 
-function deepCopy(obj: any): any {
+function oldDeepCopy(obj: any): any {
   return Object.keys(obj).reduce(
     (v, d) =>
       Object.assign(v, {
-        [d]: obj[d].constructor === Object ? deepCopy(obj[d]) : obj[d],
+        [d]: obj[d].constructor === Object ? oldDeepCopy(obj[d]) : obj[d],
       }),
     {}
   )
 }
+
+function deepCopy(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(deepCopy);
+  }
+
+  if (typeof obj === 'object' && obj !== null) {
+    const copy: any = {};
+
+    for (const key in obj) {
+      copy[key] = deepCopy(obj[key]);
+    }
+
+    return copy;
+  }
+
+  return obj;
+}
+
+
+//expandedDeepCopy untested, may have some application in the future to overcome the limitations of deepCopy above
+//For example, apparently nested arrays will only be shallow. This copy will potentially work even if the object 
+//has accessor function properties
+function expandedDeepCopy(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(expandedDeepCopy);
+  }
+
+  if (obj && typeof obj === 'object') {
+    const copy: any = {};
+    const descriptors = Object.getOwnPropertyDescriptors(obj);
+
+    for (const key in descriptors) {
+      if (descriptors.hasOwnProperty(key)) {
+        const descriptor = descriptors[key];
+        if ('value' in descriptor) {
+          copy[key] = expandedDeepCopy(descriptor.value);
+        } else if ('get' in descriptor) {
+          Object.defineProperty(copy, key, {
+            get: () => expandedDeepCopy(obj[key]),
+            enumerable: descriptor.enumerable,
+            configurable: descriptor.configurable,
+          });
+        }
+      }
+    }
+
+    return copy;
+  }
+
+  return obj;
+}
+
+
+//constructPathMap untested, may have some application in the future
+const constructPathMap = (val: any, parentPath = '') => {
+  let pathMap: any = {};
+
+  if (Array.isArray(val)) {
+    val.forEach((subVal: any, index: number) => {
+      const arrayIndex = `[${index}]`;
+      const newPath = parentPath ? `${parentPath}.${arrayIndex}` : arrayIndex;
+      const subPathMap = constructPathMap(subVal, newPath);
+      pathMap = { ...pathMap, ...subPathMap };
+    });
+  } else if (typeof val === 'object' && val !== null) {
+    Object.entries(val).forEach(([key, value]) => {
+      const newPath = parentPath ? `${parentPath}.${key}` : key;
+      const subPathMap = constructPathMap(value, newPath);
+      pathMap = { ...pathMap, ...subPathMap };
+    });
+  } else {
+    pathMap[parentPath] = parentPath;
+  }
+
+  return pathMap;
+};
+
 
 const iterateObjEntries = (parent: string, val: any, objPath: Array<string>) => {
   let parentPath = parent === '' ? '' : parent
@@ -191,14 +269,107 @@ const createObjID = (data: AnyObject[], record: AnyObject) => {
   return record
 }
 
+const getCurrentTimeString = (): string => {
+  const currentDate = new Date();
+  const year = String(currentDate.getFullYear()).slice(-2);
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+  const currentTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return currentTimeString;
+};
+
+const getNodeType = (obj: object) => {
+  if (Array.isArray(obj)) {
+    return 'array'
+  } else {
+    if (typeof obj === 'object') {
+      return 'object'
+    } else return 'value'
+  }
+}
+
+/* The follow grabs the subVal and subPath string for each child entry in an object, if the val is of
+array or object. In the object editor component, we are using this function parse out the next level
+of children for rendering the tree for an object */
+const getChildNodes = (parent: string, val: any) => {
+  let childNodeArray = []
+  let parentPath = parent === '' ? '' : parent
+  if (Array.isArray(val)) {
+    let index = 0
+    if (val.length === 0) {
+      childNodeArray.push(parent)
+    }
+    val.forEach((subVal: any) => {
+      let arrayIndex = '[' + index + ']'
+      childNodeArray.push({
+        label: index,
+        value: subVal,
+        subPath: `${parentPath}${arrayIndex}`,
+        type: getNodeType(subVal),
+      })
+      index += 1
+    })
+  } else {
+    let dotOrNot = parentPath === '' ? '' : '.'
+    if (typeof val === 'object') {
+      Object.keys(val).forEach(key => {
+        let subVal = val[key]
+        if (subVal === null) {
+          subVal = 'null'
+        }
+        childNodeArray.push({
+          label: key,
+          value: subVal,
+          subPath: `${parentPath}${dotOrNot}${key}`,
+          type: getNodeType(subVal),
+        })
+      })
+    }
+  }
+  return childNodeArray
+}
+
+function sender2TextType(sender: string, users: string[]) {
+  console.log(`sender: ${sender}  users: ${users}`)
+  if (users.includes(sender)) {
+    return 'playerText';
+  } else {
+    switch (sender) {
+      case 'gm': return 'gmText';
+      case 'game': return 'gameText';
+      case 'alert': return 'alertText';
+      case 'lore': return 'loreText';
+      default: return "baseText";
+    }
+  }
+}
+
+function getStringWidth(text, font) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = font;
+  return context.measureText(text).width;
+}
+
 export {
   addIndexColumn,
   sortColumn,
   parseDataForTable,
   propertiesToArray,
+  constructPathMap,
   iterateObjEntries,
   getObjValue,
   setObjValue,
   deepCopy,
   createObjID,
+  getCurrentTimeString,
+  getNodeType,
+  getChildNodes,
+  sender2TextType,
+  oldDeepCopy,
+  getStringWidth
 }

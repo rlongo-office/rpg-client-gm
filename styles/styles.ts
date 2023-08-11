@@ -38,6 +38,10 @@ styleObj['vertStack'] = {
   width: '100%',
 } as React.CSSProperties
 
+styleObj['hStack'] = {
+  alignment: 'center',
+} as React.CSSProperties
+
 styleObj['abilityBox'] = {
   padding: '5px',
   border: '2px solid',
@@ -67,9 +71,7 @@ styleObj['topStatBox'] = {
   width: '300px',
 } as React.CSSProperties
 
-styleObj['hStack'] = {
-  alignment: 'center',
-} as React.CSSProperties
+
 
 styleObj['abilityStat'] = {
   margin: '3px',
@@ -295,22 +297,56 @@ styleObj['topStatusBar'] = {
   margin: '2px',
   backgroundColor: 'white',
 } as React.CSSProperties
+//***BEGINNING OF CHAT TEXT TYPE STYLES */
+styleObj['baseText'] = {
+  fontSize: '12px',
+  textAlign: 'left',
+  wordWrap: 'break-word',
+  fontFamily:'Helvetica'
+} as React.CSSProperties
 
-styleObj['baseText'] = { fontSize: '12px' } as React.CSSProperties
-styleObj['gmText'] = { color: 'purple' } as React.CSSProperties
-styleObj['playerText'] = { color: 'green' } as React.CSSProperties
-styleObj['gameText'] = { color: 'blue', fontStyle: 'italic' } as React.CSSProperties
-styleObj['alertText'] = { color: 'red', fontWeight: 'bold' } as React.CSSProperties
-styleObj['loreText'] = { color: 'black', fontStyle: 'italic' } as React.CSSProperties
+styleObj['gmText'] = {
+  ...styleObj['baseText'],
+  color: 'purple',
+} as React.CSSProperties
+
+styleObj['playerText'] = {
+  ...styleObj['baseText'],
+  color: 'green',
+} as React.CSSProperties
+
+styleObj['gameText'] = {
+  ...styleObj['baseText'],
+  color: 'black',
+  fontStyle: 'italic',
+  fontWeight: 'bolder',
+  fontSize: '13px',
+  fontFamily: 'Lato'
+} as React.CSSProperties
+
+styleObj['alertText'] = {
+  ...styleObj['gameText'],
+  color: 'red',
+  fontWeight: 'bold',
+} as React.CSSProperties
+
+styleObj['loreText'] = {
+  ...styleObj['baseText'],
+  color: 'black',
+  fontStyle: 'italic',
+} as React.CSSProperties
+//***********END CHAT TEXT TYPE STYLES */
 styleObj['loreClientText'] = {
   ...styleObj['loreText'],
   paddingBottom: '10px',
 } as React.CSSProperties
+
 styleObj['defaultText'] = {
   ...styleObj['baseText'],
   color: 'black',
   fontStyle: 'italic',
 } as React.CSSProperties
+
 styleObj['ParentDivWhite'] = {
   ...styleObj['ParentDiv'],
   backgroundColor: 'white',
@@ -333,6 +369,16 @@ styleObj['TopFlexPage'] = {
   flexDirection: 'column',
   justifyContent: 'stretch',
 } as React.CSSProperties
+
+styleObj['TopGMPage'] = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'stretch',
+} as React.CSSProperties
+
+
+
+
 
 styleObj['SectionButton'] = {
   backgroundColor: 'Indigo',

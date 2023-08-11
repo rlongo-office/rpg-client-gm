@@ -3,12 +3,20 @@ import '../styles/dashboard.css'
 import * as React from 'react'
 import type { AppProps } from 'next/app'
 import { AppProvider } from '../context/app-provider'
+import { AppEventProvider } from '../context/app-event-provider'
 
-interface InitialStateType {
-  creatures: Array<Object>
-  actors: Array<string>
-  testMessage: Array<string>
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <AppProvider>
+      <AppEventProvider>
+        <Component {...pageProps} />
+      </AppEventProvider>
+    </AppProvider>
+  )
 }
+
+export default MyApp
+
 /*
 interface AppContextType{
   state:InitialStateType,
@@ -19,13 +27,3 @@ type AppProviderProps = {
   children: React.ReactNode
 }
 */
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <AppProvider>
-      <Component {...pageProps} />
-    </AppProvider>
-  )
-}
-
-export default MyApp

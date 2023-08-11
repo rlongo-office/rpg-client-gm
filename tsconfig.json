@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strictNullChecks": false,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -22,7 +23,8 @@
       "@apptypes/*": ["types/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "sourceMap": true
   },
   "include": [
     "next-env.d.ts",
@@ -32,8 +34,9 @@
     "components/image/test-mouse-image.jsx",
     "data/collections/game-object.ts",
     "styles/styles.ts",
-    "components/blue-print/ui-bottom-navbar.jsx",
-    "hooks/useDoubleClick.jsx"
-  ],
+    "components/blue-print/ui-bottom-navbar.tsx",
+    "hooks/useDoubleClick.jsx",
+    "components/WebSocketDemo.jsx"
+, "components/animation/rollable-die.tsx", "components/animation/rollable-die.tsx"  ],
   "exclude": ["node_modules"]
 }

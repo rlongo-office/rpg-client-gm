@@ -58,7 +58,6 @@ function GMUIObjEditor({ source, subObject }: props) {
         content.push(inputEl)
       })
       return content
-
   }
 
   React.useEffect(() => {

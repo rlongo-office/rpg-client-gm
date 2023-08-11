@@ -5,8 +5,11 @@ import webStompClient from 'webstomp-client'
 import * as types from '../types/rpg-types'
 import useWSHandler from './useWSHandlers'
 
-const useStomp = (url = 'http://localhost:8080/game-app') => {
-  const { MessageEventHandlerService } = useWSHandler()
+/* This hook has been scrapped for the useWSManager hook, which is a basic websocket
+service,  */
+
+const useStomp = (url = 'http://localhost:8000/game-app') => {
+  //const { MessageEventHandlerService } = useWSHandler()
 
   const {
     account,
@@ -24,8 +27,8 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
     console.log('connection was successful')
     setIsConnected(true)
     // register ''default' message channel listeners
-    client.subscribe('/topic/chat', (message: types.messageType) => messageHandler(message))
-    client.subscribe('/user/queue/message', (message: types.messageType) => messageHandler(message))
+    //client.subscribe('/topic/chat', (message: types.messageType) => messageHandler(message))
+    //client.subscribe('/user/queue/message', (message: types.messageType) => messageHandler(message))
     return true
   }
 
@@ -49,7 +52,7 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
     }
   }
 
-  const messageHandler = (message: any) => {
+/*   const messageHandler = (message: any) => {
     // fire the 'connect' callbacks
     //The STOMP "body" is a stringified object that comprises the game message, so we only
     //so we parse this for game use
@@ -74,8 +77,8 @@ const useStomp = (url = 'http://localhost:8080/game-app') => {
       }
     }
   }
-
-  return { connect, sendMessage }
-}
+*/
+  return { connect }
+} 
 
 export default useStomp

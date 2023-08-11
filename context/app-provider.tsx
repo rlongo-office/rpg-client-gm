@@ -1,38 +1,52 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect, useReducer } from 'react'
 import creaturesCollection from '../data/collections/creatures.json'
-import playersData from '../data/collections/players.json'
 import playerUIBP from '../data/collections/maps/bp-player-dnd-5-1.0.json'
-import textData from '../data/collections/textMessages.json'
+//import textData from '../data/collections/textMessages.json'
 import loreData from '../data/collections/loreMessages.json'
 import * as React from 'react'
-import * as types from '../types/rpg-types'
 import gameObject from '../data/collections/game-object'
 import { mapImage } from '../data/mapImage'
 import { createObjID, parseDataForTable } from '@utils/utils'
-import apiUtils from '@utils/game-service'
+import * as types from '../types/rpg-types'
+import * as dataTypes from '../types/data-types'
+import { gameReducer } from 'services/game-reducer'
+import { gmReducer } from 'services/gm-reducer'
 
-const AppContext = React.createContext<any | undefined>(undefined)
+export const AppContext = React.createContext<any | undefined>(undefined)
 
 export function AppProvider({ children }: types.AppProviderProps) {
+  const [nextSocketMsg, setNextSocketMsg] = useState<string>('')
+  const [outSocketMsg, setOutSocketMsg] = useState<string>('')
+  const [appSocket, setAppSocket] = useState<WebSocket>(null)
+  const [myUser, setMyUser] = useState<string>('')
+  const [users, setUsers] = useState<string[]>([])
+  const [serverURL, setServerURL] = useState<string>('ws://localhost:8000')
+  const [game, setGame] = useState<types.GameObject>(gameObject)
   const [account, setAccount] = React.useState({ user: 'jsnrice', password: 'password' })
-  const [isConnected, setIsConnected] = React.useState(false)
-  const [wsSocket, setWSSocket] = React.useState<any>({})
-  const [stompClient, setStompClient] = React.useState<any>(null)
-  const [creatures, setCreatures] = React.useState<types.AnyObject[]>(creaturesCollection)
+  const [isConnected, setIsConnected] = useState(false)
+  //While game object does have the users stored in the actor array, to avoid rerenders every time the gameObject
+  //changes, I will check for game object to change here, and update the users only when
+  const [creatures, setCreatures] = useState<types.AnyObject[]>(creaturesCollection)
+  const [collectionLists, setCollectionLists] = useState<{
+    creatures: string[]
+    actors: string[]
+    items: string[]
+  }>({
+    creatures: [],
+    actors: [],
+    items: [],
+  })
   //Actors are any entity in the world  whether NPC (GM) or player controlled
-  const [actors, setActors] = React.useState<types.AnyObject[]>([])
-  const [game, setGame] = React.useState<types.GameObject>(gameObject)
-  const [messages, setMessages] = React.useState<types.messageType[]>([])
-  const [players, setPlayers] = React.useState<types.AnyObject[]>(playersData)
-  const [playerBP, setPlayerBP] = React.useState<types.AnyObject>(playerUIBP)
-  //Those exchanged websocket messages of type group, private, party, or game texts
-  const [textHistory, setTextHistory] = React.useState<types.textMessage[]>(textData)
+  const [messages, setMessages] = useState<types.messageType[]>([])
+  const [playerBP, setPlayerBP] = useState<types.AnyObject>(playerUIBP)
+  const [myStats, setMyStats] = useState<dataTypes.Character>(null)
+  const [pageClick,setPageClick] = useState(false)
   //Those exchanged websocket messages resulting from 'lore' or 'story' searches
-  const [loreMsgData, setLoreMsgData] = React.useState<types.textMessage[]>(loreData)
-  const [images, setImages] = React.useState<string>(mapImage)
-  const [devWidth, setDevWidth] = React.useState(375)
-  const [devHeight, setDevHeight] = React.useState(700)
-  const [imgConfig, setImgConfig] = React.useState({
+  const [loreMsgData, setLoreMsgData] = useState<types.TextMessage[]>(loreData)
+  const [images, setImages] = useState<string>(mapImage)
+  const [devWidth, setDevWidth] = useState(375)
+  const [devHeight, setDevHeight] = useState(700)
+  const [imgConfig, setImgConfig] = useState({
     img: '',
     imgTOP: 0,
     imgLEFT: 0,
@@ -52,7 +66,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     accLimit: 4,
     scaleInc: 0.025,
   })
-
   const sharedTableConfig = {
     sortColumns: [0, 1, 2, 3, 4],
     header: ['Name', 'Type', 'Hit Dice', 'Challenge Rating'],
@@ -66,7 +79,6 @@ export function AppProvider({ children }: types.AppProviderProps) {
     upperBound: 8,
     selected: [],
   }
-
   const parsedCreaturesData = parseDataForTable(creatures, sharedTableConfig.filtered)
 
   const [tableConfig, setTableConfig] = React.useState<types.ConfigObject>({
@@ -115,7 +127,179 @@ export function AppProvider({ children }: types.AppProviderProps) {
     },
   })
 
-  const reducer = async (type: string, payload: any) => {
+  const initGame: types.GameObject = {
+    _id: { $oid: '' },
+    id: '',
+    yearTime: 0,
+    time: 0,
+    actors: [],
+    campaign: '',
+    channels: [],
+    climate: [],
+  }
+  const initState: types.GameState = {
+    id: '',
+    game: initGame,
+    players: [],
+    characters: [],
+    textHistory: [],
+  }
+
+  const initGMState:types.GMState = {
+    creatures: [],
+    actors: [],
+    items: [],
+    storyLines:[]
+  }
+
+
+  const [gameState, gameDispatch] = useReducer(gameReducer, initState)
+
+  const [gmState, gmDispatch] = useReducer(gmReducer, initGMState)
+
+  //The following function and useEffect added to address responsive layout needs across
+  //different devices.  I needed both width and length of window to plan component layout
+  const isMobile = () => {
+    var result = false
+    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
+      // if Pointer Events are supported, just check maxTouchPoints
+      if (navigator.maxTouchPoints > 0) {
+        result = true
+      }
+    } else {
+      // no Pointer Events...
+      if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
+        // check for any-pointer:coarse which mostly means touchscreen
+        result = true
+      } else if (window.TouchEvent || 'ontouchstart' in window) {
+        // last resort - check for exposed touch events API / event handler
+        result = true
+      }
+    }
+    return result
+  }
+
+  const handleWindowResize = () => {
+    setDevWidth(window.innerWidth)
+    setDevHeight(window.innerHeight)
+    console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
+  }
+
+  /*Make sure we have a valid window object before we add a window level listener */
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let mobile = isMobile()
+      if (mobile) {
+        window.addEventListener('resize', handleWindowResize)
+        return () => {
+          window.removeEventListener('resize', handleWindowResize)
+        }
+      }
+    }
+  }, [])
+
+  //When  game object update user listing needed
+  useEffect(() => {
+    //check if user listing has changed
+    if (!gameState.players) {
+      return
+    }
+    //users store is accessed in chat client for recipients/destination of chat messages
+    setUsers(prevUsers => {
+      const newUsers = gameState.players
+        .map(player => player.user)
+        .filter(user => !prevUsers.find(o => o === user))
+      console.log(newUsers)
+      return [...prevUsers, ...newUsers]
+    })
+    //current stats is a react side store that the various child comps can watch in case stats change
+    //hopefully this will reduce rerenders
+    setMyStats(gameState.players.filter(p => myUser === p.user).map(p => p.currentStats)[0])
+  }, [gameState.players])
+
+  const value = React.useMemo(
+    () => ({
+      game,
+      users,
+      myUser,
+      setMyUser,
+      setUsers,
+      setGame,
+      creatures,
+      setCreatures,
+      tableConfig,
+      setTableConfig,
+      account,
+      setAccount,
+      messages,
+      setMessages,
+      isConnected,
+      setIsConnected,
+      playerBP,
+      loreMsgData,
+      images,
+      devHeight,
+      devWidth,
+      imgConfig,
+      serverURL,
+      appSocket,
+      setAppSocket,
+      nextSocketMsg,
+      setNextSocketMsg,
+      outSocketMsg,
+      setOutSocketMsg,
+      gameState,
+      gameDispatch,
+      gmState,
+      gmDispatch,
+      myStats,
+      setMyStats,
+      collectionLists,
+      setCollectionLists,
+      pageClick,
+      setPageClick
+    }),
+    [
+      gameState,
+      gmState,
+      collectionLists,
+      nextSocketMsg,
+      outSocketMsg,
+      pageClick,
+      game,
+      users,
+      creatures,
+      tableConfig,
+      account,
+      messages,
+      isConnected,
+      playerBP,
+      loreMsgData,
+      images,
+      devHeight,
+      devWidth,
+      imgConfig,
+      serverURL,
+      myUser,
+      appSocket,
+      myStats,
+    ]
+  )
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
+}
+
+export function useAppContext() {
+  const store = useContext(AppContext)
+  if (!store) {
+    throw new Error('Store is not defined')
+  }
+  return store
+}
+
+export default { AppProvider, useAppContext }
+
+/*   const reducer = async (type: string, payload: any) => {
     let returnObj: types.AnyObject[] = []
     let parsedData: types.AnyObject[] = []
     switch (type) {
@@ -150,9 +334,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       default:
         break
     }
-  }
+  } */
 
-  const gblMsgHandler = React.useCallback(
+/*   const gblMsgHandler = React.useCallback(
     (message: types.messageType) => {
       switch (message.type) {
         case 'private':
@@ -163,106 +347,9 @@ export function AppProvider({ children }: types.AppProviderProps) {
       }
     },
     [messages]
-  )
+  ) */
 
-  //The following function and useEffect added to address responsive layout needs across
-  //different devices.  I needed both width and length of window to plan component layout
-
-  const isMobile = () => {
-    var result = false
-    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
-      // if Pointer Events are supported, just check maxTouchPoints
-      if (navigator.maxTouchPoints > 0) {
-        result = true
-      }
-    } else {
-      // no Pointer Events...
-      if (window.matchMedia && window.matchMedia('(any-pointer:coarse)').matches) {
-        // check for any-pointer:coarse which mostly means touchscreen
-        result = true
-      } else if (window.TouchEvent || 'ontouchstart' in window) {
-        // last resort - check for exposed touch events API / event handler
-        result = true
-      }
-    }
-    return result
-  }
-
-  const handleWindowResize = () => {
-    setDevWidth(window.innerWidth)
-    setDevHeight(window.innerHeight)
-    console.log('w: ' + window.innerWidth + ' h: ' + window.innerHeight)
-  }
-
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      let mobile = isMobile()
-      if (mobile) {
-        window.addEventListener('resize', handleWindowResize)
-        return () => window.removeEventListener('resize', handleWindowResize)
-      }
-    }
-  }, [])
-
-  const value = React.useMemo(
-    () => ({
-      game,
-      setGame,
-      creatures,
-      setCreatures,
-      actors,
-      setActors,
-      tableConfig,
-      setTableConfig,
-      gblMsgHandler,
-      account,
-      setAccount,
-      messages,
-      setMessages,
-      isConnected,
-      setIsConnected,
-      stompClient,
-      setWSSocket,
-      setStompClient,
-      players,
-      playerBP,
-      textHistory,
-      loreMsgData,
-      images,
-      devHeight,
-      devWidth,
-      imgConfig,
-    }),
-    [
-      game,
-      creatures,
-      actors,
-      tableConfig,
-      gblMsgHandler,
-      account,
-      messages,
-      isConnected,
-      stompClient,
-      players,
-      playerBP,
-      textHistory,
-      loreMsgData,
-      images,
-      devHeight,
-      devWidth,
-      imgConfig,
-    ]
-  )
-
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
-}
-
-export function useAppContext() {
-  const store = useContext(AppContext)
-  if (!store) {
-    throw 'Store is not defined'
-  }
-  return store
-}
-
-export default { AppProvider, useAppContext }
+/*   //* Update local storage when state changes
+  useEffect(() => {
+    localStorage.setItem('gameStore', JSON.stringify(gameStore));
+  }, [gameStore]); */

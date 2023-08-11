@@ -8,10 +8,6 @@ import UIChatClient from '../chat/chat-client'
 import UILoreClient from '../lore/lore-client'
 import ImageWrapper from '@components/Image/image-wrapper'
 import UICollapsibleSection from './ui-collapsible-section'
-import UIWorldMap from '../Image/ui-world-map'
-import UITacticalMap from '../Image/ui-tactical-map'
-import UIRegionMap from '../Image/ui-region-map'
-import { debug } from 'console'
 import { useAppContext } from '@context/app-provider'
 
 /*TODO: REMOVE THIS AFTER TEST
@@ -38,8 +34,6 @@ function UISection({ style, label, child }: uiTypes.UISectionObj) {
       {label.length > 0 && <div>{label}</div>}
       {child?.map((obj: any, rowIndex: number) => {
         if (obj && obj.type) {
-          console.log(`Index ${rowIndex} > `, JSON.stringify(obj))
-
           switch (obj.type) {
             case 'section':
               // debugger
