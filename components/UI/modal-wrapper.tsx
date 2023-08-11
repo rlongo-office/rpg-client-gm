@@ -29,8 +29,8 @@ const modalStyle = {
 
 
 // Simply extend P with ModalWrapperProps
-function withModalBehavior<P extends { isVisible: boolean }>(
-  WrappedComponent: React.ComponentType<P>
+function withModalWrapper<P extends { isVisible: boolean }>(
+  WrappedComponent: React.FC<P>
 ) {
   return function WithModalBehaviorComponent(props: P) {
     const [isOpen, setIsOpen] = useState(false)
@@ -59,4 +59,4 @@ function withModalBehavior<P extends { isVisible: boolean }>(
   }
 }
 
-export default withModalBehavior
+export default withModalWrapper

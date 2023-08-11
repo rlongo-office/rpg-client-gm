@@ -14,30 +14,15 @@ export type ObjType = {
   obj: object
 }
 
-const raceList = ["elf","human","dwarf","gnome","half-orc","halfing"]
+const raceList = ['elf', 'human', 'dwarf', 'gnome', 'half-orc', 'halfing']
 
 const initialSource: GenericStat = {
   apple: 2.3,
   pear: 3.1,
   banana: 1.5,
-};
-
-const weaponSource: Weapon =       {
-  "name": "Sling",
-  "category": ["Projectile"],
-  "type": ["Bludgeoning"],
-  "attack": 4,
-  "damage": "1",
-  "proficient": true,
-  "range": {
-    "normal": 30,
-    "long": 120
-  },
-  "special": ""
 }
 
-
-const descriptor:DescriptorElem<GenericStat> = {
+const descriptor: DescriptorElem<GenericStat> = {
   type: 'object',
   input: 'number',
   dataType: 'decimal',
@@ -46,22 +31,41 @@ const descriptor:DescriptorElem<GenericStat> = {
   min: 0,
   max: 1,
   step: 0.05,
-};
+}
 
+const weaponSource: Weapon = {
+  name: 'Sling',
+  category: ['Projectile'],
+  type: ['Bludgeoning'],
+  attack: 4,
+  damage: '1',
+  proficient: true,
+  range: {
+    normal: 30,
+    long: 120,
+  },
+  special: '',
+}
 
 function GameObjPage() {
   const { gmState } = useAppContext()
-  const source:GenericStat = {apple: 2.3, pear: 3.1, banana: 1.5}
+  const source: GenericStat = { apple: 2.3, pear: 3.1, banana: 1.5 }
 
   const handleUpdate = (updatedObject: Weapon) => {
-    console.log(JSON.stringify(updatedObject));
-  };
-  
+    console.log(JSON.stringify(updatedObject))
+  }
+
   return (
     <div>
-      <UiTreeEditor name={'game'} obj={data[0]}/>
+      <UiTreeEditor name={'game'} obj={data[0]} />
       {/* <GenericStatInput source={source} descriptor={descriptor} onChange={handleUpdate} /> */}
-      <GenericObjInput source ={weaponSource} descriptor={weaponDescriptorElem} onChange={handleUpdate} />
+      <div style={{width:`300px`}}>
+        <GenericObjInput
+          source={weaponSource}
+          descriptor={weaponDescriptorElem}
+          onChange={handleUpdate}
+        />
+      </div>
     </div>
   )
 }
