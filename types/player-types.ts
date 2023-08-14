@@ -1,3 +1,5 @@
+import { inherits } from "util";
+
 export interface Character {
     _id: Id;
     name: string;
@@ -139,9 +141,8 @@ export interface Character {
     [key: string]: string | number
   }
 
-  export interface Race {
-    Elf: number;
-    Human: number;
+  export interface Race extends GenericStat {
+
   }
   
   export interface Id {

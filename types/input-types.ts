@@ -4,19 +4,12 @@ export interface Descriptor {
   [key: string]: DescriptorElem<any> | Descriptor
 }
 
+export type InputType = 'label' | 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'select' | 'object'
+
 export interface DescriptorElem<T> {
   type: 'array' | 'object' | 'primitive'
-  child?: Descriptor
-  input?:
-    | 'label'
-    | 'text'
-    | 'number'
-    | 'boolean'
-    | 'select'
-    | 'textarea'
-    | 'list'
-    | 'generic'
-    | 'object'
+  child?: Descriptor | DescriptorElem<T>
+  input?: InputType
   dataType?: 'string' | 'number' | 'integer' | 'decimal' // Specify the data type (for numeric inputs)
   options?: string[] | number[] // Provide an array of options (for select inputs)
   keysOptions?: string[]
@@ -28,8 +21,6 @@ export interface DescriptorElem<T> {
 
 const raceList = ['elf', 'human', 'dwarf', 'gnome', 'half-orc', 'halfing']
 
-const weaponDesc: Descriptor = { weapon: { type: 'primitive', input: 'text', min: 13, max: 13 } }
-
 export const playerDescriptor: Descriptor = {
   _id: { type: 'primitive', input: 'text', min: 13, max: 13 },
   name: { type: 'primitive', input: 'text', min: 1, max: 50 },
@@ -39,41 +30,7 @@ export const playerDescriptor: Descriptor = {
   player: { type: 'primitive', input: 'text', min: 13, max: 13 },
   gender: { type: 'primitive', input: 'list', options: ['male', 'female'] },
   age: { type: 'primitive', input: 'number' },
-  //race: Need to figure out how to describe what is allowed here
-  /*     alignment: string;
-    hair: string;
-    eyes: string;
-    skin: string;
-    height: number;
-    weight: number;
-    size: number;
-    reach: number;
-    hitpoint: number;
-    damage: number;
-    deity: string[];
-    experience: number;
-    classes: Class[];
-    senses: GenericStat;
-    auras: string[];
-    purse: Purse;
-    languages: GenericStat[];
-    toolProfs: string[];
-    weaponProfs: string[];
-    armorProfs: string[];
-    abilities: GenericStat[];
-    abilityMods: GenericStat[];
-    skills: Skill[];
-    allSaves: GenericStat[];
-    armorClass: number;
-    initiative: number;
-    speed: number;
-    encumbrance: number;
-    carriedWeight: number;
-    inventories: Inventory[];
-    spells: Spell[];
-    specials: GenericStat[];
-    defenses: Defense[];
-    weapons: Weapon[]; */
+  //fill with other descripterElem types
 }
 
 const weaponCatList = [
@@ -101,6 +58,10 @@ const weaponTypeList = [
   'slashing',
   'and thunder',
 ]
+
+
+
+
 export const weaponDescriptorElem: DescriptorElem<PT.Weapon> = {
   type: 'object',
   input: 'object',
@@ -123,6 +84,13 @@ export const weaponDescriptorElem: DescriptorElem<PT.Weapon> = {
     special: { type: 'primitive', input: 'text', min: 1, max: 50 },
   },
 }
+
+export const weaponArrayDescriptorElem: DescriptorElem<PT.Weapon> = {
+  type: 'array',
+  input: 'object',
+  child: weaponDescriptorElem,
+}
+
 
 const spellTypes: string[] = []
 const castTimes: string[] = []

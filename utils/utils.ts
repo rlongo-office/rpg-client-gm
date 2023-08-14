@@ -1,3 +1,5 @@
+import { DescriptorElem } from "@apptypes/input-types"
+
 interface AnyObject {
   [key: string]: any
 }
@@ -354,6 +356,38 @@ function getStringWidth(text, font) {
   context.font = font;
   return context.measureText(text).width;
 }
+
+export const capFirst = (input: string) => input.charAt(0).toUpperCase() + input.slice(1)
+
+
+export function createBlankObjectFromDescriptor<T>(descriptor: DescriptorElem<T>): T {
+  const blankObject: any = {};
+
+  for (const key in descriptor.child) {
+    const childDescriptor = descriptor.child[key];
+
+    if (childDescriptor.type === 'primitive') {
+      if (childDescriptor.input === 'text') {
+        blankObject[key] = '';
+      } else if (childDescriptor.input === 'number') {
+        blankObject[key] = 0;
+      } else if (childDescriptor.input === 'boolean') {
+        blankObject[key] = false;
+      }
+    } else if (childDescriptor.type === 'list') {
+      if (childDescriptor.dataType === 'string') {
+        blankObject[key] = [];
+      } else if (childDescriptor.dataType === 'number') {
+        blankObject[key] = [];
+      }
+    } else if (childDescriptor.type === 'object') {
+      blankObject[key] = createBlankObjectFromDescriptor(childDescriptor);
+    }
+  }
+
+  return blankObject as T;
+}
+
 
 export {
   addIndexColumn,
