@@ -60,8 +60,6 @@ const weaponTypeList = [
 ]
 
 
-
-
 export const weaponDescriptorElem: DescriptorElem<PT.Weapon> = {
   type: 'object',
   input: 'object',
@@ -90,6 +88,25 @@ export const weaponArrayDescriptorElem: DescriptorElem<PT.Weapon> = {
   input: 'object',
   child: weaponDescriptorElem,
 }
+
+const defenseCatList:string[] = []
+const defenseTypeList:string[] = []
+
+export const defenseDescriptorElem: DescriptorElem<PT.Defense> = {
+  type: 'object',
+  input: 'object',
+  keys: Object.keys({} as PT.Defense) as (keyof PT.Defense)[],
+  child: {
+    name: { type: 'primitive', input: 'text', min: 1, max: 50 },
+    category: { type: 'primitive', input: 'list', dataType: 'string', options: defenseCatList },
+    type: { type: 'primitive', input: 'list', dataType: 'string', options: defenseTypeList},
+    ac: { type: 'primitive', input: 'number', dataType: 'integer', min: 0, max: 30 },
+    damage: { type: 'primitive', input: 'text'},
+    proficient: { type: 'primitive', input: 'boolean' },
+    special: { type: 'primitive', input: 'text', min: 1, max: 50 },
+  },
+};
+
 
 
 const spellTypes: string[] = []

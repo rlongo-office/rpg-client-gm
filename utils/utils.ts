@@ -360,6 +360,10 @@ function getStringWidth(text, font) {
 export const capFirst = (input: string) => input.charAt(0).toUpperCase() + input.slice(1)
 
 
+/*Types don't survive beyond compile, you cannot take a type and easily create a blank object from it
+So this function uses the descriptor and creates a blank object from it/It is recursive as object descriptors
+can include other object descriptors. However, for now object descriptors currently wont have chidren that
+are arrays, so that is not handled */
 export function createBlankObjectFromDescriptor<T>(descriptor: DescriptorElem<T>): T {
   const blankObject: any = {};
 

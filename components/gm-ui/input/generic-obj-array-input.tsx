@@ -25,6 +25,7 @@ function GenericObjectArrayInput<T extends object>({ source, descriptor, onChang
   }, [objArray])
 
   const handleAddObj = () => {
+        //As this is an array descriptor,it will by definition have a child object descriptor of type DescriptorElem<T>
         const objChildDescriptor = descriptor.child as DescriptorElem<T>;
         console.log(JSON.stringify(objChildDescriptor))
         const newObj: T = createBlankObjectFromDescriptor(objChildDescriptor);
