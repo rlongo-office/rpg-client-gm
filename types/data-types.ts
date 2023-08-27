@@ -384,3 +384,6 @@ export interface Spell extends Access {
     value: string | number;
     inputConfig: InputConfigNode | null;
   }
+
+  //For passing changes in various objects based on path and value
+  export type ObjectChanges = Record<string,any>

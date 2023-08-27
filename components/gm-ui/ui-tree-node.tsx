@@ -2,18 +2,20 @@ import * as React from 'react'
 import { getChildNodes } from '../../utils/utils'
 import withModalBehavior from '../UI/modal-wrapper'
 import TextInput from './input/text-input'
+import { Descriptor, DescriptorElem } from '@apptypes/input-types'
 
-interface props {
+
+interface props<T> {
   label: string
   subSource: object
-  metaData: object
+  descriptor:Descriptor | DescriptorElem<T>
   path: string
   callRootEdit: Function
   nodeType: string
   level: number
 }
 
-function UiTreeNode({ label, subSource, metaData, path, callRootEdit, nodeType, level }: props) {
+function UiTreeNode({ label, subSource, descriptor, path, callRootEdit, nodeType, level }: props) {
   const ref = React.useRef()
   const [children, setChildren] = React.useState<any>([])
   const [nodeElm, setNodeElm] = React.useState<any>([])
@@ -99,7 +101,7 @@ function UiTreeNode({ label, subSource, metaData, path, callRootEdit, nodeType, 
                   key={`${child.label}.${index}`}
                   label={child.label}
                   subSource={child.value}
-                  metaData={metaData}
+                  descriptor={descriptor}
                   path={child.subPath}
                   callRootEdit={callRootEdit}
                   nodeType={child.type}
