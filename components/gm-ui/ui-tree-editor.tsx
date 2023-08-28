@@ -1,23 +1,24 @@
-import * as React from 'react'
+import {useEffect,useState} from 'react'
 import {
   setObjValue,
-  getNodeType
+  getNodeType,deepCopy
 } from '../../utils/utils'
 import UiTreeNode from './ui-tree-node'
-import { Descriptor } from '@apptypes/input-types'
+import { Descriptor,DescriptorElem } from '@apptypes/input-types'
 import { ObjectChanges } from '@apptypes/data-types'
 
-type TreeProps = {
+
+type TreeProps<T extends object> = {
     name: string
-    obj: object
-    descriptor?:Descriptor 
+    obj: any
+    descriptor?:Descriptor | DescriptorElem<T>
 }
 
 
-function UiTreeEditor({name,obj,descriptor}: TreeProps) {
+function UiTreeEditor<T extends object>({name,obj,descriptor}: TreeProps<T>) {
 
-  const [clonedObj, setClonedObj] = React.useState<any>({})
-const [objChanges,setObjChanges] = React.useState<ObjectChanges>()
+  const [clonedObj, setClonedObj] = useState<any>({})
+const [objChanges,setObjChanges] = useState<ObjectChanges>()
 
   const storeInput = (value: any, path: string) => {
     //called from child, changes value in current cloned copy of source object
@@ -28,15 +29,14 @@ const [objChanges,setObjChanges] = React.useState<ObjectChanges>()
   }
 
  const storeEdit=(value: any, path: string) => {
-\ //Store the path to and the value of the change
-  //Overwrite previous elements, so using Record type to ensure uniqueness
-  setObjChanges(prevObjChanges=>{
-
-  })
+//Store the path to and the value of the change
+//Overwrite previous elements, so using Record type to ensure uniqueness
+setObjChanges((prev)=>({...prev,[path]:value}))
 }
 
-
-React.useEffect(()=>{setClonedObj(obj)},[])
+useEffect(()=>{
+  setClonedObj(deepCopy(obj))
+},[obj])
 
   return (
     <>
@@ -45,7 +45,7 @@ React.useEffect(()=>{setClonedObj(obj)},[])
         subSource={clonedObj}
         descriptor={descriptor}
         path={``}
-        callRootEdit={storeInput}
+        callRootEdit={storeEdit}
         nodeType={getNodeType(clonedObj)}
         level={0}
       />
