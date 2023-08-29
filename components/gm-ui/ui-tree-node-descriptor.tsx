@@ -14,7 +14,7 @@ interface props<T extends object> {
   level: number
 }
 
-function UiTreeNode<T extends object>({
+function UiTreeNodeDescriptor<T extends object>({
   label,
   subSource,
   descriptor,
@@ -104,7 +104,7 @@ function UiTreeNode<T extends object>({
           <div id={`${label}-child-section`} style={childStyle}>
             {children.map((child: any, index: number) => {
               return (
-                <UiTreeNode
+                <UiTreeNodeDescriptor
                   key={`${child.label}.${index}`}
                   label={child.label}
                   subSource={child.value}
@@ -123,7 +123,7 @@ function UiTreeNode<T extends object>({
     </div>
   )
 }
-export default UiTreeNode
+export default UiTreeNodeDescriptor
 
 function ValueNode({
   nodeElm,

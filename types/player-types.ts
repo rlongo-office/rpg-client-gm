@@ -9,7 +9,7 @@ export interface Character {
     player: string;
     gender: string;
     age: number;
-    race: GenericStat[];
+    race: GenericStat;
     alignment: string;
     hair: string;
     eyes: string;
@@ -26,14 +26,14 @@ export interface Character {
     senses: GenericStat;
     auras: string[];
     purse: Purse;
-    languages: GenericStat[];
+    languages: GenericStat;
     toolProfs: string[];
     weaponProfs: string[];
     armorProfs: string[];
-    abilities: GenericStat[];
-    abilityMods: GenericStat[];
+    abilities: GenericStat;
+    abilityMods: GenericStat;
     skills: Skill[];
-    allSaves: GenericStat[];
+    allSaves: GenericStat;
     armorClass: number;
     initiative: number;
     speed: number;
@@ -41,7 +41,7 @@ export interface Character {
     carriedWeight: number;
     inventories: Inventory[];
     spells: Spell[];
-    specials: GenericStat[];
+    specials: GenericStat;
     defenses: Defense[];
     weapons: Weapon[];
   }
