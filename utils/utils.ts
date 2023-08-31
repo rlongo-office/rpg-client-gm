@@ -290,7 +290,7 @@ const getNodeType = (obj: object) => {
   } else {
     if (typeof obj === 'object') {
       return 'object'
-    } else return 'value'
+    } else return 'primitive'
   }
 }
 
@@ -358,7 +358,6 @@ function getStringWidth(text, font) {
 }
 
 export const capFirst = (input: string) => input.charAt(0).toUpperCase() + input.slice(1)
-
 
 /*Types don't survive beyond compile, you cannot take a type and easily create a blank object from it
 So this function uses the descriptor and creates a blank object from it/It is recursive as object descriptors

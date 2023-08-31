@@ -10,7 +10,7 @@ type TreeProps<T extends object> = {
   descriptor?: Descriptor | DescriptorElem<T>
 }
 
-function UiTreeEditor<T extends object>({ name, obj, descriptor }: TreeProps<T>) {
+function UiTreeEditorDescriptor<T extends object>({ name, obj, descriptor }: TreeProps<T>) {
   const [clonedObj, setClonedObj] = useState<any>({})
   const [objChanges, setObjChanges] = useState<ObjectChanges>()
 
@@ -32,6 +32,15 @@ function UiTreeEditor<T extends object>({ name, obj, descriptor }: TreeProps<T>)
     setClonedObj(deepCopy(obj))
   }, [obj])
 
+  useEffect(() => {
+    if (objChanges) {
+      for (let [key, value] of Object.entries(objChanges)) {
+        console.log(`key: ${key}, value: ${JSON.stringify(value)}`)
+      }
+    }
+  }, [objChanges])
+
+
   return (
     <>
       <UiTreeNode
@@ -47,4 +56,4 @@ function UiTreeEditor<T extends object>({ name, obj, descriptor }: TreeProps<T>)
   )
 }
 
-export default UiTreeEditor
+export default UiTreeEditorDescriptor

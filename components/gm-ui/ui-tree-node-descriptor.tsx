@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { getChildNodes } from '../../utils/utils'
+import { capFirst, getChildNodes } from '../../utils/utils'
 import withModalBehavior from '../UI/modal-wrapper'
-import TextInput from './input/text-input'
+import GenericObjectArrayInput from './input/generic-obj-array-input'
+import GenericObjectInput from './input/generic-obj-input'
+import GenericStatInput from './input/generic-stat-input'
 import { Descriptor, DescriptorElem } from '@apptypes/input-types'
 
 interface props<T extends object> {
@@ -14,6 +16,14 @@ interface props<T extends object> {
   level: number
 }
 
+const divCircleStyle = {
+  width: '50px' /* Set the width and height to control the size of the circle */,
+  height: '50px',
+  borderRadius: '50%' /* Makes the div circular */ /* Optional background color for illustration */,
+  backgroundColor: 'white',
+  disabled: false,
+}
+
 function UiTreeNodeDescriptor<T extends object>({
   label,
   subSource,
@@ -23,18 +33,23 @@ function UiTreeNodeDescriptor<T extends object>({
   nodeType,
   level,
 }: props<T>) {
-  const ref = React.useRef()
   const [children, setChildren] = React.useState<any>([])
-  const [nodeElm, setNodeElm] = React.useState<any>([])
   const [isExpanded, setIsExpanded] = React.useState(false)
   const [childStyle, setChildStyle] = React.useState({})
-  const [btnStyle, setBtnStyle] = React.useState({
-    border: 'none',
-    backgroundColor: 'white',
-    disabled: true,
-  })
+  const [divStyle, setDivStyle] = React.useState<React.CSSProperties>(divCircleStyle)
+  const [isInputVisible, setIsInputVisible] = React.useState(false) // State to manage modal visibility
   const subLevel = level + 1 //with each successive call of component from parent level increments
 
+  const WrappedInput =
+    nodeType === 'array'
+      ? withModalBehavior(GenericObjectArrayInput as React.ComponentType<any>)
+      : descriptor.input === 'stat-object'
+      ? withModalBehavior(GenericStatInput as React.ComponentType<any>)
+      : withModalBehavior(GenericObjectInput as React.ComponentType<any>)
+
+  const onChange = (value: any) => {
+    callRootEdit(value, path)
+  }
   const setChildNodes = () => {
     let tempArr = getChildNodes(path, subSource)
     let newArr = tempArr.map((child: any) => {
@@ -49,19 +64,16 @@ function UiTreeNodeDescriptor<T extends object>({
     setChildren(newArr)
   }
 
-  const setNodeFormat = () => {
-    switch (nodeType) {
+  const setNodeStyle = () => {
+    switch (descriptor.type) {
       case 'array':
-        setNodeElm('A-')
-        setBtnStyle({ border: 'none', backgroundColor: 'lightBlue', disabled: false })
+        setDivStyle({ ...divStyle, border: '1px', backgroundColor: 'lightBlue' })
         break
       case 'object':
-        setNodeElm('O-')
-        setBtnStyle({ border: 'none', backgroundColor: 'lightGreen', disabled: false })
+        setDivStyle({ ...divStyle, border: '1px', backgroundColor: 'lightGreen' })
         break
-      case 'value':
-        setNodeElm('V-')
-        setBtnStyle({ border: 'none', backgroundColor: 'yellow', disabled: true })
+      case 'primitive':
+        setDivStyle({ ...divStyle, border: '1px', backgroundColor: 'yellow' })
         break
     }
   }
@@ -77,80 +89,51 @@ function UiTreeNodeDescriptor<T extends object>({
   }
 
   React.useEffect(() => {
-    setChildNodes()
-    setNodeFormat()
+    if (nodeType !== 'primitive') setChildNodes()
+    setNodeStyle()
     setChildStyle({ display: 'none' })
   }, [subSource])
 
   //Call wrapper to change root object with new values here
-  const storeInput = (event: any) => {
-    if (event.keyCode === 13) {
-      event.preventDefault()
-      let val: any
-      typeof subSource == 'number' ? (val = Number(event.target.value)) : (val = event.target.value)
-      console.log(`value: ${val} path: ${path}`)
-      callRootEdit(val, path)
-    }
+
+  function callInputWrapper(): void {
+    setIsInputVisible(prev => !prev)
   }
 
   return (
     <div style={{ marginLeft: `${level * 10}px` }}>
-      {(['array','object'].includes(nodeType)) && (
-        <>
-          <button id="node-label" style={btnStyle} onClick={toggleVisibility}>
-            {nodeElm}
-            {label}
-          </button>
-          <div id={`${label}-child-section`} style={childStyle}>
-            {children.map((child: any, index: number) => {
-              return (
-                <UiTreeNodeDescriptor
-                  key={`${child.label}.${index}`}
-                  label={child.label}
-                  subSource={child.value}
-                  descriptor={descriptor}
-                  path={child.subPath}
-                  callRootEdit={callRootEdit}
-                  nodeType={child.type}
-                  level={subLevel}
-                />
-              )
-            })}
-          </div>
-        </>
+      <div style={divStyle} onClick={toggleVisibility} onDoubleClick={callInputWrapper}>
+        {`${capFirst(nodeType)}-${label}`}
+        {descriptor && descriptor.child && (
+          <>
+            <div id={`${label}-child-section`} style={childStyle}>
+              {children.map((child: any, index: number) => {
+                return (
+                  <UiTreeNodeDescriptor
+                    key={`${child.label}.${index}`}
+                    label={child.label}
+                    subSource={child.value}
+                    descriptor={descriptor}
+                    path={child.subPath}
+                    callRootEdit={callRootEdit}
+                    nodeType={child.type}
+                    level={subLevel}
+                  />
+                )
+              })}
+            </div>
+          </>
+        )}
+      </div>
+      {isInputVisible && (
+        <WrappedInput
+          source={subSource}
+          descriptor={descriptor}
+          onChange={onChange}
+          isVisible={isInputVisible} // Pass the visibility prop
+        />
       )}
-      {nodeType === 'value' && <ValueNode btnStyle={btnStyle} nodeElm={nodeElm} label={label} />}
     </div>
   )
 }
 export default UiTreeNodeDescriptor
-
-function ValueNode({
-  nodeElm,
-  label,
-  btnStyle,
-}: {
-  nodeElm: string
-  label: string
-  btnStyle: object
-}) {
-  // State to manage the visibility of ModalTextInput
-  const [isVisible, setIsVisible] = React.useState(false)
-  const ModalTextInput = withModalBehavior(TextInput)
-
-  // Function to toggle the visibility of ModalTextInput
-  const toggleVisibility = () => {
-    setIsVisible(prev => !prev)
-  }
-
-  return (
-    <>
-      <button id="node-label" style={btnStyle} onClick={toggleVisibility}>
-        {nodeElm}
-        {label}
-      </button>
-      {/* Pass the isVisible prop to ModalTextInput */}
-      {isVisible && <ModalTextInput isVisible={isVisible} />}
-    </>
-  )
-}

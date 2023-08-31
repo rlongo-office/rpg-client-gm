@@ -1,6 +1,6 @@
 import GameObjEditor from '@components/gm-ui/game-obj-editor'
 import UiObjTreeEditor from '@components/gm-ui/ui-obj-tree-editor'
-import UiTreeEditor from '@components/gm-ui/ui-tree-editor'
+import UiTreeEditorDescriptor from '@components/gm-ui/ui-tree-editor-descriptor'
 import { useAppContext } from '@context/app-provider'
 import data from 'data/collections/players'
 import * as React from 'react'
@@ -94,26 +94,9 @@ function GameObjPage() {
   const handleUpdate = (updatedObject: any) => {
     console.log(`Parent received: ${JSON.stringify(updatedObject)}`);
   }
-
-  const WrappedGenericObjInput = WithModalWrapper(GenericObjArrayInput as React.ComponentType<any>);
-
-  const [isModalVisible, setIsModalVisible] = React.useState(false); // State to manage modal visibility
-
   return (
     <div>
-      <UiTreeEditor name={'game'} obj={data[0]} />
-      {/* <GenericStatInput source={source} descriptor={descriptor} onChange={handleUpdate} /> */}
-      <div style={{ width: '300px' }}>
-        <button onClick={() => setIsModalVisible(!isModalVisible)}>Toggle Modal</button> {/* Toggle button */}
-        {isModalVisible && (
-          <WrappedGenericObjInput
-            source={weaponArray}
-            descriptor={weaponArrayDescriptorElem}
-            onChange={handleUpdate}
-            isVisible={isModalVisible} // Pass the visibility prop
-          />
-        )}
-      </div>
+      <UiTreeEditorDescriptor name={'player'} obj={data[0]} />
     </div>
   );
 }

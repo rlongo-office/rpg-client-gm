@@ -33,7 +33,7 @@ export interface Character {
     abilities: GenericStat;
     abilityMods: GenericStat;
     skills: Skill[];
-    allSaves: GenericStat;
+    allSaves: SaveStat[];
     armorClass: number;
     initiative: number;
     speed: number;
@@ -41,7 +41,7 @@ export interface Character {
     carriedWeight: number;
     inventories: Inventory[];
     spells: Spell[];
-    specials: GenericStat;
+    specials: Special[];
     defenses: Defense[];
     weapons: Weapon[];
   }
@@ -145,6 +145,12 @@ export interface Character {
 
   }
   
+export interface SaveStat {
+  name:string
+  type: string
+  stat: number
+}
+
   export interface Id {
     '$oid': string;
   }
