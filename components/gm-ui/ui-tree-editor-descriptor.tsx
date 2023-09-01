@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { setObjValue, getNodeType, deepCopy } from '../../utils/utils'
-import UiTreeNode from './ui-tree-node'
-import { Descriptor, DescriptorElem } from '@apptypes/input-types'
+import UiTreeNodeDescriptor from './ui-tree-node-descriptor'
+import { DescriptorElem } from '@apptypes/input-types'
 import { ObjectChanges } from '@apptypes/data-types'
 
 type TreeProps<T extends object> = {
   name: string
   obj: any
-  descriptor?: Descriptor | DescriptorElem<T>
+  descriptor?: DescriptorElem<T>
 }
 
 function UiTreeEditorDescriptor<T extends object>({ name, obj, descriptor }: TreeProps<T>) {
@@ -43,8 +43,8 @@ function UiTreeEditorDescriptor<T extends object>({ name, obj, descriptor }: Tre
 
   return (
     <>
-      <UiTreeNode
-        label={name}
+      <UiTreeNodeDescriptor
+        index={name}
         subSource={clonedObj}
         descriptor={descriptor}
         path={``}

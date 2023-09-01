@@ -1,15 +1,12 @@
 import GameObjEditor from '@components/gm-ui/game-obj-editor'
 import UiObjTreeEditor from '@components/gm-ui/ui-obj-tree-editor'
-import UiTreeEditorDescriptor from '@components/gm-ui/ui-tree-editor-descriptor'
+import UITreeEditorDescriptor from '@components/gm-ui/ui-tree-editor-descriptor'
 import { useAppContext } from '@context/app-provider'
 import data from 'data/collections/players'
 import * as React from 'react'
 import SimpleDropdownList from '@components/UI/simple-dropdown-list'
 import { GenericStat, Weapon,Character } from '@apptypes/player-types'
-import GenericStatInput from '@components/gm-ui/input/generic-stat-input'
-import GenericObjInput from '@components/gm-ui/input/generic-obj-input'
-import GenericObjArrayInput from '@components/gm-ui/input/generic-obj-array-input'
-import { DescriptorElem, weaponDescriptorElem,weaponArrayDescriptorElem } from '@apptypes/input-types'
+import { DescriptorElem, weaponDescriptorElem,characterDescriptorElem} from '@apptypes/input-types'
 import WithModalWrapper from '@components/UI/modal-wrapper'
 import { createBlankObjectFromDescriptor } from '@utils/utils'
 
@@ -94,9 +91,10 @@ function GameObjPage() {
   const handleUpdate = (updatedObject: any) => {
     console.log(`Parent received: ${JSON.stringify(updatedObject)}`);
   }
+
   return (
     <div>
-      <UiTreeEditorDescriptor name={'player'} obj={data[0]} />
+      <UITreeEditorDescriptor name={'player'} obj={data[0]} descriptor={characterDescriptorElem} />
     </div>
   );
 }

@@ -3,10 +3,12 @@ import { DescriptorElem, Descriptor, InputType } from '../../../types/input-type
 import { capFirst } from '@utils/utils'
 
 interface Props<T extends object> {
+  label?: string
   source: T
   descriptor: DescriptorElem<T>
   onChange: (updatedObject: T) => void
 }
+
 
 
 type InputComponentProps = {
@@ -71,7 +73,51 @@ const InputComponent = ({
   return null
 }
 
-export function GenericObjectInput<T extends object>({ source, descriptor, onChange }: Props<T>) {
+interface PrimitiveProps<T extends object> {
+  label?: string
+  source: string | number | boolean
+  descriptor: DescriptorElem<T>
+  onChange: (updatedObject: T) => void
+}
+export function PrimitiveInput<T extends object>({
+  label = '',
+  source,
+  descriptor,
+  onChange,
+}: PrimitiveProps<T>) {
+  const [inputValue, setInputValue] = useState(source);
+
+  const handleChange = (key: string, value: any) => {
+    setInputValue(value);
+  };
+
+  const handleSubmit = () => {
+    onChange(inputValue);
+  };
+
+  return (
+    <div>
+      <div>
+        <strong>{label}</strong>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'left', margin: '3px 0' }}>
+        <label style={{ width: '80px' }}>{capFirst(descriptor.label)}:</label>
+        <div style={{ flex: 1 }}>
+          <InputComponent
+            inputType={descriptor.input as InputType}
+            inputValues={inputValue}
+            inputKey={descriptor.label}
+            handleChange={handleChange as (key: string, value: any) => void}
+            options={descriptor.options as string[]}
+            descriptor={descriptor.child as Descriptor}
+          />
+        </div>
+      </div>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
+  );
+}
+export function GenericObjectInput<T extends object>({ label="",source, descriptor, onChange }: Props<T>) {
   const [inputValues, setInputValues] = useState<T>(source)
 
   const handleChange = (key: keyof T, value: any) => {
@@ -89,6 +135,7 @@ export function GenericObjectInput<T extends object>({ source, descriptor, onCha
   return (
     <div>
       <div>
+        <strong>{label}</strong>
         <strong>{`Type: ${capFirst(typeof source)}`}</strong>
       </div>
       {Object.keys(descriptor.child).map((key, index) => (
@@ -175,15 +222,15 @@ export function ChildObjectInput<T extends object>({
   )
 }
 
-function TextInput({ value, onChange }) {
+export function TextInput({ value, onChange }) {
   return <input type="text" value={value} onChange={onChange} />
 }
 
-function NumberInput({ value, onChange }) {
+export function NumberInput({ value, onChange }) {
   return <input type="number" value={value} onChange={onChange} />
 }
 
-function SelectInput({ value, options, onChange }) {
+export function SelectInput({ value, options, onChange }) {
   return (
     <select value={value} onChange={onChange}>
       {options.map(option => (
@@ -201,7 +248,7 @@ type MultiSelectInputProps = {
   onChange: (selectedValues: string[]) => void
 }
 
-function MultiSelectInput({ value, options, onChange }) {
+export function MultiSelectInput({ value, options, onChange }) {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(value || [])
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -234,7 +281,7 @@ function MultiSelectInput({ value, options, onChange }) {
   )
 }
 
-function BooleanInput({ value, onChange }) {
+export function BooleanInput({ value, onChange }) {
   return (
     <div>
       <label>

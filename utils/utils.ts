@@ -1,4 +1,4 @@
-import { DescriptorElem } from "@apptypes/input-types"
+import { DescriptorElem } from '@apptypes/input-types'
 
 interface AnyObject {
   [key: string]: any
@@ -81,81 +81,78 @@ function oldDeepCopy(obj: any): any {
 
 function deepCopy(obj: any): any {
   if (Array.isArray(obj)) {
-    return obj.map(deepCopy);
+    return obj.map(deepCopy)
   }
 
   if (typeof obj === 'object' && obj !== null) {
-    const copy: any = {};
+    const copy: any = {}
 
     for (const key in obj) {
-      copy[key] = deepCopy(obj[key]);
+      copy[key] = deepCopy(obj[key])
     }
 
-    return copy;
+    return copy
   }
 
-  return obj;
+  return obj
 }
 
-
 //expandedDeepCopy untested, may have some application in the future to overcome the limitations of deepCopy above
-//For example, apparently nested arrays will only be shallow. This copy will potentially work even if the object 
+//For example, apparently nested arrays will only be shallow. This copy will potentially work even if the object
 //has accessor function properties
 function expandedDeepCopy(obj: any): any {
   if (Array.isArray(obj)) {
-    return obj.map(expandedDeepCopy);
+    return obj.map(expandedDeepCopy)
   }
 
   if (obj && typeof obj === 'object') {
-    const copy: any = {};
-    const descriptors = Object.getOwnPropertyDescriptors(obj);
+    const copy: any = {}
+    const descriptors = Object.getOwnPropertyDescriptors(obj)
 
     for (const key in descriptors) {
       if (descriptors.hasOwnProperty(key)) {
-        const descriptor = descriptors[key];
+        const descriptor = descriptors[key]
         if ('value' in descriptor) {
-          copy[key] = expandedDeepCopy(descriptor.value);
+          copy[key] = expandedDeepCopy(descriptor.value)
         } else if ('get' in descriptor) {
           Object.defineProperty(copy, key, {
             get: () => expandedDeepCopy(obj[key]),
             enumerable: descriptor.enumerable,
             configurable: descriptor.configurable,
-          });
+          })
         }
       }
     }
 
-    return copy;
+    return copy
   }
 
-  return obj;
+  return obj
 }
-
 
 //constructPathMap untested, may have some application in the future
 const constructPathMap = (val: any, parentPath = '') => {
-  let pathMap: any = {};
+  let pathMap: any = {}
 
   if (Array.isArray(val)) {
     val.forEach((subVal: any, index: number) => {
-      const arrayIndex = `[${index}]`;
-      const newPath = parentPath ? `${parentPath}.${arrayIndex}` : arrayIndex;
-      const subPathMap = constructPathMap(subVal, newPath);
-      pathMap = { ...pathMap, ...subPathMap };
-    });
+      const arrayIndex = `[${index}]`
+      const newPath = parentPath ? `${parentPath}.${arrayIndex}` : arrayIndex
+      const subPathMap = constructPathMap(subVal, newPath)
+      pathMap = { ...pathMap, ...subPathMap }
+    })
   } else if (typeof val === 'object' && val !== null) {
     Object.entries(val).forEach(([key, value]) => {
-      const newPath = parentPath ? `${parentPath}.${key}` : key;
-      const subPathMap = constructPathMap(value, newPath);
-      pathMap = { ...pathMap, ...subPathMap };
-    });
+      const newPath = parentPath ? `${parentPath}.${key}` : key
+      const subPathMap = constructPathMap(value, newPath)
+      pathMap = { ...pathMap, ...subPathMap }
+    })
   } else {
-    pathMap[parentPath] = parentPath;
+    pathMap[parentPath] = parentPath
   }
 
-  return pathMap;
-};
-
+  return pathMap
+}
 
 const iterateObjEntries = (parent: string, val: any, objPath: Array<string>) => {
   let parentPath = parent === '' ? '' : parent
@@ -272,17 +269,17 @@ const createObjID = (data: AnyObject[], record: AnyObject) => {
 }
 
 const getCurrentTimeString = (): string => {
-  const currentDate = new Date();
-  const year = String(currentDate.getFullYear()).slice(-2);
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
-  const hours = String(currentDate.getHours()).padStart(2, '0');
-  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+  const currentDate = new Date()
+  const year = String(currentDate.getFullYear()).slice(-2)
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+  const day = String(currentDate.getDate()).padStart(2, '0')
+  const hours = String(currentDate.getHours()).padStart(2, '0')
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0')
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0')
 
-  const currentTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  return currentTimeString;
-};
+  const currentTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  return currentTimeString
+}
 
 const getNodeType = (obj: object) => {
   if (Array.isArray(obj)) {
@@ -297,7 +294,7 @@ const getNodeType = (obj: object) => {
 /* The follow grabs the subVal and subPath string for each child entry in an object, if the val is of
 array or object. In the object editor component, we are using this function parse out the next level
 of children for rendering the tree for an object */
-const getChildNodes = (parent: string, val: any) => {
+function getChildNodes<T>(parent: string, val: any, descriptor: DescriptorElem<T>) {
   let childNodeArray = []
   let parentPath = parent === '' ? '' : parent
   if (Array.isArray(val)) {
@@ -308,10 +305,11 @@ const getChildNodes = (parent: string, val: any) => {
     val.forEach((subVal: any) => {
       let arrayIndex = '[' + index + ']'
       childNodeArray.push({
-        label: index,
-        value: subVal,
-        subPath: `${parentPath}${arrayIndex}`,
-        type: getNodeType(subVal),
+        index: index,
+        subSource: subVal,
+        path: `${parentPath}${arrayIndex}`,
+        nodeType: getNodeType(subVal),
+        descriptor: descriptor.child
       })
       index += 1
     })
@@ -324,73 +322,79 @@ const getChildNodes = (parent: string, val: any) => {
           subVal = 'null'
         }
         childNodeArray.push({
-          label: key,
-          value: subVal,
-          subPath: `${parentPath}${dotOrNot}${key}`,
-          type: getNodeType(subVal),
+          index: key,
+          subSource: subVal,
+          path: `${parentPath}${dotOrNot}${key}`,
+          nodeType: getNodeType(subVal),
+          descriptor: descriptor[key]
         })
       })
     }
   }
+  //console.log('Child Node Array:' + JSON.stringify(childNodeArray))
   return childNodeArray
 }
 
 function sender2TextType(sender: string, users: string[]) {
   console.log(`sender: ${sender}  users: ${users}`)
   if (users.includes(sender)) {
-    return 'playerText';
+    return 'playerText'
   } else {
     switch (sender) {
-      case 'gm': return 'gmText';
-      case 'game': return 'gameText';
-      case 'alert': return 'alertText';
-      case 'lore': return 'loreText';
-      default: return "baseText";
+      case 'gm':
+        return 'gmText'
+      case 'game':
+        return 'gameText'
+      case 'alert':
+        return 'alertText'
+      case 'lore':
+        return 'loreText'
+      default:
+        return 'baseText'
     }
   }
 }
 
 function getStringWidth(text, font) {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  context.font = font;
-  return context.measureText(text).width;
+  const canvas = document.createElement('canvas')
+  const context = canvas.getContext('2d')
+  context.font = font
+  return context.measureText(text).width
 }
 
 export const capFirst = (input: string) => input.charAt(0).toUpperCase() + input.slice(1)
-
+export const capReturnFirst = (input: string) => input.charAt(0).toUpperCase()
 /*Types don't survive beyond compile, you cannot take a type and easily create a blank object from it
 So this function uses the descriptor and creates a blank object from it/It is recursive as object descriptors
 can include other object descriptors. However, for now object descriptors currently wont have chidren that
 are arrays, so that is not handled */
 export function createBlankObjectFromDescriptor<T>(descriptor: DescriptorElem<T>): T {
-  const blankObject: any = {};
+  const blankObject: any = {}
 
   for (const key in descriptor.child) {
-    const childDescriptor = descriptor.child[key];
+    const childDescriptor = descriptor.child[key]
 
     if (childDescriptor.type === 'primitive') {
       if (childDescriptor.input === 'text') {
-        blankObject[key] = '';
+        blankObject[key] = ''
       } else if (childDescriptor.input === 'number') {
-        blankObject[key] = 0;
+        blankObject[key] = 0
       } else if (childDescriptor.input === 'boolean') {
-        blankObject[key] = false;
+        blankObject[key] = false
       }
     } else if (childDescriptor.type === 'list') {
       if (childDescriptor.dataType === 'string') {
-        blankObject[key] = [];
+        blankObject[key] = []
       } else if (childDescriptor.dataType === 'number') {
-        blankObject[key] = [];
+        blankObject[key] = []
       }
     } else if (childDescriptor.type === 'object') {
-      blankObject[key] = createBlankObjectFromDescriptor(childDescriptor);
+      blankObject[key] = createBlankObjectFromDescriptor(childDescriptor)
     }
   }
 
-  return blankObject as T;
+  return blankObject as T
 }
-
 
 export {
   addIndexColumn,
@@ -408,5 +412,5 @@ export {
   getChildNodes,
   sender2TextType,
   oldDeepCopy,
-  getStringWidth
+  getStringWidth,
 }
